@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useCallback, use } from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
+import { ScopeBanner } from "@/components/shared/ScopeBanner";
 import { RawEventPanel } from "@/components/evaluator/RawEventPanel";
 import { StageBlock } from "@/components/evaluator/StageBlock";
 import { ConfidenceBadge } from "@/components/evaluator/ConfidenceBadge";
@@ -202,6 +203,7 @@ export default function InspectorTracePage({
       <div className="portal-layout">
         <BlinkitHeader variant="evaluator" backHref="/inspector" />
         <main className="portal-container">
+          <ScopeBanner compact={true} />
           <LoadingState message="Loading event details..." />
         </main>
       </div>
@@ -213,6 +215,7 @@ export default function InspectorTracePage({
       <div className="portal-layout">
         <BlinkitHeader variant="evaluator" backHref="/inspector" />
         <main className="portal-container">
+          <ScopeBanner compact={true} />
           <ErrorState
             message={eventError || "Event not found."}
             onRetry={fetchEventDetail}
@@ -240,6 +243,8 @@ export default function InspectorTracePage({
             <span>Re-run Pipeline</span>
           </button>
         </div>
+
+        <ScopeBanner compact={true} />
 
         <RawEventPanel event={event} />
 
