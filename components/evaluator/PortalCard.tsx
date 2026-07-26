@@ -6,9 +6,10 @@ export interface PortalCardProps {
   icon: React.ReactNode;
   title: string;
   description: string;
+  extraLine?: string;
 }
 
-export function PortalCard({ href, icon, title, description }: PortalCardProps) {
+export function PortalCard({ href, icon, title, description, extraLine }: PortalCardProps) {
   return (
     <Link href={href} className="portal-card">
       <div>
@@ -33,6 +34,11 @@ export function PortalCard({ href, icon, title, description }: PortalCardProps) 
         <div className="portal-card-content">
           <h2 className="portal-card-title">{title}</h2>
           <p className="portal-card-description">{description}</p>
+          {extraLine && (
+            <p className="portal-card-extraline type-body-sm" style={{ marginTop: "6px", color: "var(--blinkit-green)", fontWeight: 600 }}>
+              {extraLine}
+            </p>
+          )}
         </div>
       </div>
     </Link>

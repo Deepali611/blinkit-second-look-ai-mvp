@@ -2,12 +2,13 @@ import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
 import { ScopeBanner } from "@/components/shared/ScopeBanner";
 import { PortalCard } from "@/components/evaluator/PortalCard";
+import { HYPOTHESIS_STATEMENT } from "@/lib/copy/canonical";
 import {
-  Activity,
-  Smartphone,
   BarChart3,
-  BookOpen,
+  Smartphone,
+  Activity,
   LayoutGrid,
+  BookOpen,
   Zap,
   Sparkles,
   Heart,
@@ -35,47 +36,46 @@ export default function EntryPortalPage() {
             Second Look — Evaluator Portal
           </h1>
 
-          <p className="hero-opener type-body" style={{ fontWeight: 600, color: "var(--blinkit-near-black)", marginBottom: "12px" }}>
-            When a customer's first order in a new category goes wrong, they usually don't come back — to that category, or maybe any other. This is Blinkit's fix.
-          </p>
-
-          <p className="hero-description type-body" style={{ opacity: 0.85 }}>
-            Does resolving a specific first-category failure bring a customer back — and does it change their willingness to try other new categories?
-          </p>
+          <div className="hypothesis-prominent-block" style={{ margin: "16px 0 24px 0", padding: "20px 24px", backgroundColor: "var(--surface-muted)", borderRadius: "12px", borderLeft: "4px solid var(--blinkit-green)" }}>
+            <p className="type-h1" style={{ fontSize: "18px", lineHeight: "26px", fontWeight: 600, color: "var(--blinkit-near-black)" }}>
+              "{HYPOTHESIS_STATEMENT}"
+            </p>
+          </div>
         </section>
 
-        <ScopeBanner compact={false} />
+        <ScopeBanner variant="full" />
 
         <section className="portal-grid portal-grid-5" aria-label="Portal Navigation Cards">
           <PortalCard
-            href="/inspector"
-            title="Customer Recovery Cases"
-            description="See live customer failure classifications & actions"
-            icon={<Activity size={24} />}
-          />
-          <PortalCard
-            href="/second-look-demo"
-            title="Customer Simulation"
-            description="See the notification and Second Look page"
-            icon={<Smartphone size={24} />}
-          />
-          <PortalCard
             href="/metrics"
-            title="Growth Impact"
-            description="Measure recovery rate & confidence transfer"
+            title="Does It Work? (Metrics)"
+            description="The number that tests whether this actually grows category exploration."
+            extraLine="This is the metric that matters most — everything else is supporting detail."
             icon={<BarChart3 size={24} />}
           />
           <PortalCard
-            href="/guide"
-            title="Evaluator Guide"
-            description="Phased test script"
-            icon={<BookOpen size={24} />}
+            href="/second-look-demo"
+            title="See a Customer Case"
+            description="Follow one real case from problem to resolution."
+            icon={<Smartphone size={24} />}
+          />
+          <PortalCard
+            href="/inspector"
+            title="Customer Recovery Cases"
+            description="Explore every case, filtered by what went wrong."
+            icon={<Activity size={24} />}
           />
           <PortalCard
             href="/system-design"
             title="How the AI Decides"
-            description="Why AI is necessary at each stage"
+            description="The reasoning behind each decision — and where it's rules, not AI."
             icon={<LayoutGrid size={24} />}
+          />
+          <PortalCard
+            href="/guide"
+            title="How to Evaluate This"
+            description="A guided phase-by-phase test script."
+            icon={<BookOpen size={24} />}
           />
         </section>
       </main>
