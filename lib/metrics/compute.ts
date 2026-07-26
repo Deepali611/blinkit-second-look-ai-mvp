@@ -12,11 +12,14 @@ export interface MetricDetail {
 
 export interface ComputedMetricsResult {
   recoveryRate: MetricDetail;
+  sameCategoryRecoveryRate: MetricDetail;
   liftVsControl: MetricDetail;
   confidenceTransferRate: MetricDetail;
   classificationPrecision: MetricDetail;
   suppressionRate: MetricDetail;
 }
+
+export type MetricsResult = ComputedMetricsResult;
 
 export function computeMetrics(): ComputedMetricsResult {
   const outcomes = getAllOutcomes();
@@ -29,9 +32,7 @@ export function computeMetrics(): ComputedMetricsResult {
     eventTreatmentGroupMap.set(log.eventId, log.treatmentGroup);
   });
 
-  // 1. recoveryRate
-  // numerator: same_category_repurchase where treatmentGroup === "treatment"
-  // denominator: decisionLogs where action === "act" AND treatmentGroup === "treatment"
+  // 1. recoveryRate & sameCategoryRecoveryRate
   const actTreatmentLogs = decisionLogs.filter(
     (log) => log.action === "act" && log.treatmentGroup === "treatment"
   );
@@ -51,7 +52,6 @@ export function computeMetrics(): ComputedMetricsResult {
   };
 
   // 2. liftVsControl
-  // Treatment group recovery rate
   const treatLogs = decisionLogs.filter((log) => log.treatmentGroup === "treatment");
   const treatDenom = treatLogs.length;
   const treatNum = outcomes.filter(
@@ -61,7 +61,6 @@ export function computeMetrics(): ComputedMetricsResult {
   ).length;
   const treatmentRate = treatDenom === 0 ? null : (treatNum / treatDenom) * 100;
 
-  // Control group recovery rate
   const ctrlLogs = decisionLogs.filter((log) => log.treatmentGroup === "control");
   const ctrlDenom = ctrlLogs.length;
   const ctrlNum = outcomes.filter(
@@ -80,8 +79,6 @@ export function computeMetrics(): ComputedMetricsResult {
   };
 
   // 3. confidenceTransferRate
-  // numerator: cross_category_attempt where treatmentGroup === "treatment"
-  // denominator: decisionLogs where action === "act" AND treatmentGroup === "treatment"
   const transferDenominator = recoveryDenominator;
   const transferNumerator = outcomes.filter(
     (o) =>
@@ -97,8 +94,6 @@ export function computeMetrics(): ComputedMetricsResult {
   };
 
   // 4. classificationPrecision
-  // numerator: classificationLogs where logged failureType === event groundTruthFailureType
-  // denominator: classificationLogs where confidence is "high" or "medium"
   const groundTruthMap = new Map<string, string>();
   seedData.failureEvents.forEach((evt) => {
     groundTruthMap.set(evt.eventId, evt.groundTruthFailureType);
@@ -122,8 +117,6 @@ export function computeMetrics(): ComputedMetricsResult {
   };
 
   // 5. suppressionRate
-  // numerator: decisionLogs where action === "suppress"
-  // denominator: total count of decisionLogs
   const suppressionDenominator = decisionLogs.length;
   const suppressionNumerator = decisionLogs.filter((log) => log.action === "suppress").length;
 
@@ -136,6 +129,7 @@ export function computeMetrics(): ComputedMetricsResult {
 
   return {
     recoveryRate,
+    sameCategoryRecoveryRate: recoveryRate,
     liftVsControl,
     confidenceTransferRate,
     classificationPrecision,

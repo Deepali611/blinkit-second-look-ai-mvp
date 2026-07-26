@@ -1,5 +1,5 @@
 import React from "react";
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, CheckCircle } from "lucide-react";
 
 export interface EvidenceCardProps {
   factStatement: string;
@@ -12,6 +12,10 @@ export function ComplianceFactCard({ factStatement }: EvidenceCardProps) {
         <ShieldCheck size={22} />
       </div>
       <div className="evidence-card-content">
+        <div className="evidence-trust-badge">
+          <CheckCircle size={14} />
+          <span>Quality Verified ✓</span>
+        </div>
         <p className="evidence-card-statement type-body">{factStatement}</p>
       </div>
     </div>

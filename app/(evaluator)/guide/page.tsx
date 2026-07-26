@@ -3,76 +3,88 @@ import Link from "next/link";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
 import { ScopeBanner } from "@/components/shared/ScopeBanner";
 import { PhaseSection } from "@/components/evaluator/PhaseSection";
-import { ArrowRight } from "lucide-react";
 
 export default function EvaluatorGuidePage() {
   return (
     <div className="portal-layout">
       <BlinkitHeader variant="evaluator" backHref="/" />
 
-      <main className="portal-container" style={{ maxWidth: "840px" }}>
+      <main className="portal-container">
         <h1 className="type-display page-header-title">Evaluator Guide</h1>
-        <p className="type-body guide-subtitle" style={{ marginBottom: "24px", color: "#444" }}>
-          Does resolving a specific first-category failure bring a customer back — and does it change their willingness to try other new categories?
+        <p className="type-body guide-intro" style={{ marginBottom: "24px" }}>
+          This guide provides a structured 4-phase evaluation walkthrough for testing Blinkit's Second Look customer recovery system.
         </p>
 
         <ScopeBanner compact={false} />
 
-        <div className="guide-phases-list" style={{ marginTop: "32px" }}>
+        <div className="guide-phases-container">
+          {/* Phase 1 */}
           <PhaseSection
             phaseNumber={1}
-            title="Start with the Workflow Inspector"
-            description="See the AI reasoning before seeing the customer artifact — this makes the customer-facing screens legible once you reach them."
+            title="Business Hypothesis & Growth Impact"
+            description="Start by understanding the business question: Does resolving a first-category failure bring a customer back, and increase their willingness to try other new categories?"
             checklist={[
-              "Go to the Workflow Inspector and open one event of each failure type (use the filter chips)",
-              "For each, watch Stage A classify the event, Stage B verify it, and Stage C decide the action",
-              "Confirm the reasoning text in Stage A is specific to that event's actual text, not generic",
-              "Confirm Stage B correctly labels itself as deterministic — it should never claim to be AI",
-            ]}
-          >
-            <Link href="/inspector" className="guide-action-btn">
-              <span>Open Workflow Inspector</span>
-              <ArrowRight size={16} />
-            </Link>
-          </PhaseSection>
-
-          <PhaseSection
-            phaseNumber={2}
-            title="Trigger the fail-safe branch deliberately"
-            description="This is the most important thing to verify — that the system correctly does nothing when it shouldn't act."
-            checklist={[
-              "Open the low-confidence edge-case event (filter by 'Edge Cases')",
-              "Confirm Stage A returns low confidence and the pipeline stops there — Stage B and C should not attempt a full classification-based action",
-              "Confirm no fabricated notification is generated for this case",
-              "Open the unverifiable edge-case event (the unresolved-support case with no ticket record) and confirm it falls to an acknowledgment-only message, never a false 'resolved' claim",
-            ]}
-          />
-
-          <PhaseSection
-            phaseNumber={3}
-            title="Follow one event through to the customer screens"
-            description="See the same artifact the pipeline just produced, rendered as a customer would actually see it."
-            checklist={[
-              "From the Inspector trace page for a verified/act event, click through to the simulated notification",
-              "Tap the notification to reach the Second Look page",
-              "Confirm the evidence shown matches exactly what Stage C decided, and that the CTA routes correctly for that failure type",
-              "Try this for at least two different failure types and confirm the evidence card and CTA look structurally different, not just reworded",
-            ]}
-          />
-
-          <PhaseSection
-            phaseNumber={4}
-            title="Review the Metrics Dashboard"
-            description="Understand what this MVP is built to measure, not what it has already proven — the data here is illustrative, generated from your own testing."
-            checklist={[
-              "Open the Metrics Dashboard",
-              "Note that Confidence-Transfer Rate is the metric most directly tied to the project's actual business goal, not just Same-Category Recovery Rate",
-              "Confirm every tile is labeled as computed from simulated data",
+              "Review the Growth Impact dashboard metrics",
+              "Understand the primary metric: 'Customers who explored a new category after recovery'",
+              "Observe how treatment vs. control group outcomes are computed",
             ]}
           >
             <Link href="/metrics" className="guide-action-btn">
-              <span>Open Metrics Dashboard</span>
-              <ArrowRight size={16} />
+              <span>View Growth Impact Metrics</span>
+            </Link>
+          </PhaseSection>
+
+          {/* Phase 2 */}
+          <PhaseSection
+            phaseNumber={2}
+            title="Customer Recovery Journey"
+            description="Experience what the customer sees when an order issue is verified and fixed. See the phone notification and the transparent Second Look recovery card."
+            checklist={[
+              "Open the simulated customer push notification",
+              "Tap the notification to open the Second Look screen",
+              "Verify the quality/authenticity trust badge and evidence statement",
+              "Test the CTA navigation to product & category pages",
+              "Use the Evaluator Control Panel on destination pages to simulate outcomes",
+            ]}
+          >
+            <Link href="/second-look/evt_1" className="guide-action-btn">
+              <span>Launch Customer Recovery Simulation</span>
+            </Link>
+          </PhaseSection>
+
+          {/* Phase 3 */}
+          <PhaseSection
+            phaseNumber={3}
+            title="AI Reasoning & Case Trace"
+            description="Inspect how Blinkit's system processes customer feedback step-by-step: AI failure classification, deterministic operational verification, and decision selection."
+            checklist={[
+              "Browse the Customer Recovery Cases list filtered by customer situation",
+              "Open an individual Case Trace (e.g. evt_1)",
+              "Inspect 1. What went wrong (Stage A AI classification reasoning)",
+              "Inspect 2. Is it actually fixed? (Stage B deterministic table check)",
+              "Inspect 3. What we do about it (Stage C action & evidence selection)",
+              "Check the growth hypothesis tie-back line at the bottom of the trace",
+            ]}
+          >
+            <Link href="/inspector" className="guide-action-btn">
+              <span>Open Customer Recovery Cases</span>
+            </Link>
+          </PhaseSection>
+
+          {/* Phase 4 */}
+          <PhaseSection
+            phaseNumber={4}
+            title="Edge Cases & System Boundaries"
+            description="Verify fail-safe suppression logic when customer feedback is unclear, unverified, or low-confidence."
+            checklist={[
+              "Filter Customer Recovery Cases by 'System correctly held back'",
+              "Open an unverified or unclear case (e.g. evt_5 or evt_6)",
+              "Confirm Stage B/C correctly suppresses notification (Action: Suppress)",
+              "Verify that no notification or Second Look page is sent to the customer",
+            ]}
+          >
+            <Link href="/inspector?failureType=unclear" className="guide-action-btn">
+              <span>Inspect Suppressed Edge Cases</span>
             </Link>
           </PhaseSection>
         </div>

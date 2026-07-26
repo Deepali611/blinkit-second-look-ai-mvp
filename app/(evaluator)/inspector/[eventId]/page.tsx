@@ -13,7 +13,7 @@ import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { EventDetail } from "@/lib/db/events";
 import { DecisionResult } from "@/lib/decision/decide";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Sparkles } from "lucide-react";
 
 interface StageAData {
   failureType: string;
@@ -64,7 +64,7 @@ export default function InspectorTracePage({
       setEvent(data);
     } catch (err) {
       console.error(err);
-      setEventError("Event not found or failed to load.");
+      setEventError("Customer case not found or failed to load.");
     } finally {
       setEventLoading(false);
     }
@@ -204,7 +204,7 @@ export default function InspectorTracePage({
         <BlinkitHeader variant="evaluator" backHref="/inspector" />
         <main className="portal-container">
           <ScopeBanner compact={true} />
-          <LoadingState message="Loading event details..." />
+          <LoadingState message="Reviewing this customer case..." />
         </main>
       </div>
     );
@@ -217,7 +217,7 @@ export default function InspectorTracePage({
         <main className="portal-container">
           <ScopeBanner compact={true} />
           <ErrorState
-            message={eventError || "Event not found."}
+            message={eventError || "Customer case not found."}
             onRetry={fetchEventDetail}
           />
         </main>
@@ -231,16 +231,16 @@ export default function InspectorTracePage({
       <main className="portal-container">
         <div className="inspector-title-row">
           <h1 className="type-display page-header-title">
-            Workflow Trace — {event.eventId}
+            Case Trace — {event.customerAlias} ({event.eventId})
           </h1>
           <button
             type="button"
-            className="rerun-btn"
+            className="secondary-rerun-link"
             onClick={runPipeline}
             disabled={stageAStatus === "loading"}
           >
-            <RefreshCw size={14} className={stageAStatus === "loading" ? "loading-spinner" : ""} />
-            <span>Re-run Pipeline</span>
+            <RefreshCw size={12} className={stageAStatus === "loading" ? "loading-spinner" : ""} />
+            <span>See this decided again</span>
           </button>
         </div>
 
@@ -250,8 +250,8 @@ export default function InspectorTracePage({
 
         {/* Stage A */}
         <StageBlock
-          title="Stage A: AI Failure Classification"
-          subtitle={stageAData?.modelCallType === "cached" ? "Using seed cache fallback" : "Live AI model call"}
+          title="1. What went wrong"
+          subtitle={stageAData?.modelCallType === "cached" ? "Using seed cache fallback" : "Live AI model classification"}
           status={stageAStatus}
           onRetry={runPipeline}
         >
@@ -259,12 +259,17 @@ export default function InspectorTracePage({
             <div className="stage-result-content">
               <div className="stage-result-row">
                 <ConfidenceBadge level={stageAData.confidence} />
-                <span className="type-h1" style={{ fontSize: "16px" }}>
-                  Classified as: <strong>{stageAData.failureType}</strong>
+                <span className="type-body-sm confidence-explainer">
+                  • How sure Blinkit's system is before acting on this customer's behalf.
+                </span>
+              </div>
+              <div className="stage-result-row" style={{ marginTop: "8px" }}>
+                <span className="type-h1" style={{ fontSize: "15px" }}>
+                  Classified Failure: <strong>{stageAData.failureType}</strong>
                 </span>
               </div>
               <div className="stage-reasoning-box type-body">
-                <strong>Reasoning:</strong> {stageAData.reasoning}
+                <strong>AI Reasoning:</strong> {stageAData.reasoning}
               </div>
             </div>
           )}
@@ -272,7 +277,8 @@ export default function InspectorTracePage({
 
         {/* Stage B */}
         <StageBlock
-          title="Stage B: Deterministic Verification"
+          title="2. Is it actually fixed?"
+          subtitle="Rule-based deterministic verification against operational records"
           status={stageBStatus}
           onRetry={() => {
             if (stageAData) {
@@ -283,14 +289,14 @@ export default function InspectorTracePage({
           {stageBData && (
             <div className="stage-result-content">
               {stageBData.skipped ? (
-                <p className="type-body" style={{ color: "#777" }}>
+                <p className="type-body" style={{ color: "var(--text-muted)" }}>
                   Skipped — low confidence or unclear signal
                 </p>
               ) : (
                 <div className="stage-result-row">
                   <VerificationStatusBadge status={stageBData.verificationStatus} />
                   <span className="type-body">
-                    Source Checked: <code>{stageBData.sourceChecked}</code>
+                    Operational Source Checked: <code>{stageBData.sourceChecked}</code>
                   </span>
                 </div>
               )}
@@ -300,7 +306,8 @@ export default function InspectorTracePage({
 
         {/* Stage C */}
         <StageBlock
-          title="Stage C: Decision & Artifact Generation"
+          title="3. What we do about it"
+          subtitle="Decision policy & customer artifact selection"
           status={stageCStatus}
           onRetry={() => {
             if (stageAData && stageBData) {
@@ -319,13 +326,13 @@ export default function InspectorTracePage({
                 <ActionBadge action={stageCData.action} />
                 {stageCData.action === "act" && stageCData.ctaLabel && (
                   <span className="type-body-sm">
-                    CTA: <strong>{stageCData.ctaLabel}</strong> ({stageCData.ctaDestination})
+                    Target Destination: <strong>{stageCData.ctaLabel}</strong> ({stageCData.ctaDestination})
                   </span>
                 )}
               </div>
               {stageCData.evidencePrimitive && (
                 <div className="stage-reasoning-box type-body">
-                  <strong>Fact Statement:</strong> {stageCData.evidencePrimitive.factStatement}
+                  <strong>Selected Evidence:</strong> {stageCData.evidencePrimitive.factStatement}
                 </div>
               )}
             </div>
@@ -334,7 +341,16 @@ export default function InspectorTracePage({
 
         {/* Rendered Artifact Preview */}
         {stageCStatus === "resolved" && stageCData && (
-          <RenderedArtifactPreview eventId={eventId} decisionResult={stageCData} />
+          <>
+            <RenderedArtifactPreview eventId={eventId} decisionResult={stageCData} />
+
+            <div className="growth-hypothesis-footer type-body">
+              <Sparkles size={16} className="growth-icon" />
+              <span>
+                If this works, <strong>{event.customerAlias}</strong> doesn't just return to this category — they may be more willing to explore others too.
+              </span>
+            </div>
+          </>
         )}
       </main>
     </div>

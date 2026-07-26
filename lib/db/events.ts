@@ -4,6 +4,8 @@ export interface EventListItem {
   eventId: string;
   customerAlias: string;
   category: string;
+  productName: string;
+  orderValue: number;
   triggerType: string;
   date: string;
 }
@@ -18,6 +20,7 @@ export interface EventDetail {
   createdAt: string;
   customerAlias: string;
   category: string;
+  productName: string;
   orderValue: number;
 }
 
@@ -44,6 +47,8 @@ export function getAllEvents(filterByFailureType?: string): EventListItem[] {
       eventId: evt.eventId,
       customerAlias: customer ? customer.alias : "Unknown Customer",
       category: category ? category.name : "Unknown Category",
+      productName: evt.productName || (order ? order.productName : "Blinkit Item"),
+      orderValue: order ? order.orderValue : 0,
       triggerType: evt.triggerType,
       date: evt.createdAt,
     };
@@ -70,6 +75,7 @@ export function getEventById(eventId: string): EventDetail | null {
     createdAt: event.createdAt,
     customerAlias: customer ? customer.alias : "Unknown Customer",
     category: category ? category.name : "Unknown Category",
+    productName: event.productName || (order ? order.productName : "Blinkit Item"),
     orderValue: order ? order.orderValue : 0,
   };
 }

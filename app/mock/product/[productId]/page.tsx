@@ -2,7 +2,7 @@ import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
 import { ScopeBanner } from "@/components/shared/ScopeBanner";
 import { SimulateOutcomeButton } from "@/components/customer/SimulateOutcomeButton";
-import { Star, ShieldCheck } from "lucide-react";
+import { Star, ShieldCheck, Zap, Clock, ThumbsUp } from "lucide-react";
 
 export default async function MockProductPage({
   params,
@@ -18,29 +18,54 @@ export default async function MockProductPage({
   const isReviewsAnchor = resolvedSearchParams.anchor === "reviews";
   const eventId = resolvedSearchParams.eventId || "evt_1";
 
+  const isEarbuds = productId.includes("1") || productId.includes("ord_1");
+
+  const productName = isEarbuds
+    ? "boAt Airdopes 141 TWS Earbuds"
+    : `Blinkit Verified Item (${productId.toUpperCase()})`;
+  const price = isEarbuds ? "1,899" : "649";
+
   return (
     <div className="portal-layout">
       <BlinkitHeader variant="evaluator" backHref="/" />
 
-      <main className="portal-container" style={{ maxWidth: "800px" }}>
+      <main className="portal-container" style={{ maxWidth: "840px" }}>
         <ScopeBanner compact={true} />
 
         <div className="mock-product-container">
+          {/* Real Blinkit Product Card */}
           <div className="mock-product-grid">
             <div className="mock-product-image-box">
-              <span className="type-body-sm">Placeholder Product Image</span>
+              <div className="mock-product-placeholder-art">
+                <Zap size={32} className="blinkit-green-icon" />
+                <span className="type-body-sm" style={{ fontWeight: 600, color: "#666" }}>
+                  Blinkit Product View
+                </span>
+              </div>
             </div>
 
             <div className="mock-product-details">
-              <span className="mock-badge type-body-sm">Mock Product Page</span>
-              <h1 className="type-display" style={{ fontSize: "24px" }}>
-                Product {productId.toUpperCase()}
+              <div className="mock-delivery-promise-chip">
+                <Clock size={13} />
+                <span>Delivery in 10 mins</span>
+              </div>
+
+              <h1 className="type-display" style={{ fontSize: "24px", marginTop: "8px" }}>
+                {productName}
               </h1>
-              <p className="mock-price type-h1">₹1,899</p>
+
+              <div className="mock-rating-bar">
+                <div className="star-rating-pill">
+                  <span>4.3 ★</span>
+                </div>
+                <span className="type-body-sm rating-count">(2.1k verified ratings)</span>
+              </div>
+
+              <p className="mock-price type-h1">₹{price}</p>
 
               <div className="mock-trust-tag">
                 <ShieldCheck size={16} />
-                <span className="type-body-sm">Verified Vendor & Replacements Guaranteed</span>
+                <span className="type-body-sm">Quality Inspected & 7-Day Replacement Guarantee</span>
               </div>
             </div>
           </div>
@@ -48,39 +73,55 @@ export default async function MockProductPage({
           <div
             className={`mock-reviews-section ${isReviewsAnchor ? "highlighted-section" : ""}`}
           >
-            <h3 className="type-h1" style={{ fontSize: "18px" }}>
-              Customer Reviews (12 Verified Reviews)
-            </h3>
+            <div className="reviews-section-header">
+              <h3 className="type-h1" style={{ fontSize: "18px" }}>
+                Customer Reviews (12 Verified Buyer Reviews)
+              </h3>
+              {isReviewsAnchor && (
+                <span className="reviews-anchor-badge type-body-sm">
+                  <ThumbsUp size={14} /> Highlighted for customer resolution
+                </span>
+              )}
+            </div>
+
             <div className="mock-stars">
               <Star size={16} fill="#F8CB45" stroke="#F8CB45" />
               <Star size={16} fill="#F8CB45" stroke="#F8CB45" />
               <Star size={16} fill="#F8CB45" stroke="#F8CB45" />
               <Star size={16} fill="#F8CB45" stroke="#F8CB45" />
-              <Star size={16} fill="#F8CB45" stroke="#F8CB45" />
-              <span className="type-body-sm">4.8 out of 5</span>
+              <Star size={16} fill="#E5E5E2" stroke="#E5E5E2" />
+              <span className="type-body-sm" style={{ fontWeight: 600, marginLeft: "4px" }}>
+                4.3 out of 5
+              </span>
             </div>
-            <p className="type-body-sm" style={{ color: "#666" }}>
-              Recent buyers confirm great packaging and fast 10-minute delivery.
+
+            <p className="type-body-sm" style={{ color: "#444", marginTop: "6px" }}>
+              Recent verified buyers confirm clean authentic seals, fast 10-minute dispatch, and original packaging.
             </p>
           </div>
 
-          {/* Evaluator Simulation Action Panel */}
-          <div className="evaluator-simulation-panel">
-            <h4 className="type-h1" style={{ fontSize: "16px", marginBottom: "12px" }}>
-              Evaluator Action Panel — Log Customer Outcome
+          {/* Evaluator Control Panel */}
+          <div className="evaluator-control-panel-card">
+            <h4 className="type-h1 evaluator-panel-title">
+              Evaluator Control Panel
             </h4>
+            <p className="type-body evaluator-panel-framing">
+              You've just followed the same path this customer would. What they do next is exactly what this MVP is trying to learn.
+            </p>
 
-            <SimulateOutcomeButton
-              eventId={eventId}
-              outcomeType="same_category_repurchase"
-              label="Simulate: Customer completes purchase"
-            />
+            <div className="evaluator-buttons-stack">
+              <SimulateOutcomeButton
+                eventId={eventId}
+                outcomeType="same_category_repurchase"
+                label="Simulate: Customer completes purchase in this category"
+              />
 
-            <SimulateOutcomeButton
-              eventId={eventId}
-              outcomeType="cross_category_attempt"
-              label="Simulate: Customer also tries a different new category"
-            />
+              <SimulateOutcomeButton
+                eventId={eventId}
+                outcomeType="cross_category_attempt"
+                label="Simulate: Customer also tries a different new category"
+              />
+            </div>
           </div>
         </div>
       </main>

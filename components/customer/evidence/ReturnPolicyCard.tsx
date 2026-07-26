@@ -12,6 +12,10 @@ export function ReturnPolicyCard({ factStatement }: EvidenceCardProps) {
         <RotateCcw size={22} />
       </div>
       <div className="evidence-card-content">
+        <div className="evidence-policy-badge">
+          <RotateCcw size={14} />
+          <span>7-Day Replacement Guarantee</span>
+        </div>
         <p className="evidence-card-statement type-body">{factStatement}</p>
       </div>
     </div>

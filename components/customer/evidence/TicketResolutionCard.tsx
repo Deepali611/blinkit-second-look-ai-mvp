@@ -12,6 +12,10 @@ export function TicketResolutionCard({ factStatement }: EvidenceCardProps) {
         <CheckCircle2 size={22} />
       </div>
       <div className="evidence-card-content">
+        <div className="evidence-chip-status">
+          <CheckCircle2 size={14} />
+          <span>Ticket Resolved</span>
+        </div>
         <p className="evidence-card-statement type-body">{factStatement}</p>
       </div>
     </div>

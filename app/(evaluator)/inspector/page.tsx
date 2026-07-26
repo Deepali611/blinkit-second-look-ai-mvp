@@ -12,14 +12,14 @@ import { EventListItem } from "@/lib/db/events";
 
 const FILTER_OPTIONS: FilterOption[] = [
   { label: "All", value: "" },
-  { label: "Quality/Authenticity", value: "expiry_authenticity" },
-  { label: "Missing Info", value: "missing_information" },
-  { label: "Unresolved Support", value: "unresolved_support" },
-  { label: "High-Value Hesitation", value: "high_value_hesitation" },
-  { label: "Edge Cases", value: "unclear" },
+  { label: "Item arrived damaged", value: "expiry_authenticity" },
+  { label: "Couldn't tell if it was right for me", value: "missing_information" },
+  { label: "Support never followed up", value: "unresolved_support" },
+  { label: "Wasn't sure about the price", value: "high_value_hesitation" },
+  { label: "System correctly held back", value: "unclear" },
 ];
 
-export default function WorkflowInspectorPage() {
+export default function CustomerRecoveryCasesPage() {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [events, setEvents] = useState<EventListItem[]>([]);
@@ -44,7 +44,7 @@ export default function WorkflowInspectorPage() {
       setEvents(data.events || []);
     } catch (err) {
       console.error("Failed to fetch events:", err);
-      setError("Failed to load events. Please try again.");
+      setError("Failed to load customer recovery cases. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +62,7 @@ export default function WorkflowInspectorPage() {
     <div className="portal-layout">
       <BlinkitHeader variant="evaluator" backHref="/" />
       <main className="portal-container">
-        <h1 className="type-display page-header-title">Workflow Inspector</h1>
+        <h1 className="type-display page-header-title">Customer Recovery Cases</h1>
         <ScopeBanner compact={true} />
 
         <FilterChipRow
@@ -72,7 +72,7 @@ export default function WorkflowInspectorPage() {
         />
 
         {isLoading ? (
-          <LoadingState message="Fetching failure events..." />
+          <LoadingState message="Reviewing customer cases..." />
         ) : error ? (
           <ErrorState
             message={error}

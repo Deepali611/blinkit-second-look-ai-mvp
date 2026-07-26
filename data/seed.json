@@ -13,20 +13,20 @@
     { "categoryId": "cat_pet_supplies", "name": "Pet Supplies", "returnPolicyDays": 15, "returnPolicySummary": "15-day return window on pet supplies" }
   ],
   "orders": [
-    { "orderId": "ord_1", "customerId": "cust_1", "categoryId": "cat_electronics", "isFirstInCategory": true, "orderValue": 1899, "orderDate": "2026-06-01" },
-    { "orderId": "ord_2", "customerId": "cust_2", "categoryId": "cat_personal_care", "isFirstInCategory": true, "orderValue": 649, "orderDate": "2026-06-03" },
-    { "orderId": "ord_3", "customerId": "cust_3", "categoryId": "cat_pet_supplies", "isFirstInCategory": true, "orderValue": 1200, "orderDate": "2026-06-05" },
-    { "orderId": "ord_4", "customerId": "cust_4", "categoryId": "cat_electronics", "isFirstInCategory": true, "orderValue": 4499, "orderDate": "2026-06-07" },
-    { "orderId": "ord_5", "customerId": "cust_5", "categoryId": "cat_electronics", "isFirstInCategory": true, "orderValue": 299, "orderDate": "2026-06-09" },
-    { "orderId": "ord_6", "customerId": "cust_6", "categoryId": "cat_personal_care", "isFirstInCategory": true, "orderValue": 550, "orderDate": "2026-06-10" }
+    { "orderId": "ord_1", "customerId": "cust_1", "categoryId": "cat_electronics", "productName": "boAt Airdopes 141 TWS Earbuds", "isFirstInCategory": true, "orderValue": 1899, "orderDate": "2026-06-01" },
+    { "orderId": "ord_2", "customerId": "cust_2", "categoryId": "cat_personal_care", "productName": "Minimalist 10% Niacinamide Serum", "isFirstInCategory": true, "orderValue": 649, "orderDate": "2026-06-03" },
+    { "orderId": "ord_3", "customerId": "cust_3", "categoryId": "cat_pet_supplies", "productName": "Pedigree Adult Dry Dog Food (3kg)", "isFirstInCategory": true, "orderValue": 1200, "orderDate": "2026-06-05" },
+    { "orderId": "ord_4", "customerId": "cust_4", "categoryId": "cat_electronics", "productName": "Noise ColorFit Pulse Smartwatch", "isFirstInCategory": true, "orderValue": 4499, "orderDate": "2026-06-07" },
+    { "orderId": "ord_5", "customerId": "cust_5", "categoryId": "cat_electronics", "productName": "Portronics USB-C Fast Cable", "isFirstInCategory": true, "orderValue": 299, "orderDate": "2026-06-09" },
+    { "orderId": "ord_6", "customerId": "cust_6", "categoryId": "cat_personal_care", "productName": "Mamaearth Onion Hair Oil (250ml)", "isFirstInCategory": true, "orderValue": 550, "orderDate": "2026-06-10" }
   ],
   "failureEvents": [
-    { "eventId": "evt_1", "orderId": "ord_1", "triggerType": "return", "rawText": "Item arrived with a cracked charging case, seal looked tampered.", "ratingValue": null, "groundTruthFailureType": "expiry_authenticity", "createdAt": "2026-06-04" },
-    { "eventId": "evt_2", "orderId": "ord_2", "triggerType": "rating", "rawText": "No way to tell if this is right for my skin, no reviews on the app at all.", "ratingValue": 2, "groundTruthFailureType": "missing_information", "createdAt": "2026-06-06" },
-    { "eventId": "evt_3", "orderId": "ord_3", "triggerType": "ticket", "rawText": "Raised a complaint 5 days ago about the wrong size bag, no update since.", "ratingValue": null, "groundTruthFailureType": "unresolved_support", "createdAt": "2026-06-10" },
-    { "eventId": "evt_4", "orderId": "ord_4", "triggerType": "rating", "rawText": "Wasn't sure about ordering something this expensive without seeing it first, still not sure I'd do it again.", "ratingValue": 3, "groundTruthFailureType": "high_value_hesitation", "createdAt": "2026-06-08" },
-    { "eventId": "evt_5", "orderId": "ord_5", "triggerType": "rating", "rawText": "", "ratingValue": 3, "groundTruthFailureType": "unclear", "createdAt": "2026-06-11" },
-    { "eventId": "evt_6", "orderId": "ord_6", "triggerType": "ticket", "rawText": "Ticket filed, no resolution record exists in support system.", "ratingValue": null, "groundTruthFailureType": "unresolved_support", "createdAt": "2026-06-12" }
+    { "eventId": "evt_1", "orderId": "ord_1", "triggerType": "return", "productName": "boAt Airdopes 141 TWS Earbuds", "rawText": "Item arrived with a cracked charging case, seal looked tampered.", "ratingValue": null, "groundTruthFailureType": "expiry_authenticity", "createdAt": "2026-06-04" },
+    { "eventId": "evt_2", "orderId": "ord_2", "triggerType": "rating", "productName": "Minimalist 10% Niacinamide Serum", "rawText": "No way to tell if this is right for my skin, no reviews on the app at all.", "ratingValue": 2, "groundTruthFailureType": "missing_information", "createdAt": "2026-06-06" },
+    { "eventId": "evt_3", "orderId": "ord_3", "triggerType": "ticket", "productName": "Pedigree Adult Dry Dog Food (3kg)", "rawText": "Raised a complaint 5 days ago about the wrong size bag, no update since.", "ratingValue": null, "groundTruthFailureType": "unresolved_support", "createdAt": "2026-06-10" },
+    { "eventId": "evt_4", "orderId": "ord_4", "triggerType": "rating", "productName": "Noise ColorFit Pulse Smartwatch", "rawText": "Wasn't sure about ordering something this expensive without seeing it first, still not sure I'd do it again.", "ratingValue": 3, "groundTruthFailureType": "high_value_hesitation", "createdAt": "2026-06-08" },
+    { "eventId": "evt_5", "orderId": "ord_5", "triggerType": "rating", "productName": "Portronics USB-C Fast Cable", "rawText": "", "ratingValue": 3, "groundTruthFailureType": "unclear", "createdAt": "2026-06-11" },
+    { "eventId": "evt_6", "orderId": "ord_6", "triggerType": "ticket", "productName": "Mamaearth Onion Hair Oil (250ml)", "rawText": "Ticket filed, no resolution record exists in support system.", "ratingValue": null, "groundTruthFailureType": "unresolved_support", "createdAt": "2026-06-12" }
   ],
   "verificationData": {
     "evt_1": { "source": "vendor_compliance_table", "record": { "vendorId": "vnd_88", "status": "compliant_since_incident", "lastCheckedDate": "2026-06-15" } },

@@ -1,10 +1,12 @@
 import React from "react";
+import { Sparkles } from "lucide-react";
 
 export interface RationaleSectionProps {
   title: string;
   mechanism: string;
   whereAI: string;
   customerImpact: string;
+  growthImpact?: string;
   isAI: boolean;
 }
 
@@ -13,6 +15,7 @@ export function RationaleSection({
   mechanism,
   whereAI,
   customerImpact,
+  growthImpact,
   isAI,
 }: RationaleSectionProps) {
   return (
@@ -42,6 +45,16 @@ export function RationaleSection({
           </h3>
           <p className="type-body rationale-text">{customerImpact}</p>
         </div>
+
+        {growthImpact && (
+          <div className="rationale-block rationale-accent-growth">
+            <h3 className="type-h1 rationale-label" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+              <Sparkles size={14} style={{ color: "var(--blinkit-green)" }} />
+              <span>Connection to Growth Outcome</span>
+            </h3>
+            <p className="type-body rationale-text">{growthImpact}</p>
+          </div>
+        )}
       </div>
     </div>
   );
