@@ -14,6 +14,11 @@ import { ErrorState } from "@/components/shared/ErrorState";
 import { EventDetail } from "@/lib/db/events";
 import { DecisionResult } from "@/lib/decision/decide";
 import { RefreshCw, Sparkles } from "lucide-react";
+import {
+  STAGE_TITLES,
+  STAGE_TAGS,
+  ASSUMPTION_CAVEAT_SHORT,
+} from "@/lib/copy/canonical";
 
 interface StageAData {
   failureType: string;
@@ -203,7 +208,7 @@ export default function InspectorTracePage({
       <div className="portal-layout">
         <BlinkitHeader variant="evaluator" backHref="/inspector" />
         <main className="portal-container">
-          <ScopeBanner compact={true} />
+          <ScopeBanner variant="compact" />
           <LoadingState message="Reviewing this customer case..." />
         </main>
       </div>
@@ -215,7 +220,7 @@ export default function InspectorTracePage({
       <div className="portal-layout">
         <BlinkitHeader variant="evaluator" backHref="/inspector" />
         <main className="portal-container">
-          <ScopeBanner compact={true} />
+          <ScopeBanner variant="compact" />
           <ErrorState
             message={eventError || "Customer case not found."}
             onRetry={fetchEventDetail}
@@ -231,7 +236,7 @@ export default function InspectorTracePage({
       <main className="portal-container">
         <div className="inspector-title-row">
           <h1 className="type-display page-header-title">
-            Case Trace — {event.customerAlias} ({event.eventId})
+            How Blinkit Responded to This Case
           </h1>
           <button
             type="button"
@@ -244,23 +249,34 @@ export default function InspectorTracePage({
           </button>
         </div>
 
-        <ScopeBanner compact={true} />
+        <p className="type-body" style={{ color: "var(--blinkit-near-black)", marginBottom: "16px", opacity: 0.9 }}>
+          Three steps: what went wrong, whether it's actually fixed, and what we do about it. The first step uses AI. The second is a deterministic check, not AI. The third combines both — and gets smarter over time as more cases are resolved.
+        </p>
+
+        <ScopeBanner variant="compact" />
 
         <RawEventPanel event={event} />
 
         {/* Stage A */}
         <StageBlock
-          title="1. What went wrong"
+          title={
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+              <span>{STAGE_TITLES.stageA}</span>
+              <span className="type-h1" style={{ fontSize: "14px", color: "var(--blinkit-green)", fontWeight: 700 }}>
+                {STAGE_TAGS.stageA}
+              </span>
+            </div>
+          }
           subtitle={stageAData?.modelCallType === "cached" ? "Using seed cache fallback" : "Live AI model classification"}
           status={stageAStatus}
           onRetry={runPipeline}
         >
           {stageAData && (
             <div className="stage-result-content">
-              <div className="stage-result-row">
+              <div className="stage-result-row" style={{ flexWrap: "wrap" }}>
                 <ConfidenceBadge level={stageAData.confidence} />
                 <span className="type-body-sm confidence-explainer">
-                  • How sure Blinkit's system is before acting on this customer's behalf.
+                  • How sure the system is before it acts on this customer's behalf.
                 </span>
               </div>
               <div className="stage-result-row" style={{ marginTop: "8px" }}>
@@ -277,7 +293,14 @@ export default function InspectorTracePage({
 
         {/* Stage B */}
         <StageBlock
-          title="2. Is it actually fixed?"
+          title={
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+              <span>{STAGE_TITLES.stageB}</span>
+              <span className="type-h1" style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 700 }}>
+                {STAGE_TAGS.stageB}
+              </span>
+            </div>
+          }
           subtitle="Rule-based deterministic verification against operational records"
           status={stageBStatus}
           onRetry={() => {
@@ -288,6 +311,9 @@ export default function InspectorTracePage({
         >
           {stageBData && (
             <div className="stage-result-content">
+              <p className="type-body-sm" style={{ color: "var(--text-muted)", marginBottom: "4px" }}>
+                This step is a direct lookup against operational records — deliberately not AI, because a resolution claim this consequential should never depend on a probabilistic guess.
+              </p>
               {stageBData.skipped ? (
                 <p className="type-body" style={{ color: "var(--text-muted)" }}>
                   Skipped — low confidence or unclear signal
@@ -306,7 +332,14 @@ export default function InspectorTracePage({
 
         {/* Stage C */}
         <StageBlock
-          title="3. What we do about it"
+          title={
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+              <span>{STAGE_TITLES.stageC}</span>
+              <span className="type-h1" style={{ fontSize: "14px", color: "var(--blinkit-green)", fontWeight: 700 }}>
+                {STAGE_TAGS.stageC}
+              </span>
+            </div>
+          }
           subtitle="Decision policy & customer artifact selection"
           status={stageCStatus}
           onRetry={() => {
@@ -344,12 +377,14 @@ export default function InspectorTracePage({
           <>
             <RenderedArtifactPreview eventId={eventId} decisionResult={stageCData} />
 
-            <div className="growth-hypothesis-footer type-body">
-              <Sparkles size={16} className="growth-icon" />
-              <span>
-                If this works, <strong>{event.customerAlias}</strong> doesn't just return to this category — they may be more willing to explore others too.
-              </span>
-            </div>
+            {stageCData.action === "act" && (
+              <div className="growth-hypothesis-footer type-body">
+                <Sparkles size={16} className="growth-icon" />
+                <span>
+                  If this works, this customer doesn't just return to this category — they may be more willing to explore others too. <em>{ASSUMPTION_CAVEAT_SHORT}</em>
+                </span>
+              </div>
+            )}
           </>
         )}
       </main>

@@ -12,11 +12,11 @@ import { EventListItem } from "@/lib/db/events";
 
 const FILTER_OPTIONS: FilterOption[] = [
   { label: "All", value: "" },
-  { label: "Item arrived damaged", value: "expiry_authenticity" },
-  { label: "Couldn't tell if it was right for me", value: "missing_information" },
-  { label: "Support never followed up", value: "unresolved_support" },
-  { label: "Wasn't sure about the price", value: "high_value_hesitation" },
-  { label: "System correctly held back", value: "unclear" },
+  { label: "Received a damaged or questionable item", value: "expiry_authenticity" },
+  { label: "Couldn't tell if it was right for them", value: "missing_information" },
+  { label: "Support issue never got resolved", value: "unresolved_support" },
+  { label: "Hesitant about a bigger purchase", value: "high_value_hesitation" },
+  { label: "Cases we correctly held back on", value: "unclear" },
 ];
 
 export default function CustomerRecoveryCasesPage() {
@@ -63,7 +63,11 @@ export default function CustomerRecoveryCasesPage() {
       <BlinkitHeader variant="evaluator" backHref="/" />
       <main className="portal-container">
         <h1 className="type-display page-header-title">Customer Recovery Cases</h1>
-        <ScopeBanner compact={true} />
+        <p className="type-body" style={{ color: "var(--blinkit-near-black)", marginBottom: "16px", opacity: 0.9 }}>
+          Each of these customers tried a new category and hit a real, specific problem. Select one to see how Blinkit responded — and why that response might matter beyond just this category.
+        </p>
+
+        <ScopeBanner variant="compact" />
 
         <FilterChipRow
           options={FILTER_OPTIONS}

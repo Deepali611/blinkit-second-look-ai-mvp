@@ -9,15 +9,15 @@ export interface RawEventPanelProps {
 function getSignalLabel(triggerType: string) {
   switch (triggerType?.toLowerCase()) {
     case "return":
-      return { icon: <RotateCcw size={16} />, label: "Return" };
+      return { icon: <RotateCcw size={16} />, label: "Return", attribution: "— from a return note" };
     case "rating":
-      return { icon: <Star size={16} />, label: "Low rating" };
+      return { icon: <Star size={16} />, label: "Low rating", attribution: "— from a rating" };
     case "ticket":
-      return { icon: <MessageCircle size={16} />, label: "Support ticket" };
+      return { icon: <MessageCircle size={16} />, label: "Support ticket", attribution: "— from a support ticket" };
     case "refund":
-      return { icon: <IndianRupee size={16} />, label: "Refund" };
+      return { icon: <IndianRupee size={16} />, label: "Refund", attribution: "— from a refund request" };
     default:
-      return { icon: <CircleDollarSign size={16} />, label: "Customer signal" };
+      return { icon: <CircleDollarSign size={16} />, label: "Customer signal", attribution: "— from customer feedback" };
   }
 }
 
@@ -55,7 +55,7 @@ export function RawEventPanel({ event }: RawEventPanelProps) {
             {event.rawText ? `"${event.rawText}"` : `"(No written feedback text provided — ${event.ratingValue ? `${event.ratingValue}-star rating logged` : "customer event registered"})"`}
           </p>
           <cite className="customer-quote-attribution type-body-sm">
-            — from a {event.triggerType === "return" ? "return note" : event.triggerType === "rating" ? "rating note" : "support ticket"}
+            {signal.attribution}
           </cite>
         </blockquote>
       </div>

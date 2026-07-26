@@ -1,7 +1,8 @@
 import React from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { DecisionResult } from "@/lib/decision/decide";
+import { HELD_BACK_EXPLANATION } from "@/lib/copy/canonical";
 
 export interface RenderedArtifactPreviewProps {
   eventId: string;
@@ -14,14 +15,17 @@ export function RenderedArtifactPreview({
 }: RenderedArtifactPreviewProps) {
   if (decisionResult.action === "suppress") {
     return (
-      <div className="artifact-preview-card artifact-suppressed">
-        <h4 className="artifact-title type-h1">Notification Suppressed</h4>
-        <p className="artifact-description type-body">
-          No notification would be sent for this event.
+      <div className="artifact-preview-card artifact-suppressed" style={{ backgroundColor: "var(--surface-muted)", border: "1.5px solid var(--border-hairline)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--blinkit-near-black)" }}>
+          <CheckCircle2 size={18} style={{ color: "var(--blinkit-green)" }} />
+          <h4 className="artifact-title type-h1" style={{ fontSize: "16px" }}>Decision Outcome: Notification Suppressed</h4>
+        </div>
+        <p className="artifact-description type-body" style={{ fontWeight: 500, color: "var(--blinkit-near-black)", marginTop: "4px" }}>
+          {HELD_BACK_EXPLANATION}
         </p>
         {decisionResult.suppressReason && (
-          <p className="artifact-reason type-body-sm">
-            Reason: <code>{decisionResult.suppressReason}</code>
+          <p className="artifact-reason type-body-sm" style={{ color: "var(--text-muted)", marginTop: "4px" }}>
+            Policy Reason: <code>{decisionResult.suppressReason}</code>
           </p>
         )}
       </div>
