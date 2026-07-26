@@ -3,7 +3,7 @@ import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 
 export interface StageBlockProps {
-  title: string;
+  title: React.ReactNode;
   subtitle?: string;
   status: "locked" | "loading" | "resolved" | "error";
   children?: React.ReactNode;
@@ -20,7 +20,7 @@ export function StageBlock({
   return (
     <div className={`stage-block stage-block-${status}`}>
       <div className="stage-block-header">
-        <h3 className="stage-block-title type-h1">{title}</h3>
+        <div className="stage-block-title type-h1">{title}</div>
         {subtitle && <span className="stage-block-subtitle type-body-sm">{subtitle}</span>}
       </div>
 
