@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { makeDecision } from "@/lib/decision/decide";
+import { getTreatmentGroupForEvent } from "@/lib/db/decisionLogs";
 
 export async function POST(request: NextRequest) {
   try {
@@ -49,7 +50,9 @@ export async function POST(request: NextRequest) {
       evidenceData
     );
 
-    return NextResponse.json(result, { status: 200 });
+    const treatmentGroup = getTreatmentGroupForEvent(eventId, result.action);
+
+    return NextResponse.json({ ...result, treatmentGroup }, { status: 200 });
   } catch (error) {
     console.error("Error processing decision request:", error);
     return NextResponse.json(

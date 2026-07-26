@@ -990,6 +990,168 @@ a:hover {
   color: var(--blinkit-green);
 }
 
+/* Simulate Outcome Button */
+.simulate-outcome-wrapper {
+  margin-top: var(--space-3, 12px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.simulate-caption {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--evaluator-bg);
+  letter-spacing: 0.5px;
+}
+
+.simulate-outcome-btn {
+  background-color: var(--surface-muted);
+  border: 1.5px dashed var(--evaluator-bg);
+  color: var(--evaluator-bg);
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.simulate-outcome-btn:hover {
+  background-color: #e4e6eb;
+}
+
+.simulate-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--blinkit-green);
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+/* Evaluator Simulation Panel */
+.evaluator-simulation-panel {
+  background-color: #f7f7f9;
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  padding: var(--space-5);
+  margin-top: var(--space-6);
+}
+
+/* Mock Product & Category Pages */
+.mock-product-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.mock-product-grid {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--space-5);
+}
+
+.mock-product-image-box {
+  width: 100%;
+  height: 200px;
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #777;
+}
+
+.mock-badge {
+  display: inline-block;
+  background-color: var(--surface-muted);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: var(--space-2);
+  color: #555;
+}
+
+.mock-price {
+  color: var(--blinkit-green);
+  margin: var(--space-2) 0;
+}
+
+.mock-trust-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--blinkit-green);
+  background-color: rgba(84, 178, 38, 0.08);
+  padding: 6px 12px;
+  border-radius: 6px;
+}
+
+.mock-reviews-section {
+  background-color: var(--blinkit-white);
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  padding: var(--space-4);
+  margin-top: var(--space-4);
+  transition: all 0.3s ease;
+}
+
+.highlighted-section {
+  border-color: var(--blinkit-green);
+  box-shadow: 0 0 0 3px rgba(84, 178, 38, 0.2);
+}
+
+.mock-stars {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: var(--space-2) 0;
+}
+
+.mock-category-header {
+  margin-bottom: var(--space-5);
+}
+
+.mock-filter-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: rgba(84, 178, 38, 0.1);
+  color: var(--blinkit-green);
+  padding: 4px 10px;
+  border-radius: 6px;
+  margin-top: var(--space-2);
+  font-weight: 500;
+}
+
+.mock-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-4);
+}
+
+.mock-category-card {
+  background-color: var(--blinkit-white);
+  border: 1px solid var(--border-hairline);
+  border-radius: 10px;
+  padding: var(--space-3, 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mock-card-img {
+  width: 100%;
+  height: 100px;
+  background-color: var(--surface-muted);
+  border-radius: 6px;
+}
+
 /* 2x2 Grid with responsive mobile under 640px */
 .portal-grid {
   display: grid;
@@ -1057,5 +1219,9 @@ a:hover {
 
   .blinkit-header {
     padding: var(--space-4);
+  }
+
+  .mock-product-grid {
+    grid-template-columns: 1fr;
   }
 }
