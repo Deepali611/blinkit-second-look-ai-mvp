@@ -1,0 +1,337 @@
+"use client";
+
+import React, { useState, useEffect, useCallback, use } from "react";
+import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
+import { RawEventPanel } from "@/components/evaluator/RawEventPanel";
+import { StageBlock } from "@/components/evaluator/StageBlock";
+import { ConfidenceBadge } from "@/components/evaluator/ConfidenceBadge";
+import { VerificationStatusBadge } from "@/components/evaluator/VerificationStatusBadge";
+import { ActionBadge } from "@/components/evaluator/ActionBadge";
+import { RenderedArtifactPreview } from "@/components/evaluator/RenderedArtifactPreview";
+import { LoadingState } from "@/components/shared/LoadingState";
+import { ErrorState } from "@/components/shared/ErrorState";
+import { EventDetail } from "@/lib/db/events";
+import { DecisionResult } from "@/lib/decision/decide";
+import { RefreshCw } from "lucide-react";
+
+interface StageAData {
+  failureType: string;
+  confidence: "high" | "medium" | "low";
+  reasoning: string;
+  modelCallType: "live" | "cached";
+}
+
+interface StageBData {
+  verificationStatus: "verified" | "unverifiable" | "not_yet_resolved";
+  evidenceData: Record<string, unknown> | null;
+  sourceChecked: string;
+  skipped?: boolean;
+}
+
+export default function InspectorTracePage({
+  params,
+}: {
+  params: Promise<{ eventId: string }>;
+}) {
+  const resolvedParams = use(params);
+  const eventId = resolvedParams.eventId;
+
+  const [event, setEvent] = useState<EventDetail | null>(null);
+  const [eventLoading, setEventLoading] = useState<boolean>(true);
+  const [eventError, setEventError] = useState<string | null>(null);
+
+  // Stage States
+  const [stageAStatus, setStageAStatus] = useState<"locked" | "loading" | "resolved" | "error">("locked");
+  const [stageAData, setStageAData] = useState<StageAData | null>(null);
+
+  const [stageBStatus, setStageBStatus] = useState<"locked" | "loading" | "resolved" | "error">("locked");
+  const [stageBData, setStageBData] = useState<StageBData | null>(null);
+
+  const [stageCStatus, setStageCStatus] = useState<"locked" | "loading" | "resolved" | "error">("locked");
+  const [stageCData, setStageCData] = useState<DecisionResult | null>(null);
+
+  // Fetch Raw Event
+  const fetchEventDetail = useCallback(async () => {
+    setEventLoading(true);
+    setEventError(null);
+    try {
+      const res = await fetch(`/api/events/${eventId}`);
+      if (!res.ok) {
+        throw new Error("Failed to load event details");
+      }
+      const data = await res.json();
+      setEvent(data);
+    } catch (err) {
+      console.error(err);
+      setEventError("Event not found or failed to load.");
+    } finally {
+      setEventLoading(false);
+    }
+  }, [eventId]);
+
+  useEffect(() => {
+    fetchEventDetail();
+  }, [fetchEventDetail]);
+
+  // Stage C Execution
+  const runStageC = useCallback(
+    async (
+      failureType: string,
+      confidence: string,
+      verificationStatus: string,
+      evidenceData: Record<string, unknown> | null
+    ) => {
+      setStageCStatus("loading");
+      try {
+        const res = await fetch("/api/decide", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            eventId,
+            failureType,
+            confidence,
+            verificationStatus,
+            evidenceData,
+          }),
+        });
+
+        if (!res.ok) throw new Error("Stage C decision failed");
+        const decision: DecisionResult = await res.json();
+        setStageCData(decision);
+        setStageCStatus("resolved");
+      } catch (err) {
+        console.error(err);
+        setStageCStatus("error");
+      }
+    },
+    [eventId]
+  );
+
+  // Stage B Execution
+  const runStageB = useCallback(
+    async (failureType: string, confidence: string) => {
+      setStageBStatus("loading");
+      try {
+        const res = await fetch("/api/verify", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ eventId, failureType }),
+        });
+
+        if (!res.ok) throw new Error("Stage B verification failed");
+        const bData: StageBData = await res.json();
+
+        setStageBData(bData);
+        setStageBStatus("resolved");
+
+        // Proceed to Stage C
+        await runStageC(
+          failureType,
+          confidence,
+          bData.verificationStatus,
+          bData.evidenceData
+        );
+      } catch (err) {
+        console.error(err);
+        setStageBStatus("error");
+      }
+    },
+    [eventId, runStageC]
+  );
+
+  // Full Pipeline Trigger
+  const runPipeline = useCallback(async () => {
+    // Reset Pipeline
+    setStageAStatus("loading");
+    setStageBStatus("locked");
+    setStageCStatus("locked");
+    setStageAData(null);
+    setStageBData(null);
+    setStageCData(null);
+
+    try {
+      const res = await fetch("/api/classify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ eventId }),
+      });
+
+      if (!res.ok) throw new Error("Stage A classification failed");
+      const aData: StageAData = await res.json();
+
+      setStageAData(aData);
+      setStageAStatus("resolved");
+
+      // Check confidence gating
+      if (aData.confidence === "low" || aData.failureType === "unclear") {
+        // Skip Stage B
+        setStageBData({
+          verificationStatus: "unverifiable",
+          evidenceData: null,
+          sourceChecked: "skipped",
+          skipped: true,
+        });
+        setStageBStatus("resolved");
+
+        // Run Stage C directly with low confidence
+        await runStageC(
+          aData.failureType,
+          "low",
+          "unverifiable",
+          null
+        );
+      } else {
+        // Proceed to Stage B
+        await runStageB(aData.failureType, aData.confidence);
+      }
+    } catch (err) {
+      console.error(err);
+      setStageAStatus("error");
+    }
+  }, [eventId, runStageB, runStageC]);
+
+  // Run pipeline automatically when event loads
+  useEffect(() => {
+    if (event) {
+      runPipeline();
+    }
+  }, [event, runPipeline]);
+
+  if (eventLoading) {
+    return (
+      <div className="portal-layout">
+        <BlinkitHeader variant="evaluator" backHref="/inspector" />
+        <main className="portal-container">
+          <LoadingState message="Loading event details..." />
+        </main>
+      </div>
+    );
+  }
+
+  if (eventError || !event) {
+    return (
+      <div className="portal-layout">
+        <BlinkitHeader variant="evaluator" backHref="/inspector" />
+        <main className="portal-container">
+          <ErrorState
+            message={eventError || "Event not found."}
+            onRetry={fetchEventDetail}
+          />
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className="portal-layout">
+      <BlinkitHeader variant="evaluator" backHref="/inspector" />
+      <main className="portal-container">
+        <div className="inspector-title-row">
+          <h1 className="type-display page-header-title">
+            Workflow Trace — {event.eventId}
+          </h1>
+          <button
+            type="button"
+            className="rerun-btn"
+            onClick={runPipeline}
+            disabled={stageAStatus === "loading"}
+          >
+            <RefreshCw size={14} className={stageAStatus === "loading" ? "loading-spinner" : ""} />
+            <span>Re-run Pipeline</span>
+          </button>
+        </div>
+
+        <RawEventPanel event={event} />
+
+        {/* Stage A */}
+        <StageBlock
+          title="Stage A: AI Failure Classification"
+          subtitle={stageAData?.modelCallType === "cached" ? "Using seed cache fallback" : "Live AI model call"}
+          status={stageAStatus}
+          onRetry={runPipeline}
+        >
+          {stageAData && (
+            <div className="stage-result-content">
+              <div className="stage-result-row">
+                <ConfidenceBadge level={stageAData.confidence} />
+                <span className="type-h1" style={{ fontSize: "16px" }}>
+                  Classified as: <strong>{stageAData.failureType}</strong>
+                </span>
+              </div>
+              <div className="stage-reasoning-box type-body">
+                <strong>Reasoning:</strong> {stageAData.reasoning}
+              </div>
+            </div>
+          )}
+        </StageBlock>
+
+        {/* Stage B */}
+        <StageBlock
+          title="Stage B: Deterministic Verification"
+          status={stageBStatus}
+          onRetry={() => {
+            if (stageAData) {
+              runStageB(stageAData.failureType, stageAData.confidence);
+            }
+          }}
+        >
+          {stageBData && (
+            <div className="stage-result-content">
+              {stageBData.skipped ? (
+                <p className="type-body" style={{ color: "#777" }}>
+                  Skipped — low confidence or unclear signal
+                </p>
+              ) : (
+                <div className="stage-result-row">
+                  <VerificationStatusBadge status={stageBData.verificationStatus} />
+                  <span className="type-body">
+                    Source Checked: <code>{stageBData.sourceChecked}</code>
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+        </StageBlock>
+
+        {/* Stage C */}
+        <StageBlock
+          title="Stage C: Decision & Artifact Generation"
+          status={stageCStatus}
+          onRetry={() => {
+            if (stageAData && stageBData) {
+              runStageC(
+                stageAData.failureType,
+                stageAData.confidence,
+                stageBData.verificationStatus,
+                stageBData.evidenceData
+              );
+            }
+          }}
+        >
+          {stageCData && (
+            <div className="stage-result-content">
+              <div className="stage-result-row">
+                <ActionBadge action={stageCData.action} />
+                {stageCData.action === "act" && stageCData.ctaLabel && (
+                  <span className="type-body-sm">
+                    CTA: <strong>{stageCData.ctaLabel}</strong> ({stageCData.ctaDestination})
+                  </span>
+                )}
+              </div>
+              {stageCData.evidencePrimitive && (
+                <div className="stage-reasoning-box type-body">
+                  <strong>Fact Statement:</strong> {stageCData.evidencePrimitive.factStatement}
+                </div>
+              )}
+            </div>
+          )}
+        </StageBlock>
+
+        {/* Rendered Artifact Preview */}
+        {stageCStatus === "resolved" && stageCData && (
+          <RenderedArtifactPreview eventId={eventId} decisionResult={stageCData} />
+        )}
+      </main>
+    </div>
+  );
+}
