@@ -1326,6 +1326,80 @@ a:hover {
   opacity: 0.9;
 }
 
+/* Rationale Section Cards & System Design */
+.rationale-section-card {
+  background-color: var(--blinkit-white);
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  padding: var(--space-5);
+  margin-bottom: var(--space-6);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+}
+
+.rationale-title {
+  color: var(--blinkit-near-black);
+  font-size: 22px;
+  line-height: 30px;
+  margin-bottom: var(--space-4);
+  border-bottom: 1px solid var(--border-hairline);
+  padding-bottom: var(--space-3, 12px);
+}
+
+.rationale-blocks-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.rationale-block {
+  padding-left: var(--space-4);
+  border-left: 3.5px solid var(--border-hairline);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.rationale-accent-amber {
+  border-left-color: #f5a623;
+  background-color: rgba(245, 166, 35, 0.03);
+  padding: var(--space-3, 12px) var(--space-4);
+  border-radius: 0 8px 8px 0;
+}
+
+.rationale-accent-gray {
+  border-left-color: #888;
+  background-color: rgba(136, 136, 136, 0.04);
+  padding: var(--space-3, 12px) var(--space-4);
+  border-radius: 0 8px 8px 0;
+}
+
+.rationale-accent-green {
+  border-left-color: var(--blinkit-green);
+  background-color: rgba(84, 178, 38, 0.03);
+  padding: var(--space-3, 12px) var(--space-4);
+  border-radius: 0 8px 8px 0;
+}
+
+.rationale-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blinkit-near-black);
+}
+
+.rationale-text {
+  color: #444;
+  line-height: 22px;
+}
+
+.simulated-vs-real-section {
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  padding: var(--space-5);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-7);
+}
+
 /* 2x2 Grid with responsive mobile under 640px */
 .portal-grid {
   display: grid;
