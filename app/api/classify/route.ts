@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getEventById } from "@/lib/db/events";
 import { buildClassificationPrompt } from "@/lib/prompts/classify";
+import { logClassification } from "@/lib/db/classificationLogs";
 
 const VALID_FAILURE_TYPES = new Set([
   "expiry_authenticity",
@@ -85,6 +86,8 @@ export async function POST(request: NextRequest) {
             typeof reasoning === "string" &&
             reasoning.trim().length > 0
           ) {
+            logClassification(eventId, failureType, confidence);
+
             return NextResponse.json(
               {
                 failureType,
@@ -104,6 +107,8 @@ export async function POST(request: NextRequest) {
 
   // Cached fallback case (graceful degradation)
   if (event.groundTruthFailureType) {
+    logClassification(eventId, event.groundTruthFailureType, "medium");
+
     return NextResponse.json(
       {
         failureType: event.groundTruthFailureType,
