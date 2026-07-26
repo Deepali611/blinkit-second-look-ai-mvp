@@ -1,0 +1,68 @@
+/* CSS Custom Properties for Blinkit Design Tokens */
+:root {
+  /* Colors */
+  --blinkit-yellow: #F8CB45;
+  --blinkit-green: #54B226;
+  --blinkit-near-black: #1F1F1F;
+  --blinkit-white: #FFFFFF;
+  --surface-muted: #F5F5F3;
+  --border-hairline: #E5E5E2;
+
+  /* Typography */
+  --font-inter: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Typography Tokens */
+  --type-display-size: 32px;
+  --type-display-line-height: 40px;
+  --type-display-weight: 700;
+
+  --type-h1-size: 24px;
+  --type-h1-line-height: 32px;
+  --type-h1-weight: 700;
+
+  --type-body-size: 15px;
+  --type-body-line-height: 22px;
+  --type-body-weight: 400;
+
+  --type-body-sm-size: 13px;
+  --type-body-sm-line-height: 18px;
+  --type-body-sm-weight: 400;
+
+  /* Spacing (8px base grid) */
+  --space-2: 8px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+}
+
+/* Typography Utility Classes */
+.type-display {
+  font-family: var(--font-inter);
+  font-size: var(--type-display-size);
+  line-height: var(--type-display-line-height);
+  font-weight: var(--type-display-weight);
+}
+
+.type-h1 {
+  font-family: var(--font-inter);
+  font-size: var(--type-h1-size);
+  line-height: var(--type-h1-line-height);
+  font-weight: var(--type-h1-weight);
+}
+
+.type-body {
+  font-family: var(--font-inter);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line-height);
+  font-weight: var(--type-body-weight);
+  color: var(--blinkit-near-black);
+}
+
+.type-body-sm {
+  font-family: var(--font-inter);
+  font-size: var(--type-body-sm-size);
+  line-height: var(--type-body-sm-line-height);
+  font-weight: var(--type-body-sm-weight);
+  color: var(--blinkit-near-black);
+}
