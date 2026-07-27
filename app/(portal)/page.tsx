@@ -1,26 +1,30 @@
 import React from "react";
+import Link from "next/link";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { ScopeBanner } from "@/components/shared/ScopeBanner";
+import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { PortalCard } from "@/components/evaluator/PortalCard";
-import { HYPOTHESIS_STATEMENT } from "@/lib/copy/canonical";
 import {
   BarChart3,
   Smartphone,
   Activity,
   LayoutGrid,
-  BookOpen,
   Zap,
   Sparkles,
   Heart,
+  ArrowRight,
+  Clock,
+  ShieldCheck,
 } from "lucide-react";
 
 export default function EntryPortalPage() {
   return (
     <>
       <BlinkitHeader variant="evaluator" />
-      <main className="portal-container">
-        <section className="hero-section">
-          <div className="hero-brand-badges">
+      <EnvironmentBadge />
+
+      <main className="portal-container" style={{ maxWidth: "900px" }}>
+        <section className="hero-section" style={{ textAlign: "center", margin: "20px 0 32px 0" }}>
+          <div className="hero-brand-badges" style={{ justifyContent: "center", marginBottom: "12px" }}>
             <span className="hero-category-chip">
               <Zap size={14} /> Electronics
             </span>
@@ -32,25 +36,84 @@ export default function EntryPortalPage() {
             </span>
           </div>
 
-          <h1 className="hero-title type-display">
-            Second Look — Evaluator Portal
+          <h1 className="hero-title type-display" style={{ fontSize: "36px", margin: "0 0 12px 0" }}>
+            Second Look
           </h1>
 
-          <div className="hypothesis-prominent-block" style={{ margin: "16px 0 24px 0", padding: "20px 24px", backgroundColor: "var(--surface-muted)", borderRadius: "12px", borderLeft: "4px solid var(--blinkit-green)" }}>
-            <p className="type-h1" style={{ fontSize: "18px", lineHeight: "26px", fontWeight: 600, color: "var(--blinkit-near-black)" }}>
-              "{HYPOTHESIS_STATEMENT}"
-            </p>
+          <p
+            className="problem-statement-headline"
+            style={{
+              fontSize: "20px",
+              fontWeight: 700,
+              color: "var(--blinkit-near-black)",
+              maxWidth: "600px",
+              margin: "0 auto 16px auto",
+              lineHeight: "28px",
+            }}
+          >
+            A bad first order in a new category usually ends the relationship. Second Look fixes that.
+          </p>
+
+          <p
+            className="business-goal-line"
+            style={{
+              fontSize: "14px",
+              fontWeight: 500,
+              color: "var(--text-muted)",
+              marginBottom: "28px",
+            }}
+          >
+            Built to test whether resolving trust in one category increases exploration of others.
+          </p>
+
+          {/* Above-the-fold Static Phone Visual Preview Element */}
+          <div
+            className="phone-preview-above-fold"
+            style={{
+              width: "280px",
+              height: "260px",
+              margin: "0 auto 32px auto",
+              backgroundColor: "#FFF",
+              border: "8px solid var(--blinkit-near-black)",
+              borderRadius: "28px",
+              boxShadow: "0 16px 40px rgba(0,0,0,0.18)",
+              overflow: "hidden",
+              position: "relative",
+              textAlign: "left",
+              pointerEvents: "none",
+              userSelect: "none",
+            }}
+          >
+            {/* Phone notch */}
+            <div style={{ width: "80px", height: "12px", backgroundColor: "var(--blinkit-near-black)", borderBottomLeftRadius: "8px", borderBottomRightRadius: "8px", margin: "0 auto" }} />
+
+            <div style={{ padding: "10px 12px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "4px", color: "var(--blinkit-green)", fontWeight: 700, fontSize: "10px" }}>
+                <Clock size={10} /> <span>Delivery in 10 mins</span>
+              </div>
+              <div style={{ fontWeight: 800, fontSize: "13px", margin: "4px 0 2px 0", color: "var(--blinkit-near-black)" }}>
+                boAt Airdopes 141 TWS Earbuds
+              </div>
+              <div style={{ fontSize: "14px", fontWeight: 800, color: "var(--blinkit-green)", marginBottom: "6px" }}>
+                ₹1,899
+              </div>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "3px", backgroundColor: "rgba(84,178,38,0.1)", color: "var(--blinkit-green)", padding: "2px 6px", borderRadius: "4px", fontSize: "10px", fontWeight: 700 }}>
+                <ShieldCheck size={10} /> Quality Verified
+              </div>
+
+              <div style={{ marginTop: "12px", backgroundColor: "var(--blinkit-green)", color: "#FFF", padding: "6px", borderRadius: "6px", fontSize: "11px", fontWeight: 700, textAlign: "center" }}>
+                Add to Cart • ₹1,899
+              </div>
+            </div>
           </div>
         </section>
 
-        <ScopeBanner variant="full" />
-
-        <section className="portal-grid portal-grid-5" aria-label="Portal Navigation Cards">
+        {/* 4 Cards Grid Below Fold */}
+        <section className="portal-grid portal-grid-4" aria-label="Portal Navigation Cards" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "16px" }}>
           <PortalCard
             href="/metrics"
             title="Does It Work? (Metrics)"
             description="The number that tests whether this actually grows category exploration."
-            extraLine="This is the metric that matters most — everything else is supporting detail."
             icon={<BarChart3 size={24} />}
           />
           <PortalCard
@@ -71,13 +134,26 @@ export default function EntryPortalPage() {
             description="The reasoning behind each decision — and where it's rules, not AI."
             icon={<LayoutGrid size={24} />}
           />
-          <PortalCard
-            href="/guide"
-            title="How to Evaluate This"
-            description="A guided phase-by-phase test script."
-            icon={<BookOpen size={24} />}
-          />
         </section>
+
+        {/* Demoted Single-Line Guide Link */}
+        <div style={{ textAlign: "center", marginTop: "32px" }}>
+          <Link
+            href="/guide"
+            style={{
+              fontSize: "13px",
+              fontWeight: 600,
+              color: "var(--blinkit-green)",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              textDecoration: "none",
+            }}
+          >
+            <span>New here? See the 60-second guide</span>
+            <ArrowRight size={14} />
+          </Link>
+        </div>
       </main>
     </>
   );

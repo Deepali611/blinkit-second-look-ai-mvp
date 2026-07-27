@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback, use } from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { ScopeBanner } from "@/components/shared/ScopeBanner";
+import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { RawEventPanel } from "@/components/evaluator/RawEventPanel";
 import { StageBlock } from "@/components/evaluator/StageBlock";
 import { ConfidenceBadge } from "@/components/evaluator/ConfidenceBadge";
@@ -207,8 +207,8 @@ export default function InspectorTracePage({
     return (
       <div className="portal-layout">
         <BlinkitHeader variant="evaluator" backHref="/inspector" />
+        <EnvironmentBadge />
         <main className="portal-container">
-          <ScopeBanner variant="compact" />
           <LoadingState message="Reviewing this customer case..." />
         </main>
       </div>
@@ -219,8 +219,8 @@ export default function InspectorTracePage({
     return (
       <div className="portal-layout">
         <BlinkitHeader variant="evaluator" backHref="/inspector" />
+        <EnvironmentBadge />
         <main className="portal-container">
-          <ScopeBanner variant="compact" />
           <ErrorState
             message={eventError || "Customer case not found."}
             onRetry={fetchEventDetail}
@@ -233,6 +233,7 @@ export default function InspectorTracePage({
   return (
     <div className="portal-layout">
       <BlinkitHeader variant="evaluator" backHref="/inspector" />
+      <EnvironmentBadge />
       <main className="portal-container">
         <div className="inspector-title-row">
           <h1 className="type-display page-header-title">
@@ -252,8 +253,6 @@ export default function InspectorTracePage({
         <p className="type-body" style={{ color: "var(--blinkit-near-black)", marginBottom: "16px", opacity: 0.9 }}>
           Three steps: what went wrong, whether it's actually fixed, and what we do about it. The first step uses AI. The second is a deterministic check, not AI. The third combines both — and gets smarter over time as more cases are resolved.
         </p>
-
-        <ScopeBanner variant="compact" />
 
         <RawEventPanel event={event} />
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { ScopeBanner } from "@/components/shared/ScopeBanner";
+import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { FilterChipRow, FilterOption } from "@/components/evaluator/FilterChipRow";
 import { EventListTable } from "@/components/evaluator/EventListTable";
 import { LoadingState } from "@/components/shared/LoadingState";
@@ -61,13 +61,12 @@ export default function CustomerRecoveryCasesPage() {
   return (
     <div className="portal-layout">
       <BlinkitHeader variant="evaluator" backHref="/" />
+      <EnvironmentBadge />
       <main className="portal-container">
         <h1 className="type-display page-header-title">Customer Recovery Cases</h1>
         <p className="type-body" style={{ color: "var(--blinkit-near-black)", marginBottom: "16px", opacity: 0.9 }}>
           Each of these customers tried a new category and hit a real, specific problem. Select one to see how Blinkit responded — and why that response might matter beyond just this category.
         </p>
-
-        <ScopeBanner variant="compact" />
 
         <FilterChipRow
           options={FILTER_OPTIONS}

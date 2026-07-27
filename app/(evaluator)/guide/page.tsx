@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { ScopeBanner } from "@/components/shared/ScopeBanner";
+import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { PhaseSection } from "@/components/evaluator/PhaseSection";
 import {
   HYPOTHESIS_STATEMENT,
@@ -12,14 +12,13 @@ export default function EvaluatorGuidePage() {
   return (
     <div className="portal-layout">
       <BlinkitHeader variant="evaluator" backHref="/" />
+      <EnvironmentBadge />
 
       <main className="portal-container">
         <h1 className="type-display page-header-title">How to Evaluate This</h1>
         <p className="type-body guide-intro" style={{ color: "var(--blinkit-near-black)", marginBottom: "24px", opacity: 0.9 }}>
           Does resolving a specific first-category failure bring a customer back — and does it change their willingness to try other new categories? {HYPOTHESIS_STATEMENT}
         </p>
-
-        <ScopeBanner variant="full" />
 
         <div className="guide-phases-container" style={{ marginTop: "24px" }}>
           {/* Phase 1 */}

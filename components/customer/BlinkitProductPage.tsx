@@ -14,6 +14,8 @@ import {
   Minus,
   ArrowRight,
   Store,
+  Tag,
+  ThumbsUp,
 } from "lucide-react";
 import { ResolvedBadge } from "./ResolvedBadge";
 
@@ -37,8 +39,9 @@ export function BlinkitProductPage({
   const [reviewsExpanded, setReviewsExpanded] = useState<boolean>(
     emphasisVariant === "reviews"
   );
-  const [detailsExpanded, setDetailsExpanded] = useState<boolean>(false);
+  const [detailsExpanded, setDetailsExpanded] = useState<boolean>(true);
   const [cartQty, setCartQty] = useState<number>(0);
+  const [selectedImgIdx, setSelectedImgIdx] = useState<number>(0);
 
   // High quality authentic product catalogue imagery & data
   const getProductData = () => {
@@ -54,24 +57,35 @@ export function BlinkitProductPage({
         rating: "4.5",
         ratingsCount: "3,412 ratings",
         category: "Personal Care",
+        breadcrumb: "Home > Personal Care > Skincare Serums",
         seller: "SuperComNet Retail Ltd.",
-        imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop&q=80",
+        images: [
+          "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1608248597379-e09b1f24d45d?w=800&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&auto=format&fit=crop&q=80",
+        ],
         specs: [
           "Formulation: 10% Pure Niacinamide + 1% Zinc PCA",
           "Skin Benefit: Blemish Control & Pore Refining",
           "Volume: 30ml Glass Dropper Bottle",
+          "Fragrance: 100% Fragrance-Free & Non-Comedogenic",
         ],
         reviews: [
-          {
-            name: "Ananya R. (Verified Buyer)",
-            rating: 5,
-            comment: "Literally arrived in 9 mins! Original seal was intact. Very lightweight and non-sticky serum.",
-          },
-          {
-            name: "Karan T. (Verified Buyer)",
-            rating: 4,
-            comment: "Packaging was crisp and fresh. Helps reduce redness nicely after 1 week of use.",
-          },
+          { name: "Ananya R.", rating: 5, comment: "Literally arrived in 9 mins! Original seal was intact. Very lightweight serum.", helpful: 18 },
+          { name: "Karan T.", rating: 4, comment: "Packaging was crisp and fresh. Helps reduce redness nicely after 1 week.", helpful: 14 },
+          { name: "Meera D.", rating: 5, comment: "Authentic minimalist batch, verified code on bottle. Great for daily routine.", helpful: 11 },
+          { name: "Rohan S.", rating: 5, comment: "Fast 10m delivery. Non-sticky and absorbs instantly into skin.", helpful: 9 },
+          { name: "Pooja K.", rating: 4, comment: "Genuine seller packaging. Skin texture improved noticeably.", helpful: 7 },
+        ],
+        frequentlyBought: [
+          { name: "Minimalist Salicylic Acid Cleanser", price: "299", rating: "4.6 ★" },
+          { name: "Sunscreen SPF 50 PA++++", price: "399", rating: "4.7 ★" },
+          { name: "Hyaluronic Acid Hydrating Lotion", price: "499", rating: "4.5 ★" },
+        ],
+        similarProducts: [
+          { name: "The Ordinary Niacinamide 10%", price: "600", rating: "4.4 ★" },
+          { name: "Derma Co 10% Niacinamide", price: "549", rating: "4.3 ★" },
+          { name: "Plum 10% Niacinamide Face Serum", price: "599", rating: "4.5 ★" },
         ],
       };
     }
@@ -87,24 +101,35 @@ export function BlinkitProductPage({
         rating: "4.6",
         ratingsCount: "4,820 ratings",
         category: "Pet Supplies",
+        breadcrumb: "Home > Pet Supplies > Dog Food",
         seller: "PetCare India Authorized Supplier",
-        imageUrl: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=800&auto=format&fit=crop&q=80",
+        images: [
+          "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=800&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?w=800&auto=format&fit=crop&q=80",
+          "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=800&auto=format&fit=crop&q=80",
+        ],
         specs: [
           "Net Weight: 3.0 kg Sealed Pack",
           "Main Ingredients: Real Chicken, Rice, Essential Omega-6",
           "Life Stage: Adult Dogs (1+ Years)",
+          "Shelf Life: 12 Months Freshness Guarantee",
         ],
         reviews: [
-          {
-            name: "Vikram P. (Verified Buyer)",
-            rating: 5,
-            comment: "My Labrador loves this kibble! Delivered warm and fresh right to my doorstep.",
-          },
-          {
-            name: "Sneha G. (Verified Buyer)",
-            rating: 5,
-            comment: "Good fresh batch with 12 months expiry date. Super convenient delivery.",
-          },
+          { name: "Vikram P.", rating: 5, comment: "My Labrador loves this kibble! Delivered fresh right to my doorstep.", helpful: 24 },
+          { name: "Sneha G.", rating: 5, comment: "Good fresh batch with 12 months expiry date. Super convenient.", helpful: 19 },
+          { name: "Amit K.", rating: 4, comment: "Sturdy bag zip packaging, no tear or damage during fast dispatch.", helpful: 12 },
+          { name: "Divya N.", rating: 5, comment: "High quality food, coat looks shinier. Highly recommended.", helpful: 10 },
+          { name: "Siddharth R.", rating: 5, comment: "Original Pedigree pack. Delivery boy arrived in 8 mins flat.", helpful: 8 },
+        ],
+        frequentlyBought: [
+          { name: "Pedigree Meat Jerky Dog Treats", price: "180", rating: "4.8 ★" },
+          { name: "Dog Chew Bone Pack of 2", price: "250", rating: "4.6 ★" },
+          { name: "Stainless Steel Pet Food Bowl", price: "299", rating: "4.5 ★" },
+        ],
+        similarProducts: [
+          { name: "Drools Adult Chicken & Egg (3kg)", price: "999", rating: "4.4 ★" },
+          { name: "Royal Canin Mini Adult (2kg)", price: "1,850", rating: "4.8 ★" },
+          { name: "Meat Up Adult Dog Food (3kg)", price: "799", rating: "4.3 ★" },
         ],
       };
     }
@@ -116,24 +141,35 @@ export function BlinkitProductPage({
       rating: "4.4",
       ratingsCount: "2,186 ratings",
       category: "Electronics",
+      breadcrumb: "Home > Electronics > Headphones & Earbuds",
       seller: "Imagine Marketing Authorized Distributor",
-      imageUrl: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+      images: [
+        "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80",
+      ],
       specs: [
         "Playback: 42 Hours Total Playtime with ASAP Charge",
-        "Driver Size: 8mm Dynamic Drivers",
+        "Driver Size: 8mm Dynamic Bass Drivers",
         "Water Resistance: IPX4 Water & Sweat Resistance",
+        "Warranty: 1 Year Official Brand Warranty",
       ],
       reviews: [
-        {
-          name: "Rahul M. (Verified Buyer)",
-          rating: 5,
-          comment: "Original seal intact, received in 8 mins! Audio clarity and bass are solid for this price.",
-        },
-        {
-          name: "Priya S. (Verified Buyer)",
-          rating: 4,
-          comment: "Verified brand box with active warranty code inside. Fits comfortably during workouts.",
-        },
+        { name: "Rahul M.", rating: 5, comment: "Original seal intact, received in 8 mins! Audio clarity and bass are solid.", helpful: 31 },
+        { name: "Priya S.", rating: 4, comment: "Verified brand box with active warranty code inside. Fits comfortably.", helpful: 22 },
+        { name: "Aditya B.", rating: 5, comment: "Mic quality is surprisingly clear during calls. Beast Mode low latency works.", helpful: 16 },
+        { name: "Neha C.", rating: 5, comment: "Super fast charging — 5 mins charge gives 75 mins playback!", helpful: 11 },
+        { name: "Gaurav K.", rating: 4, comment: "Matte case finish feels premium. Great value for under ₹2,000.", helpful: 9 },
+      ],
+      frequentlyBought: [
+        { name: "boAt Silicone Protective Case Cover", price: "199", rating: "4.5 ★" },
+        { name: "Type-C Braided Fast Charging Cable", price: "249", rating: "4.6 ★" },
+        { name: "Memory Foam Ear Tips (3 Pairs)", price: "149", rating: "4.4 ★" },
+      ],
+      similarProducts: [
+        { name: "Noise Buds VS102 TWS", price: "1,299", rating: "4.2 ★" },
+        { name: "Realme TechLife Buds T100", price: "1,499", rating: "4.4 ★" },
+        { name: "JBL Wave 200 TWS", price: "2,499", rating: "4.5 ★" },
       ],
     };
   };
@@ -205,7 +241,7 @@ export function BlinkitProductPage({
         </div>
       )}
 
-      {/* Section 1: Sticky Top Bar */}
+      {/* Section 1: Sticky Top Bar with Full Breadcrumbs */}
       <div
         className="product-top-bar"
         style={{
@@ -237,8 +273,8 @@ export function BlinkitProductPage({
           <ChevronLeft size={22} />
         </button>
 
-        <span style={{ fontSize: "13px", fontWeight: 600, color: "var(--text-muted)" }}>
-          Home &gt; {product.category}
+        <span style={{ fontSize: "11px", fontWeight: 600, color: "var(--text-muted)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "200px" }}>
+          {product.breadcrumb}
         </span>
 
         <div style={{ position: "relative", padding: "4px" }}>
@@ -267,42 +303,51 @@ export function BlinkitProductPage({
         </div>
       </div>
 
-      {/* Section 2: Authentic High-Resolution Product Photography Gallery */}
-      <div
-        className="product-image-container"
-        style={{
-          width: "100%",
-          height: "230px",
-          backgroundColor: "#F8F8F6",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <img
-          src={product.imageUrl}
-          alt={product.name}
+      {/* Section 2: Swipeable Carousel with Thumbnail Strip */}
+      <div className="product-carousel-wrapper" style={{ backgroundColor: "#F8F8F6", padding: "12px 16px" }}>
+        <div
+          className="product-main-image-box"
           style={{
             width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            display: "block",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "8px",
-            right: "12px",
-            backgroundColor: "rgba(0, 0, 0, 0.6)",
-            color: "#FFF",
-            fontSize: "10px",
-            fontWeight: 700,
-            padding: "3px 8px",
+            height: "210px",
             borderRadius: "12px",
-            backdropFilter: "blur(4px)",
+            overflow: "hidden",
+            position: "relative",
           }}
         >
-          Official Catalogue Image
+          <img
+            src={product.images[selectedImgIdx]}
+            alt={product.name}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              display: "block",
+            }}
+          />
+        </div>
+
+        {/* Thumbnail Strip */}
+        <div style={{ display: "flex", gap: "8px", marginTop: "10px", justifyContent: "center" }}>
+          {product.images.map((img, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setSelectedImgIdx(i)}
+              style={{
+                width: "48px",
+                height: "48px",
+                borderRadius: "8px",
+                overflow: "hidden",
+                border: selectedImgIdx === i ? "2px solid var(--blinkit-green)" : "1px solid var(--border-hairline)",
+                padding: 0,
+                cursor: "pointer",
+                backgroundColor: "#FFF",
+              }}
+            >
+              <img src={img} alt={`Thumb ${i}`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            </button>
+          ))}
         </div>
       </div>
 
@@ -348,11 +393,15 @@ export function BlinkitProductPage({
 
       {/* Main Content Body */}
       <div style={{ padding: "16px", paddingBottom: cartQty > 0 ? "80px" : "30px" }}>
-        {/* Section 4: Title + Price Block with Discounts */}
+        {/* Section 4: Title + Price Block with Discounts & Coupons */}
         <div className="title-price-block" style={{ marginBottom: "12px" }}>
-          <h1 className="type-h1" style={{ fontSize: "18px", lineHeight: "24px", fontWeight: 700, color: "var(--blinkit-near-black)", margin: "0 0 8px 0" }}>
+          <h1 className="type-h1" style={{ fontSize: "18px", lineHeight: "24px", fontWeight: 700, color: "var(--blinkit-near-black)", margin: "0 0 4px 0" }}>
             {product.name}
           </h1>
+
+          <div style={{ fontSize: "12px", color: "var(--text-muted)", marginBottom: "8px" }}>
+            Sold by <strong>{product.seller}</strong>
+          </div>
 
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <span style={{ fontSize: "24px", fontWeight: 800, color: "var(--blinkit-near-black)" }}>
@@ -365,9 +414,26 @@ export function BlinkitProductPage({
               {product.discount}
             </span>
           </div>
-          <span style={{ fontSize: "11px", color: "var(--text-muted)", display: "block", marginTop: "2px" }}>
-            Inclusive of all taxes
-          </span>
+
+          {/* Decorative Offers/Coupons Row */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "6px",
+              backgroundColor: "#FFFBEB",
+              border: "1px dashed #F59E0B",
+              borderRadius: "8px",
+              padding: "8px 10px",
+              marginTop: "10px",
+              fontSize: "11px",
+              fontWeight: 700,
+              color: "#B45309",
+            }}
+          >
+            <Tag size={13} />
+            <span>⚡ 10% OFF on first order in this category | Use Code: FIRSTLOOK</span>
+          </div>
         </div>
 
         {/* Section 5: Trust Badge Row */}
@@ -504,22 +570,7 @@ export function BlinkitProductPage({
           )}
         </div>
 
-        {/* Seller Info Strip */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            fontSize: "12px",
-            color: "var(--text-muted)",
-            marginBottom: "20px",
-          }}
-        >
-          <Store size={14} />
-          <span>Seller: <strong>{product.seller}</strong></span>
-        </div>
-
-        {/* Section 7: Ratings & Reviews Section */}
+        {/* Section 7: Ratings & 5 Expanded Reviews with Verified & Helpful badges */}
         <div
           ref={reviewsRef}
           className="ratings-reviews-section"
@@ -562,7 +613,12 @@ export function BlinkitProductPage({
               {product.reviews.map((rev, idx) => (
                 <div key={idx} style={{ backgroundColor: "var(--surface-muted)", padding: "12px", borderRadius: "8px" }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
-                    <span style={{ fontSize: "12px", fontWeight: 700 }}>{rev.name}</span>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                      <span style={{ fontSize: "12px", fontWeight: 700 }}>{rev.name}</span>
+                      <span style={{ fontSize: "10px", fontWeight: 700, color: "var(--blinkit-green)", backgroundColor: "rgba(84, 178, 38, 0.1)", padding: "1px 5px", borderRadius: "4px" }}>
+                        Verified Purchase
+                      </span>
+                    </div>
                     <div style={{ display: "flex", gap: "1px" }}>
                       {[...Array(5)].map((_, i) => (
                         <Star
@@ -574,16 +630,20 @@ export function BlinkitProductPage({
                       ))}
                     </div>
                   </div>
-                  <p style={{ fontSize: "12px", color: "var(--blinkit-near-black)", margin: 0, lineHeight: "17px" }}>
+                  <p style={{ fontSize: "12px", color: "var(--blinkit-near-black)", margin: "4px 0 6px 0", lineHeight: "17px" }}>
                     "{rev.comment}"
                   </p>
+                  <div style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "10px", color: "var(--text-muted)" }}>
+                    <ThumbsUp size={11} />
+                    <span>{rev.helpful} people found this helpful</span>
+                  </div>
                 </div>
               ))}
             </div>
           )}
         </div>
 
-        {/* Section 8: Product Details Section */}
+        {/* Section 8: Product Details & 4 Expanded Specs */}
         <div
           className="product-details-section"
           style={{
@@ -610,7 +670,7 @@ export function BlinkitProductPage({
           </div>
 
           {detailsExpanded && (
-            <ul style={{ listStyle: "disc", paddingLeft: "18px", marginTop: "10px", fontSize: "12px", color: "var(--blinkit-near-black)" }}>
+            <ul style={{ listStyle: "disc", paddingLeft: "18px", marginTop: "10px", fontSize: "12px", color: "var(--blinkit-near-black)", lineHeight: "20px" }}>
               {product.specs.map((spec, i) => (
                 <li key={i} style={{ marginBottom: "4px" }}>
                   {spec}
@@ -618,6 +678,36 @@ export function BlinkitProductPage({
               ))}
             </ul>
           )}
+        </div>
+
+        {/* Frequently Bought Together Row */}
+        <div style={{ borderTop: "1px solid var(--border-hairline)", paddingTop: "16px", marginTop: "20px" }}>
+          <h4 style={{ fontSize: "14px", fontWeight: 700, marginBottom: "10px", color: "var(--blinkit-near-black)" }}>
+            Frequently bought together
+          </h4>
+          <div style={{ display: "flex", gap: "10px", overflowX: "auto", paddingBottom: "6px" }}>
+            {product.frequentlyBought.map((item, i) => (
+              <div key={i} style={{ minWidth: "120px", backgroundColor: "var(--surface-muted)", borderRadius: "8px", padding: "10px", fontSize: "11px" }}>
+                <div style={{ fontWeight: 700, color: "var(--blinkit-near-black)", height: "30px", overflow: "hidden" }}>{item.name}</div>
+                <div style={{ color: "var(--blinkit-green)", fontWeight: 800, marginTop: "4px" }}>₹{item.price}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Similar Products Row */}
+        <div style={{ borderTop: "1px solid var(--border-hairline)", paddingTop: "16px", marginTop: "16px" }}>
+          <h4 style={{ fontSize: "14px", fontWeight: 700, marginBottom: "10px", color: "var(--blinkit-near-black)" }}>
+            Similar products
+          </h4>
+          <div style={{ display: "flex", gap: "10px", overflowX: "auto", paddingBottom: "6px" }}>
+            {product.similarProducts.map((item, i) => (
+              <div key={i} style={{ minWidth: "120px", backgroundColor: "var(--surface-muted)", borderRadius: "8px", padding: "10px", fontSize: "11px" }}>
+                <div style={{ fontWeight: 700, color: "var(--blinkit-near-black)", height: "30px", overflow: "hidden" }}>{item.name}</div>
+                <div style={{ color: "var(--blinkit-green)", fontWeight: 800, marginTop: "4px" }}>₹{item.price}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Section 9: Footer */}

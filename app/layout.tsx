@@ -8,8 +8,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Second Look — Evaluator Portal",
-  description: "Second Look AI Evaluator Portal for Blinkit",
+  title: "Second Look",
+  description: "Second Look — AI-Driven Recovery Experience for Blinkit",
 };
 
 export default function RootLayout({

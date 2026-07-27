@@ -1,8 +1,6 @@
 import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { ScopeBanner } from "@/components/shared/ScopeBanner";
-import { SimulateOutcomeButton } from "@/components/customer/SimulateOutcomeButton";
-import { METRIC_NAMES } from "@/lib/copy/canonical";
+import { MeasureResultPanel } from "@/components/evaluator/MeasureResultPanel";
 import { RotateCcw, Clock, Star, Filter } from "lucide-react";
 
 export default async function MockCategoryPage({
@@ -47,13 +45,11 @@ export default async function MockCategoryPage({
   const items = getCategoryItems();
 
   return (
-    <div className="portal-layout">
+    <div className="portal-layout" style={{ backgroundColor: "var(--evaluator-bg)", minHeight: "100vh" }}>
       <BlinkitHeader variant="evaluator" backHref="/" />
 
-      <main className="portal-container" style={{ maxWidth: "840px" }}>
-        <ScopeBanner variant="compact" />
-
-        <div className="mock-category-header">
+      <main className="portal-container" style={{ maxWidth: "840px", paddingBottom: "60px" }}>
+        <div className="mock-category-header" style={{ backgroundColor: "#FFF", borderRadius: "16px", padding: "20px", marginBottom: "20px" }}>
           <div className="mock-category-title-row">
             <span className="mock-badge type-body-sm">Blinkit Category Listing</span>
             <h1 className="type-display" style={{ fontSize: "24px" }}>
@@ -82,7 +78,7 @@ export default async function MockCategoryPage({
           </div>
         </div>
 
-        <div className="mock-category-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "16px", marginTop: "20px" }}>
+        <div className="mock-category-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "16px", marginBottom: "32px" }}>
           {items.map((item, idx) => (
             <div key={idx} className="mock-category-card" style={{ backgroundColor: "var(--blinkit-white)", border: "1px solid var(--border-hairline)", borderRadius: "10px", padding: "12px" }}>
               <div className="mock-card-img" style={{ width: "100%", height: "100px", backgroundColor: "var(--surface-muted)", borderRadius: "6px", position: "relative" }}>
@@ -101,36 +97,8 @@ export default async function MockCategoryPage({
           ))}
         </div>
 
-        {/* Visual Divider Above Evaluator Control Panel */}
-        <hr style={{ border: 0, borderTop: "1px solid var(--border-hairline)", margin: "36px 0 24px 0" }} />
-
-        <p className="type-body evaluator-framing-line" style={{ fontWeight: 600, color: "var(--blinkit-near-black)", marginBottom: "16px" }}>
-          You've just followed the same path this customer would. What they do next is exactly what this MVP is trying to learn.
-        </p>
-
-        {/* Restyled Evaluator Control Panel */}
-        <div className="evaluator-control-panel-card" style={{ backgroundColor: "var(--surface-muted)", border: "1px solid var(--border-hairline)", borderRadius: "12px", padding: "24px" }}>
-          <h4 className="type-h1 evaluator-panel-title" style={{ fontSize: "18px", marginBottom: "16px", color: "var(--blinkit-near-black)" }}>
-            Evaluator Tools
-          </h4>
-
-          <div className="evaluator-buttons-stack" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-            <SimulateOutcomeButton
-              eventId={eventId}
-              outcomeType="same_category_repurchase"
-              label="This customer buys again in this category"
-              caption={"Feeds: " + METRIC_NAMES.sameCategoryReturnRate + " (operational health check)"}
-            />
-
-            <SimulateOutcomeButton
-              eventId={eventId}
-              outcomeType="cross_category_attempt"
-              label="This customer also tries a different new category"
-              caption={"Feeds: " + METRIC_NAMES.crossCategoryExplorationRate + " — the metric that actually tests Blinkit's goal"}
-              isProminent={true}
-            />
-          </div>
-        </div>
+        {/* Task 25: Measure the Result Panel */}
+        <MeasureResultPanel eventId={eventId} productName={items[0]?.name} />
       </main>
     </div>
   );

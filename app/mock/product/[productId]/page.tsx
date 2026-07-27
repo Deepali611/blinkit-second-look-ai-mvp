@@ -1,8 +1,6 @@
 import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { ScopeBanner } from "@/components/shared/ScopeBanner";
-import { SimulateOutcomeButton } from "@/components/customer/SimulateOutcomeButton";
-import { METRIC_NAMES } from "@/lib/copy/canonical";
+import { MeasureResultPanel } from "@/components/evaluator/MeasureResultPanel";
 import { Star, ShieldCheck, Zap, Clock, ThumbsUp, Sparkles, Heart } from "lucide-react";
 
 export default async function MockProductPage({
@@ -50,15 +48,13 @@ export default async function MockProductPage({
   const product = getProductDetails();
 
   return (
-    <div className="portal-layout">
+    <div className="portal-layout" style={{ backgroundColor: "var(--evaluator-bg)", minHeight: "100vh" }}>
       <BlinkitHeader variant="evaluator" backHref="/" />
 
-      <main className="portal-container" style={{ maxWidth: "840px" }}>
-        <ScopeBanner variant="compact" />
-
+      <main className="portal-container" style={{ maxWidth: "840px", paddingBottom: "60px" }}>
         <div className="mock-product-container">
           {/* Realistic Blinkit Product View */}
-          <div className="mock-product-grid">
+          <div className="mock-product-grid" style={{ backgroundColor: "#FFF", borderRadius: "16px", padding: "24px", marginBottom: "32px" }}>
             <div className="mock-product-image-box">
               <div className="mock-product-placeholder-art">
                 {product.icon}
@@ -98,6 +94,7 @@ export default async function MockProductPage({
 
           <div
             className={`mock-reviews-section ${isReviewsAnchor ? "highlighted-section" : ""}`}
+            style={{ backgroundColor: "#FFF", borderRadius: "16px", padding: "24px", marginBottom: "32px" }}
           >
             <div className="reviews-section-header">
               <h3 className="type-h1" style={{ fontSize: "18px" }}>
@@ -126,36 +123,8 @@ export default async function MockProductPage({
             </p>
           </div>
 
-          {/* Visual Divider Above Evaluator Control Panel */}
-          <hr style={{ border: 0, borderTop: "1px solid var(--border-hairline)", margin: "36px 0 24px 0" }} />
-
-          <p className="type-body evaluator-framing-line" style={{ fontWeight: 600, color: "var(--blinkit-near-black)", marginBottom: "16px" }}>
-            You've just followed the same path this customer would. What they do next is exactly what this MVP is trying to learn.
-          </p>
-
-          {/* Restyled Evaluator Control Panel */}
-          <div className="evaluator-control-panel-card" style={{ backgroundColor: "var(--surface-muted)", border: "1px solid var(--border-hairline)", borderRadius: "12px", padding: "24px" }}>
-            <h4 className="type-h1 evaluator-panel-title" style={{ fontSize: "18px", marginBottom: "16px", color: "var(--blinkit-near-black)" }}>
-              Evaluator Tools
-            </h4>
-
-            <div className="evaluator-buttons-stack" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <SimulateOutcomeButton
-                eventId={eventId}
-                outcomeType="same_category_repurchase"
-                label="This customer buys again in this category"
-                caption={"Feeds: " + METRIC_NAMES.sameCategoryReturnRate + " (operational health check)"}
-              />
-
-              <SimulateOutcomeButton
-                eventId={eventId}
-                outcomeType="cross_category_attempt"
-                label="This customer also tries a different new category"
-                caption={"Feeds: " + METRIC_NAMES.crossCategoryExplorationRate + " — the metric that actually tests Blinkit's goal"}
-                isProminent={true}
-              />
-            </div>
-          </div>
+          {/* Task 25: Measure the Result Panel */}
+          <MeasureResultPanel eventId={eventId} productName={product.name} />
         </div>
       </main>
     </div>

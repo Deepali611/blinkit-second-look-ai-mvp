@@ -12,18 +12,32 @@ import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { SuppressedNotice } from "@/components/shared/SuppressedNotice";
 import { DecisionResult } from "@/lib/decision/decide";
-import { Wifi, Battery, Signal, ChevronLeft, ShieldCheck } from "lucide-react";
+import {
+  Wifi,
+  Battery,
+  Signal,
+  ChevronLeft,
+  ShieldCheck,
+  Home,
+  Search,
+  ShoppingBag,
+  User,
+  Zap,
+  Sparkles,
+  Heart,
+  PackageCheck,
+} from "lucide-react";
 
 export interface PhoneSessionProps {
   eventId: string;
-  initialStage?: 1 | 2 | 3;
+  initialStage?: 0 | 1 | 2 | 3;
 }
 
 export function PhoneSession({
   eventId,
   initialStage = 1,
 }: PhoneSessionProps) {
-  const [stage, setStage] = useState<1 | 2 | 3>(initialStage);
+  const [stage, setStage] = useState<0 | 1 | 2 | 3>(initialStage);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -190,7 +204,64 @@ export function PhoneSession({
           </div>
         ) : decision?.action === "act" ? (
           <>
-            {/* STAGE 1: Notification */}
+            {/* STAGE 0: Blinkit Home Screen Background */}
+            <div
+              className="blinkit-home-screen-background"
+              style={{
+                position: "absolute",
+                inset: 0,
+                backgroundColor: "#F8F8F6",
+                padding: "16px",
+                display: "flex",
+                flexDirection: "column",
+                gap: "16px",
+                overflowY: "auto",
+                zIndex: stage === 0 ? 10 : 1,
+                opacity: stage === 0 || stage === 1 ? 1 : 0,
+              }}
+            >
+              {/* Home Header */}
+              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div>
+                  <span style={{ fontSize: "20px", fontWeight: 900, color: "var(--blinkit-yellow)" }}>blink</span>
+                  <span style={{ fontSize: "20px", fontWeight: 900, color: "var(--blinkit-green)" }}>it</span>
+                </div>
+                <div style={{ fontSize: "11px", fontWeight: 700, color: "var(--blinkit-near-black)", backgroundColor: "#FFF", padding: "4px 8px", borderRadius: "12px", border: "1px solid var(--border-hairline)" }}>
+                  ⚡ Delivery in 10 mins
+                </div>
+              </div>
+
+              {/* Decorative Search Bar */}
+              <div style={{ backgroundColor: "#FFF", border: "1px solid var(--border-hairline)", borderRadius: "10px", padding: "10px 14px", display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "12px" }}>
+                <Search size={16} />
+                <span>Search "earbuds", "serum", "dog food"...</span>
+              </div>
+
+              {/* Category Tiles */}
+              <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--blinkit-near-black)" }}>
+                Categories
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+                <div style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <PackageCheck size={20} style={{ color: "var(--blinkit-green)" }} />
+                  <span style={{ fontSize: "12px", fontWeight: 700 }}>Groceries</span>
+                </div>
+                <div style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <Zap size={20} style={{ color: "var(--blinkit-green)" }} />
+                  <span style={{ fontSize: "12px", fontWeight: 700 }}>Electronics</span>
+                </div>
+                <div style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <Sparkles size={20} style={{ color: "var(--blinkit-green)" }} />
+                  <span style={{ fontSize: "12px", fontWeight: 700 }}>Personal Care</span>
+                </div>
+                <div style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                  <Heart size={20} style={{ color: "var(--blinkit-green)" }} />
+                  <span style={{ fontSize: "12px", fontWeight: 700 }}>Pet Supplies</span>
+                </div>
+              </div>
+            </div>
+
+            {/* STAGE 1: Notification Overlay */}
             <div
               className={`stage-view stage-1-view ${stage === 1 ? "active" : ""}`}
               style={{
@@ -204,11 +275,12 @@ export function PhoneSession({
                 opacity: stage === 1 ? 1 : 0,
                 transform: stage === 1 ? "scale(1)" : "scale(0.95)",
                 pointerEvents: stage === 1 ? "auto" : "none",
-                zIndex: stage === 1 ? 10 : 1,
+                zIndex: stage === 1 ? 20 : 1,
+                backgroundColor: stage === 1 ? "rgba(0,0,0,0.2)" : "transparent",
               }}
             >
               <PhoneNotificationMock
-                copyText={decision.notificationCopy || "We reviewed your recent order."}
+                copyText={decision.notificationCopy || "About your recent order — a quick update that might help."}
                 timestamp="Just now"
                 onClick={() => setStage(2)}
               />
@@ -221,6 +293,7 @@ export function PhoneSession({
                 position: "absolute",
                 inset: 0,
                 padding: "16px",
+                paddingBottom: "60px",
                 overflowY: "auto",
                 display: "flex",
                 flexDirection: "column",
@@ -307,6 +380,7 @@ export function PhoneSession({
               style={{
                 position: "absolute",
                 inset: 0,
+                paddingBottom: "50px",
                 transition: "opacity 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)",
                 opacity: stage === 3 ? 1 : 0,
                 transform: stage === 3 ? "translateX(0)" : "translateX(30px)",
@@ -321,6 +395,61 @@ export function PhoneSession({
                 factStatement={decision.evidencePrimitive?.factStatement}
                 onBack={() => setStage(2)}
               />
+            </div>
+
+            {/* Functional App Bottom Navigation Bar (Home / Search / Cart / Profile) */}
+            <div
+              className="blinkit-app-bottom-nav"
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                width: "100%",
+                height: "50px",
+                backgroundColor: "#FFF",
+                borderTop: "1px solid var(--border-hairline)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-around",
+                zIndex: 40,
+                fontSize: "10px",
+                fontWeight: 600,
+                color: "var(--text-muted)",
+              }}
+            >
+              <button
+                type="button"
+                onClick={() => setStage(0)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: "2px",
+                  color: stage === 0 ? "var(--blinkit-green)" : "var(--text-muted)",
+                  cursor: "pointer",
+                  padding: 0,
+                }}
+              >
+                <Home size={18} />
+                <span>Home</span>
+              </button>
+
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+                <Search size={18} />
+                <span>Search</span>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+                <ShoppingBag size={18} />
+                <span>Cart</span>
+              </div>
+
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "2px" }}>
+                <User size={18} />
+                <span>Account</span>
+              </div>
             </div>
           </>
         ) : null}

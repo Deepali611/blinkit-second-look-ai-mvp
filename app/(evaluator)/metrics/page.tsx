@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { ScopeBanner } from "@/components/shared/ScopeBanner";
+import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { MetricTile } from "@/components/evaluator/MetricTile";
 import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
@@ -48,6 +48,7 @@ export default function GrowthImpactMetricsPage() {
   return (
     <div className="portal-layout">
       <BlinkitHeader variant="evaluator" backHref="/" />
+      <EnvironmentBadge />
       <main className="portal-container">
         <h1 className="type-display page-header-title">
           Does This Grow Category Exploration?
@@ -55,8 +56,6 @@ export default function GrowthImpactMetricsPage() {
         <p className="type-body metrics-page-intro" style={{ color: "var(--blinkit-near-black)", marginBottom: "20px", opacity: 0.9 }}>
           Blinkit's growth goal is category breadth, not single-category recovery. Cross-Category Exploration Rate is the number that answers that question directly. The tiles below it check whether the underlying mechanism is working — they don't, by themselves, indicate business impact.
         </p>
-
-        <ScopeBanner variant="full" />
 
         {isLoading ? (
           <LoadingState message="Computing recovery metrics..." />

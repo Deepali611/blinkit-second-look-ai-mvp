@@ -1,6 +1,6 @@
 import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { ScopeBanner } from "@/components/shared/ScopeBanner";
+import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { RationaleSection } from "@/components/evaluator/RationaleSection";
 import {
   HYPOTHESIS_STATEMENT,
@@ -12,6 +12,7 @@ export default function SystemDesignPage() {
   return (
     <div className="portal-layout">
       <BlinkitHeader variant="evaluator" backHref="/" />
+      <EnvironmentBadge />
 
       <main className="portal-container">
         <h1 className="type-display page-header-title">How the AI Decides</h1>
@@ -21,8 +22,6 @@ export default function SystemDesignPage() {
             Blinkit's growth goal is category breadth, not single-category retention. The bet behind this MVP is that a customer's willingness to explore is fragile after a bad first experience — and that fixing that first experience, credibly, might restore not just that category, but their broader willingness to explore. {HYPOTHESIS_STATEMENT} Everything below explains how AI makes the test possible, and where AI genuinely does the work versus where it deliberately doesn't.
           </p>
         </div>
-
-        <ScopeBanner variant="full" />
 
         <div className="system-design-sections-stack" style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "24px" }}>
           {/* Section 1: Stage A */}
