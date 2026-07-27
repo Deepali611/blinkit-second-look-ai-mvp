@@ -18,7 +18,7 @@ export function RenderedArtifactPreview({
       <div className="artifact-preview-card artifact-suppressed" style={{ backgroundColor: "var(--surface-muted)", border: "1.5px solid var(--border-hairline)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "var(--blinkit-near-black)" }}>
           <CheckCircle2 size={18} style={{ color: "var(--blinkit-green)" }} />
-          <h4 className="artifact-title type-h1" style={{ fontSize: "16px" }}>Decision Outcome: Notification Suppressed</h4>
+          <h4 className="artifact-title type-h1" style={{ fontSize: "16px" }}>Decision Outcome: Correctly Held Back</h4>
         </div>
         <p className="artifact-description type-body" style={{ fontWeight: 500, color: "var(--blinkit-near-black)", marginTop: "4px" }}>
           {HELD_BACK_EXPLANATION}

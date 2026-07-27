@@ -90,7 +90,7 @@ export default function NotificationSimulationPage({
 
   return (
     <div className="customer-simulation-layout">
-      <EvaluatorOnlyRibbon text="Simulated notification — customer-facing artifact" />
+      <EvaluatorOnlyRibbon />
 
       <main className="customer-simulation-container">
         {isLoading ? (

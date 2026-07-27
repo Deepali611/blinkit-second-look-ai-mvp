@@ -94,7 +94,7 @@ export default function SecondLookPage({
 
   return (
     <div className="second-look-page-wrapper">
-      <EvaluatorOnlyRibbon text="Simulated customer screen" />
+      <EvaluatorOnlyRibbon />
 
       <main className="second-look-container">
         {isLoading ? (

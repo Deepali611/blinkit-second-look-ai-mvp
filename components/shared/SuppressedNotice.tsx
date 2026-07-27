@@ -11,9 +11,9 @@ export function SuppressedNotice({ reason }: SuppressedNoticeProps) {
       <div className="suppressed-notice-icon">
         <BellOff size={24} />
       </div>
-      <h3 className="suppressed-notice-title type-h1">Notification Suppressed</h3>
+      <h3 className="suppressed-notice-title type-h1">Notification Correctly Held Back</h3>
       <p className="suppressed-notice-text type-body">
-        This event was suppressed by the system — no notification would have been sent.
+        This event was correctly held back by the system — no notification was sent.
       </p>
       <div className="suppressed-notice-reason-box type-body-sm">
         Reason Code: <code>{reason}</code>

@@ -18,7 +18,7 @@ export function ActionBadge({ action }: ActionBadgeProps) {
   return (
     <span className="badge badge-action-suppress type-body-sm">
       <BellOff size={14} />
-      <span>Action: Suppressed</span>
+      <span>Action: Correctly Held Back</span>
     </span>
   );
 }

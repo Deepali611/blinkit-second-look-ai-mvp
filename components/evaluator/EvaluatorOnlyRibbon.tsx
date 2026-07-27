@@ -5,7 +5,7 @@ export interface EvaluatorOnlyRibbonProps {
 }
 
 export function EvaluatorOnlyRibbon({
-  text = "This is exactly what the customer sees — nothing changed for evaluation.",
+  text = "This is exactly what the customer sees — nothing added for evaluation purposes.",
 }: EvaluatorOnlyRibbonProps) {
   return (
     <div className="evaluator-only-ribbon">
