@@ -7,7 +7,7 @@ import { MetricTile } from "@/components/evaluator/MetricTile";
 import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { MetricsResult } from "@/lib/metrics/compute";
-import { METRIC_NAMES, ASSUMPTION_CAVEAT_SHORT } from "@/lib/copy/canonical";
+import { METRIC_NAMES } from "@/lib/copy/canonical";
 
 export default function GrowthImpactMetricsPage() {
   const [metrics, setMetrics] = useState<MetricsResult | null>(null);
@@ -71,7 +71,7 @@ export default function GrowthImpactMetricsPage() {
                 metricData={metrics.confidenceTransferRate}
                 isPrimary={true}
                 subline={formatLiftSubline()}
-                explanation={`This is a hypothesis test, not a confirmed result. At this sample size, treat any number here as directional, not conclusive. ${ASSUMPTION_CAVEAT_SHORT}`}
+                explanation="This is a hypothesis test, not a confirmed result. At this sample size, treat any number here as directional, not conclusive."
               />
             </div>
 

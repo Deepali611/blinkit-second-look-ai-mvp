@@ -2,7 +2,7 @@ import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
 import { ScopeBanner } from "@/components/shared/ScopeBanner";
 import { SimulateOutcomeButton } from "@/components/customer/SimulateOutcomeButton";
-import { METRIC_NAMES, ASSUMPTION_CAVEAT_SHORT } from "@/lib/copy/canonical";
+import { METRIC_NAMES } from "@/lib/copy/canonical";
 import { RotateCcw, Clock, Star, Filter } from "lucide-react";
 
 export default async function MockCategoryPage({
@@ -126,7 +126,7 @@ export default async function MockCategoryPage({
               eventId={eventId}
               outcomeType="cross_category_attempt"
               label="This customer also tries a different new category"
-              caption={"Feeds: " + METRIC_NAMES.crossCategoryExplorationRate + " — the metric that actually tests Blinkit's goal. " + ASSUMPTION_CAVEAT_SHORT}
+              caption={"Feeds: " + METRIC_NAMES.crossCategoryExplorationRate + " — the metric that actually tests Blinkit's goal"}
               isProminent={true}
             />
           </div>

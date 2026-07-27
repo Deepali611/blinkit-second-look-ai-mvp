@@ -1,5 +1,5 @@
 import React from "react";
-import { RotateCcw, Star, MessageCircle, IndianRupee, CircleDollarSign, Package } from "lucide-react";
+import { RotateCcw, Star, MessageCircle, IndianRupee, CircleDollarSign } from "lucide-react";
 import { EventDetail } from "@/lib/db/events";
 
 export interface RawEventPanelProps {
@@ -9,15 +9,15 @@ export interface RawEventPanelProps {
 function getSignalLabel(triggerType: string) {
   switch (triggerType?.toLowerCase()) {
     case "return":
-      return { icon: <RotateCcw size={16} />, label: "Return", attribution: "— from a return note" };
+      return { icon: <RotateCcw size={15} />, label: "Return", attribution: "— from a return note" };
     case "rating":
-      return { icon: <Star size={16} />, label: "Low rating", attribution: "— from a rating" };
+      return { icon: <Star size={15} />, label: "Low rating", attribution: "— from a rating" };
     case "ticket":
-      return { icon: <MessageCircle size={16} />, label: "Support ticket", attribution: "— from a support ticket" };
+      return { icon: <MessageCircle size={15} />, label: "Support ticket", attribution: "— from a support ticket" };
     case "refund":
-      return { icon: <IndianRupee size={16} />, label: "Refund", attribution: "— from a refund request" };
+      return { icon: <IndianRupee size={15} />, label: "Refund", attribution: "— from a refund request" };
     default:
-      return { icon: <CircleDollarSign size={16} />, label: "Customer signal", attribution: "— from customer feedback" };
+      return { icon: <CircleDollarSign size={15} />, label: "Customer signal", attribution: "— from customer feedback" };
   }
 }
 
@@ -26,29 +26,34 @@ export function RawEventPanel({ event }: RawEventPanelProps) {
 
   return (
     <div className="raw-event-panel">
-      <div className="raw-event-product-header">
-        <div className="product-context-badge">
-          <Package size={20} className="product-context-icon" />
-          <div className="product-context-info">
-            <h3 className="type-h1 product-title">{event.productName}</h3>
-            <span className="type-body-sm product-meta">
-              Order #{event.orderId} • {event.category} • ₹{event.orderValue}
-            </span>
-          </div>
-        </div>
-
-        <div className="customer-meta-chip">
-          <span className="type-body-sm customer-name">Customer: <strong>{event.customerAlias}</strong></span>
-          <span className="raw-event-badge type-body-sm">
-            {signal.icon}
-            <span>{signal.label}</span>
-          </span>
-        </div>
+      {/* Minimal Product-Context Single Line */}
+      <div
+        className="product-context-single-line type-body-sm"
+        style={{
+          fontWeight: 600,
+          color: "var(--blinkit-near-black)",
+          marginBottom: "12px",
+          paddingBottom: "10px",
+          borderBottom: "1px solid var(--border-hairline)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "8px",
+        }}
+      >
+        <span>
+          {event.productName} · {event.category} · ₹{event.orderValue}
+        </span>
+        <span className="raw-event-badge type-body-sm">
+          {signal.icon}
+          <span>{signal.label}</span>
+        </span>
       </div>
 
       <div className="raw-event-body">
         <p className="raw-event-label type-body-sm" style={{ fontWeight: 600, color: "var(--blinkit-near-black)", marginBottom: "8px" }}>
-          Customer Statement:
+          Customer: <strong>{event.customerAlias}</strong> (Order #{event.orderId})
         </p>
         <blockquote className="customer-quote-box">
           <p className="customer-quote-text type-body">

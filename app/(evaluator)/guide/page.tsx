@@ -5,7 +5,6 @@ import { ScopeBanner } from "@/components/shared/ScopeBanner";
 import { PhaseSection } from "@/components/evaluator/PhaseSection";
 import {
   HYPOTHESIS_STATEMENT,
-  ASSUMPTION_CAVEAT_SHORT,
   STAGE_TAGS,
 } from "@/lib/copy/canonical";
 
@@ -30,7 +29,7 @@ export default function EvaluatorGuidePage() {
             description="Start here before looking at any mechanics."
             checklist={[
               "Open the Metrics page and read what Cross-Category Exploration Rate measures",
-              `Note that this is a hypothesis this MVP tests — not a result it has already proven (${ASSUMPTION_CAVEAT_SHORT})`,
+              "Note that this is a hypothesis this MVP tests — not a result it has already proven",
               "This segment already showed exploratory intent once, by trying a new category. The metrics are designed to partially account for this through a comparison group, though it can't be fully ruled out as a factor.",
             ]}
           >
