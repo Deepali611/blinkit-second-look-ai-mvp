@@ -345,7 +345,7 @@ export function PhoneSession({
                 <ShieldCheck size={22} style={{ color: "var(--blinkit-green)", flexShrink: 0, marginTop: "2px" }} />
                 <div>
                   <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--blinkit-near-black)" }}>
-                    Blinkit Instant Resolution
+                    Order Resolution Summary
                   </div>
                   <div style={{ fontSize: "12px", color: "var(--blinkit-near-black)", opacity: 0.85, marginTop: "2px", lineHeight: "16px" }}>
                     Verified operational records show this issue has been checked and resolved for your account.
