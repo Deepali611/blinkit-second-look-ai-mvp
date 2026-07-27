@@ -259,14 +259,8 @@ export default function InspectorTracePage({
 
         {/* Stage A */}
         <StageBlock
-          title={
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-              <span>{STAGE_TITLES.stageA}</span>
-              <span className="type-h1" style={{ fontSize: "14px", color: "var(--blinkit-green)", fontWeight: 700 }}>
-                {STAGE_TAGS.stageA}
-              </span>
-            </div>
-          }
+          title={STAGE_TITLES.stageA}
+          tag={STAGE_TAGS.stageA}
           subtitle={stageAData?.modelCallType === "cached" ? "Using seed cache fallback" : "Live AI model classification"}
           status={stageAStatus}
           onRetry={runPipeline}
@@ -293,14 +287,8 @@ export default function InspectorTracePage({
 
         {/* Stage B */}
         <StageBlock
-          title={
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-              <span>{STAGE_TITLES.stageB}</span>
-              <span className="type-h1" style={{ fontSize: "14px", color: "var(--text-muted)", fontWeight: 700 }}>
-                {STAGE_TAGS.stageB}
-              </span>
-            </div>
-          }
+          title={STAGE_TITLES.stageB}
+          tag={STAGE_TAGS.stageB}
           subtitle="Rule-based deterministic verification against operational records"
           status={stageBStatus}
           onRetry={() => {
@@ -332,14 +320,8 @@ export default function InspectorTracePage({
 
         {/* Stage C */}
         <StageBlock
-          title={
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-              <span>{STAGE_TITLES.stageC}</span>
-              <span className="type-h1" style={{ fontSize: "14px", color: "var(--blinkit-green)", fontWeight: 700 }}>
-                {STAGE_TAGS.stageC}
-              </span>
-            </div>
-          }
+          title={STAGE_TITLES.stageC}
+          tag={STAGE_TAGS.stageC}
           subtitle="Decision policy & customer artifact selection"
           status={stageCStatus}
           onRetry={() => {
