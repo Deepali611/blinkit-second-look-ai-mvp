@@ -10,6 +10,10 @@ import {
   ChevronDown,
   ChevronUp,
   RotateCcw,
+  Plus,
+  Minus,
+  ArrowRight,
+  Store,
 } from "lucide-react";
 import { ResolvedBadge } from "./ResolvedBadge";
 
@@ -18,67 +22,6 @@ export interface BlinkitProductPageProps {
   failureType?: string;
   factStatement?: string;
   onBack?: () => void;
-}
-
-// Category Product Graphic 1: boAt Airdopes 141 TWS Earbuds (Electronics)
-function ElectronicsProductGraphic() {
-  return (
-    <svg width="180" height="140" viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="180" height="140" rx="12" fill="#F5F5F3" />
-      {/* TWS Charging Case */}
-      <rect x="50" y="45" width="80" height="55" rx="20" fill="#1F2228" />
-      <path d="M50 62H130" stroke="#333842" strokeWidth="2" />
-      {/* LED Status Indicator */}
-      <circle cx="90" cy="74" r="3" fill="#54B226" />
-      {/* Earbud L */}
-      <rect x="36" y="32" width="14" height="28" rx="7" fill="#14161A" />
-      <circle cx="43" cy="38" r="4" fill="#333842" />
-      {/* Earbud R */}
-      <rect x="130" y="32" width="14" height="28" rx="7" fill="#14161A" />
-      <circle cx="137" cy="38" r="4" fill="#333842" />
-      {/* Brand Badge */}
-      <rect x="72" y="86" width="36" height="6" rx="3" fill="#333842" />
-    </svg>
-  );
-}
-
-// Category Product Graphic 2: Minimalist Niacinamide Serum (Personal Care)
-function PersonalCareProductGraphic() {
-  return (
-    <svg width="180" height="140" viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="180" height="140" rx="12" fill="#F5F5F3" />
-      {/* Dropper Cap */}
-      <rect x="80" y="20" width="20" height="16" rx="4" fill="#1F1F1F" />
-      <rect x="84" y="36" width="12" height="14" fill="#E5E5E2" />
-      {/* Serum Bottle Body */}
-      <rect x="65" y="50" width="50" height="70" rx="10" fill="#FFFFFF" stroke="#E5E5E2" strokeWidth="2" />
-      {/* Minimalist Label */}
-      <rect x="72" y="62" width="36" height="42" fill="#F8F8F7" rx="2" />
-      <rect x="76" y="70" width="28" height="4" fill="#1F1F1F" />
-      <rect x="76" y="78" width="20" height="3" fill="#54B226" />
-      <rect x="76" y="84" width="24" height="2" fill="#999999" />
-    </svg>
-  );
-}
-
-// Category Product Graphic 3: Pedigree Dog Food (Pet Supplies)
-function PetSuppliesProductGraphic() {
-  return (
-    <svg width="180" height="140" viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect width="180" height="140" rx="12" fill="#F5F5F3" />
-      {/* Pedigree Pack Container */}
-      <path d="M55 30H125L130 120H50L55 30Z" fill="#F8CB45" rx="6" />
-      {/* Top Zip Seal */}
-      <rect x="55" y="34" width="70" height="5" fill="#E0B020" />
-      {/* Blue Center Oval */}
-      <ellipse cx="90" cy="68" rx="28" ry="18" fill="#1E40AF" />
-      <rect x="75" y="64" width="30" height="8" rx="2" fill="#FFFFFF" />
-      {/* Dog Silhouette Graphic */}
-      <path d="M85 96C85 92 88 90 90 90C92 90 95 92 95 96V104H85V96Z" fill="#854D0E" />
-      {/* Fresh Food Badge */}
-      <rect x="68" y="108" width="44" height="8" rx="4" fill="#54B226" />
-    </svg>
-  );
 }
 
 export function BlinkitProductPage({
@@ -95,8 +38,9 @@ export function BlinkitProductPage({
     emphasisVariant === "reviews"
   );
   const [detailsExpanded, setDetailsExpanded] = useState<boolean>(false);
+  const [cartQty, setCartQty] = useState<number>(0);
 
-  // Derive product details & graphics based on failureType / variant
+  // High quality authentic product catalogue imagery & data
   const getProductData = () => {
     if (
       failureType === "missing_information" ||
@@ -104,10 +48,31 @@ export function BlinkitProductPage({
     ) {
       return {
         name: "Minimalist 10% Niacinamide Serum (30ml)",
+        mrp: "799",
         price: "649",
+        discount: "18% OFF",
+        rating: "4.5",
+        ratingsCount: "3,412 ratings",
         category: "Personal Care",
-        graphic: <PersonalCareProductGraphic />,
-        specs: ["Formulation: 10% Niacinamide + Zinc", "Skin Type: All skin types", "Volume: 30ml dropper bottle"],
+        seller: "SuperComNet Retail Ltd.",
+        imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop&q=80",
+        specs: [
+          "Formulation: 10% Pure Niacinamide + 1% Zinc PCA",
+          "Skin Benefit: Blemish Control & Pore Refining",
+          "Volume: 30ml Glass Dropper Bottle",
+        ],
+        reviews: [
+          {
+            name: "Ananya R. (Verified Buyer)",
+            rating: 5,
+            comment: "Literally arrived in 9 mins! Original seal was intact. Very lightweight and non-sticky serum.",
+          },
+          {
+            name: "Karan T. (Verified Buyer)",
+            rating: 4,
+            comment: "Packaging was crisp and fresh. Helps reduce redness nicely after 1 week of use.",
+          },
+        ],
       };
     }
     if (
@@ -115,19 +80,61 @@ export function BlinkitProductPage({
       emphasisVariant === "policy"
     ) {
       return {
-        name: "Pedigree Adult Dry Dog Food (3kg)",
+        name: "Pedigree Adult Dry Dog Food — Real Chicken & Rice (3kg)",
+        mrp: "1,450",
         price: "1,200",
+        discount: "17% OFF",
+        rating: "4.6",
+        ratingsCount: "4,820 ratings",
         category: "Pet Supplies",
-        graphic: <PetSuppliesProductGraphic />,
-        specs: ["Weight: 3.0 kg", "Flavor: Real Chicken & Rice", "Life Stage: Adult Dogs (1+ Years)"],
+        seller: "PetCare India Authorized Supplier",
+        imageUrl: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=800&auto=format&fit=crop&q=80",
+        specs: [
+          "Net Weight: 3.0 kg Sealed Pack",
+          "Main Ingredients: Real Chicken, Rice, Essential Omega-6",
+          "Life Stage: Adult Dogs (1+ Years)",
+        ],
+        reviews: [
+          {
+            name: "Vikram P. (Verified Buyer)",
+            rating: 5,
+            comment: "My Labrador loves this kibble! Delivered warm and fresh right to my doorstep.",
+          },
+          {
+            name: "Sneha G. (Verified Buyer)",
+            rating: 5,
+            comment: "Good fresh batch with 12 months expiry date. Super convenient delivery.",
+          },
+        ],
       };
     }
     return {
-      name: "boAt Airdopes 141 TWS Earbuds",
+      name: "boAt Airdopes 141 TWS Earbuds — 42H Playback & Beast Mode",
+      mrp: "4,490",
       price: "1,899",
+      discount: "57% OFF",
+      rating: "4.4",
+      ratingsCount: "2,186 ratings",
       category: "Electronics",
-      graphic: <ElectronicsProductGraphic />,
-      specs: ["Playback: 42 Hours Total", "Driver Size: 8mm Dynamic", "Water Resistance: IPX4 Rating"],
+      seller: "Imagine Marketing Authorized Distributor",
+      imageUrl: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=800&auto=format&fit=crop&q=80",
+      specs: [
+        "Playback: 42 Hours Total Playtime with ASAP Charge",
+        "Driver Size: 8mm Dynamic Drivers",
+        "Water Resistance: IPX4 Water & Sweat Resistance",
+      ],
+      reviews: [
+        {
+          name: "Rahul M. (Verified Buyer)",
+          rating: 5,
+          comment: "Original seal intact, received in 8 mins! Audio clarity and bass are solid for this price.",
+        },
+        {
+          name: "Priya S. (Verified Buyer)",
+          rating: 4,
+          comment: "Verified brand box with active warranty code inside. Fits comfortably during workouts.",
+        },
+      ],
     };
   };
 
@@ -146,6 +153,18 @@ export function BlinkitProductPage({
     }
   }, [emphasisVariant]);
 
+  const handleAddCart = () => {
+    setCartQty((prev) => (prev === 0 ? 1 : prev));
+  };
+
+  const handleIncrement = () => {
+    setCartQty((prev) => prev + 1);
+  };
+
+  const handleDecrement = () => {
+    setCartQty((prev) => Math.max(0, prev - 1));
+  };
+
   return (
     <div
       ref={containerRef}
@@ -158,6 +177,7 @@ export function BlinkitProductPage({
         color: "var(--blinkit-near-black)",
         fontFamily: "var(--font-inter)",
         scrollBehavior: "smooth",
+        position: "relative",
       }}
     >
       {/* Support History Top Card (Only for emphasisVariant="support") */}
@@ -223,24 +243,66 @@ export function BlinkitProductPage({
 
         <div style={{ position: "relative", padding: "4px" }}>
           <ShoppingBag size={20} style={{ color: "var(--blinkit-near-black)" }} />
+          {cartQty > 0 && (
+            <span
+              style={{
+                position: "absolute",
+                top: "0px",
+                right: "0px",
+                backgroundColor: "var(--blinkit-green)",
+                color: "var(--blinkit-white)",
+                borderRadius: "50%",
+                fontSize: "10px",
+                fontWeight: 800,
+                width: "16px",
+                height: "16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {cartQty}
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Section 2: Product Image Area with High Quality Graphic */}
+      {/* Section 2: Authentic High-Resolution Product Photography Gallery */}
       <div
         className="product-image-container"
         style={{
           width: "100%",
-          padding: "20px 16px",
+          height: "230px",
           backgroundColor: "#F8F8F6",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
           position: "relative",
+          overflow: "hidden",
         }}
       >
-        <div style={{ textAlign: "center" }}>
-          {product.graphic}
+        <img
+          src={product.imageUrl}
+          alt={product.name}
+          style={{
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: "8px",
+            right: "12px",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            color: "#FFF",
+            fontSize: "10px",
+            fontWeight: 700,
+            padding: "3px 8px",
+            borderRadius: "12px",
+            backdropFilter: "blur(4px)",
+          }}
+        >
+          Official Catalogue Image
         </div>
       </div>
 
@@ -257,9 +319,9 @@ export function BlinkitProductPage({
           flexWrap: "wrap",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "var(--blinkit-green)", fontWeight: 700, fontSize: "12px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "var(--blinkit-green)", fontWeight: 800, fontSize: "12px" }}>
           <Clock size={14} />
-          <span>Delivery in 10 mins</span>
+          <span>⚡ Delivery in 10 mins</span>
         </div>
 
         {/* Policy Variant Additional Badge */}
@@ -285,20 +347,27 @@ export function BlinkitProductPage({
       </div>
 
       {/* Main Content Body */}
-      <div style={{ padding: "16px" }}>
-        {/* Section 4: Title + Price Block */}
+      <div style={{ padding: "16px", paddingBottom: cartQty > 0 ? "80px" : "30px" }}>
+        {/* Section 4: Title + Price Block with Discounts */}
         <div className="title-price-block" style={{ marginBottom: "12px" }}>
-          <h1 className="type-h1" style={{ fontSize: "20px", lineHeight: "26px", fontWeight: 700, color: "var(--blinkit-near-black)", margin: "0 0 6px 0" }}>
+          <h1 className="type-h1" style={{ fontSize: "18px", lineHeight: "24px", fontWeight: 700, color: "var(--blinkit-near-black)", margin: "0 0 8px 0" }}>
             {product.name}
           </h1>
-          <div style={{ display: "flex", alignItems: "baseline", gap: "10px" }}>
-            <span style={{ fontSize: "24px", fontWeight: 800, color: "var(--blinkit-green)" }}>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <span style={{ fontSize: "24px", fontWeight: 800, color: "var(--blinkit-near-black)" }}>
               ₹{product.price}
             </span>
-            <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
-              Inclusive of all taxes
+            <span style={{ fontSize: "14px", color: "var(--text-muted)", textDecoration: "line-through" }}>
+              MRP ₹{product.mrp}
+            </span>
+            <span style={{ fontSize: "12px", fontWeight: 700, color: "var(--blinkit-green)", backgroundColor: "rgba(84, 178, 38, 0.1)", padding: "2px 6px", borderRadius: "4px" }}>
+              {product.discount}
             </span>
           </div>
+          <span style={{ fontSize: "11px", color: "var(--text-muted)", display: "block", marginTop: "2px" }}>
+            Inclusive of all taxes
+          </span>
         </div>
 
         {/* Section 5: Trust Badge Row */}
@@ -367,7 +436,7 @@ export function BlinkitProductPage({
           )}
         </div>
 
-        {/* Section 6: Add-to-Cart Action Bar */}
+        {/* Section 6: Interactive Add-to-Cart Action Bar */}
         <div
           className="action-add-bar"
           style={{
@@ -377,46 +446,77 @@ export function BlinkitProductPage({
             margin: "16px 0 24px 0",
           }}
         >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              width: "90px",
-              height: "42px",
-              backgroundColor: "var(--surface-muted)",
-              border: "1px solid var(--border-hairline)",
-              borderRadius: "8px",
-              padding: "0 10px",
-              fontWeight: 700,
-              fontSize: "14px",
-            }}
-          >
-            <span style={{ color: "var(--text-muted)" }}>-</span>
-            <span>1</span>
-            <span style={{ color: "var(--blinkit-green)" }}>+</span>
-          </div>
+          {cartQty === 0 ? (
+            <button
+              type="button"
+              onClick={handleAddCart}
+              style={{
+                flex: 1,
+                height: "44px",
+                backgroundColor: "var(--blinkit-green)",
+                color: "var(--blinkit-white)",
+                border: "none",
+                borderRadius: "8px",
+                fontWeight: 700,
+                fontSize: "15px",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                gap: "8px",
+                boxShadow: "0 4px 12px rgba(84, 178, 38, 0.2)",
+                transition: "all 0.15s ease",
+              }}
+            >
+              <span>ADD TO CART • ₹{product.price}</span>
+            </button>
+          ) : (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                flex: 1,
+                height: "44px",
+                backgroundColor: "var(--blinkit-green)",
+                color: "var(--blinkit-white)",
+                borderRadius: "8px",
+                padding: "0 16px",
+                fontWeight: 700,
+              }}
+            >
+              <button
+                type="button"
+                onClick={handleDecrement}
+                style={{ background: "none", border: "none", color: "#FFF", cursor: "pointer", display: "flex" }}
+              >
+                <Minus size={18} />
+              </button>
+              <span style={{ fontSize: "16px" }}>{cartQty} IN CART</span>
+              <button
+                type="button"
+                onClick={handleIncrement}
+                style={{ background: "none", border: "none", color: "#FFF", cursor: "pointer", display: "flex" }}
+              >
+                <Plus size={18} />
+              </button>
+            </div>
+          )}
+        </div>
 
-          <button
-            type="button"
-            style={{
-              flex: 1,
-              height: "42px",
-              backgroundColor: "var(--blinkit-green)",
-              color: "var(--blinkit-white)",
-              border: "none",
-              borderRadius: "8px",
-              fontWeight: 700,
-              fontSize: "15px",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "8px",
-            }}
-          >
-            <span>Add to Cart • ₹{product.price}</span>
-          </button>
+        {/* Seller Info Strip */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            fontSize: "12px",
+            color: "var(--text-muted)",
+            marginBottom: "20px",
+          }}
+        >
+          <Store size={14} />
+          <span>Seller: <strong>{product.seller}</strong></span>
         </div>
 
         {/* Section 7: Ratings & Reviews Section */}
@@ -444,10 +544,10 @@ export function BlinkitProductPage({
               </h3>
               <div style={{ display: "flex", alignItems: "center", gap: "6px", marginTop: "4px" }}>
                 <span style={{ fontSize: "13px", fontWeight: 700, color: "var(--blinkit-near-black)", display: "flex", alignItems: "center", gap: "2px" }}>
-                  <Star size={14} fill="#F8CB45" stroke="#F8CB45" /> 4.3
+                  <Star size={14} fill="#F8CB45" stroke="#F8CB45" /> {product.rating}
                 </span>
                 <span style={{ fontSize: "12px", color: "var(--text-muted)" }}>
-                  (2,140 verified ratings)
+                  ({product.ratingsCount})
                 </span>
               </div>
             </div>
@@ -459,37 +559,26 @@ export function BlinkitProductPage({
 
           {reviewsExpanded && (
             <div style={{ display: "flex", flexDirection: "column", gap: "12px", marginTop: "14px" }}>
-              <div style={{ backgroundColor: "var(--surface-muted)", padding: "10px 12px", borderRadius: "8px" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
-                  <span style={{ fontSize: "12px", fontWeight: 700 }}>Rahul M. (Verified Buyer)</span>
-                  <div style={{ display: "flex", gap: "1px" }}>
-                    <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
-                    <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
-                    <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
-                    <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
-                    <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
+              {product.reviews.map((rev, idx) => (
+                <div key={idx} style={{ backgroundColor: "var(--surface-muted)", padding: "12px", borderRadius: "8px" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
+                    <span style={{ fontSize: "12px", fontWeight: 700 }}>{rev.name}</span>
+                    <div style={{ display: "flex", gap: "1px" }}>
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={11}
+                          fill={i < rev.rating ? "#F8CB45" : "#E5E5E2"}
+                          stroke={i < rev.rating ? "#F8CB45" : "#E5E5E2"}
+                        />
+                      ))}
+                    </div>
                   </div>
+                  <p style={{ fontSize: "12px", color: "var(--blinkit-near-black)", margin: 0, lineHeight: "17px" }}>
+                    "{rev.comment}"
+                  </p>
                 </div>
-                <p style={{ fontSize: "12px", color: "var(--blinkit-near-black)", margin: 0 }}>
-                  "Original seal intact, received in 8 mins! Exactly as described."
-                </p>
-              </div>
-
-              <div style={{ backgroundColor: "var(--surface-muted)", padding: "10px 12px", borderRadius: "8px" }}>
-                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "4px" }}>
-                  <span style={{ fontSize: "12px", fontWeight: 700 }}>Priya S. (Verified Buyer)</span>
-                  <div style={{ display: "flex", gap: "1px" }}>
-                    <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
-                    <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
-                    <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
-                    <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
-                    <Star size={11} fill="#E5E5E2" stroke="#E5E5E2" />
-                  </div>
-                </div>
-                <p style={{ fontSize: "12px", color: "var(--blinkit-near-black)", margin: 0 }}>
-                  "Very good quality and genuine product. Will buy again."
-                </p>
-              </div>
+              ))}
             </div>
           )}
         </div>
@@ -513,7 +602,7 @@ export function BlinkitProductPage({
             onClick={() => setDetailsExpanded(!detailsExpanded)}
           >
             <h3 style={{ fontSize: "16px", fontWeight: 700, margin: 0, color: "var(--blinkit-near-black)" }}>
-              Product Details
+              Product Specifications
             </h3>
             <button type="button" style={{ background: "none", border: "none", color: "var(--text-muted)" }}>
               {detailsExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
@@ -548,6 +637,42 @@ export function BlinkitProductPage({
           <p style={{ margin: 0 }}>Need help with this order? Contact 24/7 Blinkit Support</p>
         </div>
       </div>
+
+      {/* Real-Time Interactive Blinkit Sticky Bottom Cart Bar */}
+      {cartQty > 0 && (
+        <div
+          className="sticky-cart-bottom-bar"
+          style={{
+            position: "sticky",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            backgroundColor: "var(--blinkit-green)",
+            color: "var(--blinkit-white)",
+            padding: "12px 16px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            boxShadow: "0 -4px 16px rgba(0, 0, 0, 0.15)",
+            zIndex: 30,
+            animation: "fadeIn 0.2s ease-out",
+          }}
+        >
+          <div>
+            <div style={{ fontSize: "12px", fontWeight: 800, letterSpacing: "0.5px" }}>
+              {cartQty} {cartQty === 1 ? "ITEM" : "ITEMS"} • ₹{(parseInt(product.price.replace(",", "")) * cartQty).toLocaleString()}
+            </div>
+            <div style={{ fontSize: "10px", opacity: 0.9 }}>
+              Extra ₹25 cashback applied
+            </div>
+          </div>
+
+          <div style={{ display: "flex", alignItems: "center", gap: "4px", fontWeight: 700, fontSize: "13px" }}>
+            <span>View Cart</span>
+            <ArrowRight size={16} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
