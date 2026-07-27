@@ -1,4 +1,5 @@
 import React from "react";
+import { ResolvedBadge } from "./ResolvedBadge";
 
 export interface AcknowledgmentBlockProps {
   failureType: string;
@@ -24,6 +25,9 @@ export function AcknowledgmentBlock({ failureType }: AcknowledgmentBlockProps) {
 
   return (
     <section className="acknowledgment-block">
+      <div style={{ marginBottom: "8px" }}>
+        <ResolvedBadge label="Resolved" />
+      </div>
       <h1 className="type-display acknowledgment-headline">{headlineText}</h1>
     </section>
   );
