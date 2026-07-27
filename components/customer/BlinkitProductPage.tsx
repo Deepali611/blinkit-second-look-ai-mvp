@@ -7,12 +7,8 @@ import {
   Clock,
   Star,
   ShieldCheck,
-  Zap,
-  Sparkles,
-  Heart,
   ChevronDown,
   ChevronUp,
-  MessageSquareCheck,
   RotateCcw,
 } from "lucide-react";
 import { ResolvedBadge } from "./ResolvedBadge";
@@ -22,6 +18,67 @@ export interface BlinkitProductPageProps {
   failureType?: string;
   factStatement?: string;
   onBack?: () => void;
+}
+
+// Category Product Graphic 1: boAt Airdopes 141 TWS Earbuds (Electronics)
+function ElectronicsProductGraphic() {
+  return (
+    <svg width="180" height="140" viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="180" height="140" rx="12" fill="#F5F5F3" />
+      {/* TWS Charging Case */}
+      <rect x="50" y="45" width="80" height="55" rx="20" fill="#1F2228" />
+      <path d="M50 62H130" stroke="#333842" strokeWidth="2" />
+      {/* LED Status Indicator */}
+      <circle cx="90" cy="74" r="3" fill="#54B226" />
+      {/* Earbud L */}
+      <rect x="36" y="32" width="14" height="28" rx="7" fill="#14161A" />
+      <circle cx="43" cy="38" r="4" fill="#333842" />
+      {/* Earbud R */}
+      <rect x="130" y="32" width="14" height="28" rx="7" fill="#14161A" />
+      <circle cx="137" cy="38" r="4" fill="#333842" />
+      {/* Brand Badge */}
+      <rect x="72" y="86" width="36" height="6" rx="3" fill="#333842" />
+    </svg>
+  );
+}
+
+// Category Product Graphic 2: Minimalist Niacinamide Serum (Personal Care)
+function PersonalCareProductGraphic() {
+  return (
+    <svg width="180" height="140" viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="180" height="140" rx="12" fill="#F5F5F3" />
+      {/* Dropper Cap */}
+      <rect x="80" y="20" width="20" height="16" rx="4" fill="#1F1F1F" />
+      <rect x="84" y="36" width="12" height="14" fill="#E5E5E2" />
+      {/* Serum Bottle Body */}
+      <rect x="65" y="50" width="50" height="70" rx="10" fill="#FFFFFF" stroke="#E5E5E2" strokeWidth="2" />
+      {/* Minimalist Label */}
+      <rect x="72" y="62" width="36" height="42" fill="#F8F8F7" rx="2" />
+      <rect x="76" y="70" width="28" height="4" fill="#1F1F1F" />
+      <rect x="76" y="78" width="20" height="3" fill="#54B226" />
+      <rect x="76" y="84" width="24" height="2" fill="#999999" />
+    </svg>
+  );
+}
+
+// Category Product Graphic 3: Pedigree Dog Food (Pet Supplies)
+function PetSuppliesProductGraphic() {
+  return (
+    <svg width="180" height="140" viewBox="0 0 180 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect width="180" height="140" rx="12" fill="#F5F5F3" />
+      {/* Pedigree Pack Container */}
+      <path d="M55 30H125L130 120H50L55 30Z" fill="#F8CB45" rx="6" />
+      {/* Top Zip Seal */}
+      <rect x="55" y="34" width="70" height="5" fill="#E0B020" />
+      {/* Blue Center Oval */}
+      <ellipse cx="90" cy="68" rx="28" ry="18" fill="#1E40AF" />
+      <rect x="75" y="64" width="30" height="8" rx="2" fill="#FFFFFF" />
+      {/* Dog Silhouette Graphic */}
+      <path d="M85 96C85 92 88 90 90 90C92 90 95 92 95 96V104H85V96Z" fill="#854D0E" />
+      {/* Fresh Food Badge */}
+      <rect x="68" y="108" width="44" height="8" rx="4" fill="#54B226" />
+    </svg>
+  );
 }
 
 export function BlinkitProductPage({
@@ -39,7 +96,7 @@ export function BlinkitProductPage({
   );
   const [detailsExpanded, setDetailsExpanded] = useState<boolean>(false);
 
-  // Derive product details based on failureType / variant
+  // Derive product details & graphics based on failureType / variant
   const getProductData = () => {
     if (
       failureType === "missing_information" ||
@@ -49,7 +106,7 @@ export function BlinkitProductPage({
         name: "Minimalist 10% Niacinamide Serum (30ml)",
         price: "649",
         category: "Personal Care",
-        icon: <Sparkles size={48} style={{ color: "var(--blinkit-green)" }} />,
+        graphic: <PersonalCareProductGraphic />,
         specs: ["Formulation: 10% Niacinamide + Zinc", "Skin Type: All skin types", "Volume: 30ml dropper bottle"],
       };
     }
@@ -61,7 +118,7 @@ export function BlinkitProductPage({
         name: "Pedigree Adult Dry Dog Food (3kg)",
         price: "1,200",
         category: "Pet Supplies",
-        icon: <Heart size={48} style={{ color: "var(--blinkit-green)" }} />,
+        graphic: <PetSuppliesProductGraphic />,
         specs: ["Weight: 3.0 kg", "Flavor: Real Chicken & Rice", "Life Stage: Adult Dogs (1+ Years)"],
       };
     }
@@ -69,7 +126,7 @@ export function BlinkitProductPage({
       name: "boAt Airdopes 141 TWS Earbuds",
       price: "1,899",
       category: "Electronics",
-      icon: <Zap size={48} style={{ color: "var(--blinkit-green)" }} />,
+      graphic: <ElectronicsProductGraphic />,
       specs: ["Playback: 42 Hours Total", "Driver Size: 8mm Dynamic", "Water Resistance: IPX4 Rating"],
     };
   };
@@ -169,13 +226,13 @@ export function BlinkitProductPage({
         </div>
       </div>
 
-      {/* Section 2: Product Image Area */}
+      {/* Section 2: Product Image Area with High Quality Graphic */}
       <div
         className="product-image-container"
         style={{
           width: "100%",
-          height: "220px",
-          backgroundColor: "var(--surface-muted)",
+          padding: "20px 16px",
+          backgroundColor: "#F8F8F6",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -183,10 +240,7 @@ export function BlinkitProductPage({
         }}
       >
         <div style={{ textAlign: "center" }}>
-          {product.icon}
-          <span style={{ display: "block", fontSize: "12px", fontWeight: 600, color: "var(--text-muted)", marginTop: "6px" }}>
-            Blinkit Instant Delivery
-          </span>
+          {product.graphic}
         </div>
       </div>
 

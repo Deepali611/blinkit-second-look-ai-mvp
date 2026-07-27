@@ -12,7 +12,7 @@ import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { SuppressedNotice } from "@/components/shared/SuppressedNotice";
 import { DecisionResult } from "@/lib/decision/decide";
-import { Wifi, Battery, Signal, ChevronLeft } from "lucide-react";
+import { Wifi, Battery, Signal, ChevronLeft, ShieldCheck } from "lucide-react";
 
 export interface PhoneSessionProps {
   eventId: string;
@@ -200,7 +200,7 @@ export function PhoneSession({
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "flex-start",
-                transition: "opacity 0.2s ease, transform 0.2s ease",
+                transition: "opacity 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)",
                 opacity: stage === 1 ? 1 : 0,
                 transform: stage === 1 ? "scale(1)" : "scale(0.95)",
                 pointerEvents: stage === 1 ? "auto" : "none",
@@ -214,7 +214,7 @@ export function PhoneSession({
               />
             </div>
 
-            {/* STAGE 2: Notification Detail */}
+            {/* STAGE 2: Notification Detail (Recovery Experience) */}
             <div
               className={`stage-view stage-2-view ${stage === 2 ? "active" : ""}`}
               style={{
@@ -224,8 +224,8 @@ export function PhoneSession({
                 overflowY: "auto",
                 display: "flex",
                 flexDirection: "column",
-                gap: "20px",
-                transition: "opacity 0.2s ease, transform 0.2s ease",
+                gap: "18px",
+                transition: "opacity 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)",
                 opacity: stage === 2 ? 1 : 0,
                 transform: stage === 2 ? "translateX(0)" : stage === 1 ? "translateX(20px)" : "translateX(-20px)",
                 pointerEvents: stage === 2 ? "auto" : "none",
@@ -233,7 +233,7 @@ export function PhoneSession({
                 backgroundColor: "var(--blinkit-white)",
               }}
             >
-              {/* Back button to Stage 1 */}
+              {/* Top Navigation Bar inside App */}
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <button
                   type="button"
@@ -246,17 +246,41 @@ export function PhoneSession({
                     alignItems: "center",
                     gap: "4px",
                     color: "var(--blinkit-green)",
-                    fontWeight: 600,
+                    fontWeight: 700,
                     fontSize: "13px",
                     padding: 0,
                   }}
                 >
-                  <ChevronLeft size={16} /> Back
+                  <ChevronLeft size={16} /> Notification
                 </button>
 
-                <ResolvedBadge label="Resolved" />
+                <ResolvedBadge label="Resolved & Verified" />
               </div>
 
+              {/* Prominent Resolution Reassurance Banner */}
+              <div
+                style={{
+                  backgroundColor: "rgba(84, 178, 38, 0.08)",
+                  border: "1px solid rgba(84, 178, 38, 0.25)",
+                  borderRadius: "14px",
+                  padding: "14px 16px",
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "12px",
+                }}
+              >
+                <ShieldCheck size={22} style={{ color: "var(--blinkit-green)", flexShrink: 0, marginTop: "2px" }} />
+                <div>
+                  <div style={{ fontSize: "14px", fontWeight: 700, color: "var(--blinkit-near-black)" }}>
+                    Blinkit Instant Resolution
+                  </div>
+                  <div style={{ fontSize: "12px", color: "var(--blinkit-near-black)", opacity: 0.85, marginTop: "2px", lineHeight: "16px" }}>
+                    Verified operational records show this issue has been checked and resolved for your account.
+                  </div>
+                </div>
+              </div>
+
+              {/* Recovery Content & Reassurance */}
               <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
                 <AcknowledgmentBlock failureType={failureType} />
 
@@ -267,9 +291,9 @@ export function PhoneSession({
                   />
                 )}
 
-                <div style={{ marginTop: "12px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                <div style={{ marginTop: "8px", display: "flex", flexDirection: "column", gap: "12px" }}>
                   <PrimaryCTAButton
-                    label={decision.ctaLabel || "View details"}
+                    label={decision.ctaLabel || "See this product now"}
                     onClick={() => setStage(3)}
                   />
                   <SecondaryOptOutLink />
@@ -283,7 +307,7 @@ export function PhoneSession({
               style={{
                 position: "absolute",
                 inset: 0,
-                transition: "opacity 0.2s ease, transform 0.2s ease",
+                transition: "opacity 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1)",
                 opacity: stage === 3 ? 1 : 0,
                 transform: stage === 3 ? "translateX(0)" : "translateX(30px)",
                 pointerEvents: stage === 3 ? "auto" : "none",
