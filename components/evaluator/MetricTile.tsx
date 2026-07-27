@@ -3,9 +3,11 @@ import { MetricDetail } from "@/lib/metrics/compute";
 
 export interface MetricTileProps {
   title: string;
-  formula: string;
+  formula?: string;
   metricData: MetricDetail;
   isPrimary?: boolean;
+  subline?: React.ReactNode;
+  explanation?: string;
 }
 
 export function MetricTile({
@@ -13,6 +15,8 @@ export function MetricTile({
   formula,
   metricData,
   isPrimary = false,
+  subline,
+  explanation,
 }: MetricTileProps) {
   const { value, numerator, denominator, insufficientData } = metricData;
 
@@ -32,7 +36,7 @@ export function MetricTile({
   const getProgressPercentage = () => {
     if (insufficientData || value === null) return 0;
     if (title.toLowerCase().includes("lift")) {
-      return Math.max(0, Math.min(100, 50 + value)); // map -50%..+50% to 0..100%
+      return Math.max(0, Math.min(100, 50 + value));
     }
     return Math.max(0, Math.min(100, value));
   };
@@ -40,10 +44,10 @@ export function MetricTile({
   return (
     <div className={`metric-tile ${isPrimary ? "metric-tile-primary" : ""}`}>
       <div className="metric-tile-header">
-        <h3 className={`metric-title ${isPrimary ? "type-display" : "type-h1"}`}>
+        <h3 className={`metric-title ${isPrimary ? "type-display" : "type-h1"}`} style={isPrimary ? { fontSize: "22px", lineHeight: "28px" } : {}}>
           {title}
         </h3>
-        <p className="metric-formula type-body-sm">{formula}</p>
+        {formula && <p className="metric-formula type-body-sm">{formula}</p>}
       </div>
 
       <div className="metric-main">
@@ -56,9 +60,15 @@ export function MetricTile({
           )}
         </div>
 
+        {subline && (
+          <div className="metric-subline type-body-sm" style={{ marginTop: "6px", fontWeight: 600, color: "var(--blinkit-green)" }}>
+            {subline}
+          </div>
+        )}
+
         {/* Visual Progress Bar Encoding */}
         {!insufficientData && value !== null && (
-          <div className="metric-progress-bar-track">
+          <div className="metric-progress-bar-track" style={{ marginTop: "10px" }}>
             <div
               className="metric-progress-bar-fill"
               style={{ width: `${getProgressPercentage()}%` }}
@@ -67,7 +77,13 @@ export function MetricTile({
         )}
       </div>
 
-      <p className="metric-disclaimer type-body-sm">
+      {explanation && (
+        <p className="metric-explanation type-body-sm" style={{ marginTop: "8px", color: "var(--blinkit-near-black)", opacity: 0.9 }}>
+          {explanation}
+        </p>
+      )}
+
+      <p className="metric-disclaimer type-body-sm" style={{ marginTop: "auto", paddingTop: "10px", borderTop: "1px solid var(--border-hairline)", color: "var(--text-muted)", fontSize: "12px" }}>
         Computed from simulated data — illustrative of the measurement mechanism, not a real result.
       </p>
     </div>
