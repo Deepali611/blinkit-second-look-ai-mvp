@@ -1,132 +1,97 @@
-"use client";
+import React from "react";
+import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
+import { ScopeBanner } from "@/components/shared/ScopeBanner";
+import { PhoneSession } from "@/components/customer/PhoneSession";
+import { SimulateOutcomeButton } from "@/components/customer/SimulateOutcomeButton";
+import { METRIC_NAMES } from "@/lib/copy/canonical";
 
-import React, { useState, useEffect, useCallback, use } from "react";
-import { EvaluatorOnlyRibbon } from "@/components/evaluator/EvaluatorOnlyRibbon";
-import { MinimalHeader } from "@/components/customer/MinimalHeader";
-import { AcknowledgmentBlock } from "@/components/customer/AcknowledgmentBlock";
-import { EvidenceBlock } from "@/components/customer/EvidenceBlock";
-import { PrimaryCTAButton } from "@/components/customer/PrimaryCTAButton";
-import { SecondaryOptOutLink } from "@/components/customer/SecondaryOptOutLink";
-import { LoadingState } from "@/components/shared/LoadingState";
-import { ErrorState } from "@/components/shared/ErrorState";
-import { DecisionResult } from "@/lib/decision/decide";
-
-interface PipelineData {
-  failureType: string;
-  decision: DecisionResult;
-}
-
-export default function SecondLookPage({
+export default async function SecondLookPage({
   params,
 }: {
   params: Promise<{ eventId: string }>;
 }) {
-  const resolvedParams = use(params);
+  const resolvedParams = await params;
   const eventId = resolvedParams.eventId;
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [pipelineData, setPipelineData] = useState<PipelineData | null>(null);
-
-  const runSecondLookPipeline = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      // Step 1: Classify
-      const classifyRes = await fetch("/api/classify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ eventId }),
-      });
-
-      if (!classifyRes.ok) throw new Error("Classification failed");
-      const aData = await classifyRes.json();
-
-      let verificationStatus = "unverifiable";
-      let evidenceData: Record<string, unknown> | null = null;
-
-      // Step 2: Verify if confidence is medium or high
-      if (aData.confidence !== "low" && aData.failureType !== "unclear") {
-        const verifyRes = await fetch("/api/verify", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ eventId, failureType: aData.failureType }),
-        });
-
-        if (!verifyRes.ok) throw new Error("Verification failed");
-        const bData = await verifyRes.json();
-        verificationStatus = bData.verificationStatus;
-        evidenceData = bData.evidenceData;
-      }
-
-      // Step 3: Decide
-      const decideRes = await fetch("/api/decide", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          eventId,
-          failureType: aData.failureType,
-          confidence: aData.confidence,
-          verificationStatus,
-          evidenceData,
-        }),
-      });
-
-      if (!decideRes.ok) throw new Error("Decision engine failed");
-      const cData: DecisionResult = await decideRes.json();
-
-      setPipelineData({
-        failureType: aData.failureType,
-        decision: cData,
-      });
-    } catch (err) {
-      console.error("Second look pipeline execution error:", err);
-      setError("We're looking into something with your recent order.");
-    } finally {
-      setIsLoading(false);
-    }
-  }, [eventId]);
-
-  useEffect(() => {
-    runSecondLookPipeline();
-  }, [runSecondLookPipeline]);
-
   return (
-    <div className="second-look-page-wrapper">
-      <EvaluatorOnlyRibbon />
+    <div className="portal-layout" style={{ backgroundColor: "var(--evaluator-bg)", minHeight: "100vh" }}>
+      <BlinkitHeader variant="evaluator" backHref="/" />
 
-      <main className="second-look-container">
-        {isLoading ? (
-          <LoadingState message="Loading your update..." />
-        ) : error ? (
-          <ErrorState message={error} onRetry={runSecondLookPipeline} />
-        ) : pipelineData?.decision.action === "suppress" ? (
-          <ErrorState message="This link is no longer valid." />
-        ) : pipelineData?.decision.action === "act" &&
-          pipelineData.decision.evidencePrimitive ? (
-          <div className="second-look-content-column">
-            <MinimalHeader />
+      <main className="portal-container" style={{ paddingBottom: "60px" }}>
+        <ScopeBanner variant="compact" />
 
-            <AcknowledgmentBlock failureType={pipelineData.failureType} />
+        {/* Customer Phone World Container */}
+        <div className="customer-phone-world-wrapper" style={{ margin: "20px 0 40px 0" }}>
+          <PhoneSession eventId={eventId} initialStage={2} />
+        </div>
 
-            <EvidenceBlock
-              variant={pipelineData.decision.evidencePrimitive.variant}
-              factStatement={pipelineData.decision.evidencePrimitive.factStatement}
-            />
+        {/* STAGE 4 — Evaluator Handoff (Structural Separation Canvas Outside Phone Frame) */}
+        <div
+          className="evaluator-handoff-canvas"
+          style={{
+            maxWidth: "680px",
+            margin: "0 auto",
+            backgroundColor: "#1F2228",
+            border: "1px solid rgba(255, 255, 255, 0.12)",
+            borderRadius: "16px",
+            padding: "28px",
+            boxShadow: "0 10px 30px rgba(0, 0, 0, 0.4)",
+            color: "var(--blinkit-white)",
+          }}
+        >
+          <p
+            className="type-body evaluator-framing-line"
+            style={{
+              fontWeight: 600,
+              fontSize: "15px",
+              lineHeight: "22px",
+              color: "var(--blinkit-white)",
+              marginBottom: "20px",
+              opacity: 0.95,
+            }}
+          >
+            You've just followed the same path this customer would. What they do next is exactly what this MVP is trying to learn.
+          </p>
 
-            <div className="second-look-actions-block">
-              <PrimaryCTAButton
-                label={pipelineData.decision.ctaLabel || "View details"}
-                href={pipelineData.decision.ctaDestination || "/"}
+          <div
+            className="evaluator-tools-card"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.05)",
+              border: "1px solid rgba(255, 255, 255, 0.1)",
+              borderRadius: "12px",
+              padding: "20px",
+            }}
+          >
+            <h4
+              className="type-h1 evaluator-panel-title"
+              style={{
+                fontSize: "16px",
+                marginBottom: "16px",
+                color: "var(--blinkit-white)",
+                letterSpacing: "0.2px",
+              }}
+            >
+              Evaluator Tools
+            </h4>
+
+            <div className="evaluator-buttons-stack" style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              <SimulateOutcomeButton
+                eventId={eventId}
+                outcomeType="same_category_repurchase"
+                label="This customer buys again in this category"
+                caption={"Feeds: " + METRIC_NAMES.sameCategoryReturnRate + " (operational health check)"}
               />
 
-              <SecondaryOptOutLink />
+              <SimulateOutcomeButton
+                eventId={eventId}
+                outcomeType="cross_category_attempt"
+                label="This customer also tries a different new category"
+                caption={"Feeds: " + METRIC_NAMES.crossCategoryExplorationRate + " — the metric that actually tests Blinkit's goal"}
+                isProminent={true}
+              />
             </div>
           </div>
-        ) : (
-          <ErrorState message="This link is no longer valid." />
-        )}
+        </div>
       </main>
     </div>
   );
