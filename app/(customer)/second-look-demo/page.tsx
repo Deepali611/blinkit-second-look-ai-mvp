@@ -1,5 +1,6 @@
 import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
+import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { PhoneSession } from "@/components/customer/PhoneSession";
 import { AIReasoningStrip } from "@/components/evaluator/AIReasoningStrip";
 import { MeasureResultPanel } from "@/components/evaluator/MeasureResultPanel";
@@ -15,6 +16,7 @@ export default async function SecondLookDemoPage({
   return (
     <div className="portal-layout" style={{ backgroundColor: "var(--evaluator-bg)", minHeight: "100vh" }}>
       <BlinkitHeader variant="evaluator" backHref="/" />
+      <EnvironmentBadge />
 
       <main className="portal-container" style={{ paddingBottom: "60px" }}>
         {/* Customer Phone World Container */}

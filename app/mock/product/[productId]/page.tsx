@@ -1,5 +1,6 @@
 import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
+import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { MeasureResultPanel } from "@/components/evaluator/MeasureResultPanel";
 import { Star, ShieldCheck, Zap, Clock, ThumbsUp, Sparkles, Heart } from "lucide-react";
 
@@ -50,6 +51,7 @@ export default async function MockProductPage({
   return (
     <div className="portal-layout" style={{ backgroundColor: "var(--evaluator-bg)", minHeight: "100vh" }}>
       <BlinkitHeader variant="evaluator" backHref="/" />
+      <EnvironmentBadge />
 
       <main className="portal-container" style={{ maxWidth: "840px", paddingBottom: "60px" }}>
         <div className="mock-product-container">
