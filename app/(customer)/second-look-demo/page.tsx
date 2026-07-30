@@ -21,7 +21,7 @@ export default async function SecondLookDemoPage({
       <main className="portal-container" style={{ paddingBottom: "60px" }}>
         {/* Customer Phone World Container */}
         <div className="customer-phone-world-wrapper" style={{ margin: "20px 0 40px 0" }}>
-          <PhoneSession eventId={eventId} initialStage={1} />
+          <PhoneSession eventId={eventId} initialStage={0} />
         </div>
 
         {/* Task 28: Condensed AI Reasoning Strip */}

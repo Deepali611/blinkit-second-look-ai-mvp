@@ -8,6 +8,7 @@ import { ResolvedBadge } from "./ResolvedBadge";
 import { PrimaryCTAButton } from "./PrimaryCTAButton";
 import { SecondaryOptOutLink } from "./SecondaryOptOutLink";
 import { BlinkitProductPage } from "./BlinkitProductPage";
+import { GlanceableTrustBadge } from "./EvidenceBlock";
 import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { SuppressedNotice } from "@/components/shared/SuppressedNotice";
@@ -26,6 +27,7 @@ import {
   Sparkles,
   Heart,
   PackageCheck,
+  ChevronRight,
 } from "lucide-react";
 
 export interface PhoneSessionProps {
@@ -35,7 +37,7 @@ export interface PhoneSessionProps {
 
 export function PhoneSession({
   eventId,
-  initialStage = 1,
+  initialStage = 0,
 }: PhoneSessionProps) {
   const [stage, setStage] = useState<0 | 1 | 2 | 3>(initialStage);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -204,7 +206,7 @@ export function PhoneSession({
           </div>
         ) : decision?.action === "act" ? (
           <>
-            {/* STAGE 0: Blinkit Home Screen Background */}
+            {/* STAGE 0: Blinkit Home Screen (Primary Entry Point) */}
             <div
               className="blinkit-home-screen-background"
               style={{
@@ -212,9 +214,10 @@ export function PhoneSession({
                 inset: 0,
                 backgroundColor: "#F8F8F6",
                 padding: "16px",
+                paddingBottom: "60px",
                 display: "flex",
                 flexDirection: "column",
-                gap: "16px",
+                gap: "14px",
                 overflowY: "auto",
                 zIndex: stage === 0 ? 10 : 1,
                 opacity: stage === 0 || stage === 1 ? 1 : 0,
@@ -235,6 +238,54 @@ export function PhoneSession({
               <div style={{ backgroundColor: "#FFF", border: "1px solid var(--border-hairline)", borderRadius: "10px", padding: "10px 14px", display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "12px" }}>
                 <Search size={16} />
                 <span>Search "earbuds", "serum", "dog food"...</span>
+              </div>
+
+              {/* Task 37: Native Home-Screen Resolved-Case Strip (Primary Signal) */}
+              <div
+                className="home-resolved-case-strip"
+                onClick={() => setStage(2)}
+                role="button"
+                tabIndex={0}
+                style={{
+                  backgroundColor: "#FFF",
+                  border: "1px solid rgba(84, 178, 38, 0.4)",
+                  borderRadius: "12px",
+                  padding: "12px 14px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: "10px",
+                  cursor: "pointer",
+                  boxShadow: "0 2px 8px rgba(84, 178, 38, 0.08)",
+                  transition: "all 0.15s ease",
+                  position: "relative",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div
+                    style={{
+                      width: "28px",
+                      height: "28px",
+                      borderRadius: "50%",
+                      backgroundColor: "rgba(84, 178, 38, 0.12)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    <ShieldCheck size={18} style={{ color: "var(--blinkit-green, #54B226)" }} />
+                  </div>
+                  <div>
+                    <div style={{ fontSize: "11px", fontWeight: 800, color: "var(--blinkit-green, #54B226)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+                      Order Issue Resolved
+                    </div>
+                    <div style={{ fontSize: "12px", fontWeight: 600, color: "var(--blinkit-near-black, #1F1F1F)", marginTop: "1px", lineHeight: "16px" }}>
+                      {decision.notificationCopy || "About your recent order — a quick update that might help."}
+                    </div>
+                  </div>
+                </div>
+                <ChevronRight size={18} style={{ color: "var(--blinkit-green, #54B226)", flexShrink: 0 }} />
               </div>
 
               {/* Category Tiles */}
@@ -261,7 +312,7 @@ export function PhoneSession({
               </div>
             </div>
 
-            {/* STAGE 1: Notification Overlay */}
+            {/* STAGE 1: Notification Overlay (Secondary / Optional Entry Point) */}
             <div
               className={`stage-view stage-1-view ${stage === 1 ? "active" : ""}`}
               style={{
@@ -310,7 +361,7 @@ export function PhoneSession({
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <button
                   type="button"
-                  onClick={() => setStage(1)}
+                  onClick={() => setStage(0)}
                   style={{
                     background: "none",
                     border: "none",
@@ -324,7 +375,7 @@ export function PhoneSession({
                     padding: 0,
                   }}
                 >
-                  <ChevronLeft size={16} /> Notification
+                  <ChevronLeft size={16} /> Home
                 </button>
 
                 <ResolvedBadge label="Resolved & Verified" />
