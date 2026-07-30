@@ -9,6 +9,11 @@ import { ConfidenceBadge } from "@/components/evaluator/ConfidenceBadge";
 import { VerificationStatusBadge } from "@/components/evaluator/VerificationStatusBadge";
 import { ActionBadge } from "@/components/evaluator/ActionBadge";
 import { RenderedArtifactPreview } from "@/components/evaluator/RenderedArtifactPreview";
+import { LayerIndicator } from "@/components/evaluator/LayerIndicator";
+import { DeliveryTimeline } from "@/components/evaluator/DeliveryTimeline";
+import { VerificationRecordDetail } from "@/components/evaluator/VerificationRecordDetail";
+import { VariantAssignmentChip } from "@/components/evaluator/VariantAssignmentChip";
+import { CustomerOutcomePanel, OutcomeData } from "@/components/evaluator/CustomerOutcomePanel";
 import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { EventDetail } from "@/lib/db/events";
@@ -46,6 +51,12 @@ export default function InspectorTracePage({
   const [eventLoading, setEventLoading] = useState<boolean>(true);
   const [eventError, setEventError] = useState<string | null>(null);
 
+  // Task 33 Layer & Experiment State
+  const [activeLayer, setActiveLayer] = useState<"signal" | "trust" | "growth" | "idle">("idle");
+  const [experimentActive, setExperimentActive] = useState<boolean>(false);
+  const [outcomeRecord, setOutcomeRecord] = useState<OutcomeData | null>(null);
+  const [timelineEvents, setTimelineEvents] = useState<{ label: string; timestamp: string }[]>([]);
+
   // Stage States
   const [stageAStatus, setStageAStatus] = useState<"locked" | "loading" | "resolved" | "error">("locked");
   const [stageAData, setStageAData] = useState<StageAData | null>(null);
@@ -75,9 +86,25 @@ export default function InspectorTracePage({
     }
   }, [eventId]);
 
+  // Fetch Outcome for this Event
+  const fetchOutcome = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/outcome/${eventId}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.outcome) {
+          setOutcomeRecord(data.outcome);
+        }
+      }
+    } catch (err) {
+      console.error("Error fetching outcome:", err);
+    }
+  }, [eventId]);
+
   useEffect(() => {
     fetchEventDetail();
-  }, [fetchEventDetail]);
+    fetchOutcome();
+  }, [fetchEventDetail, fetchOutcome]);
 
   // Stage C Execution
   const runStageC = useCallback(
@@ -85,9 +112,12 @@ export default function InspectorTracePage({
       failureType: string,
       confidence: string,
       verificationStatus: string,
-      evidenceData: Record<string, unknown> | null
+      evidenceData: Record<string, unknown> | null,
+      classifiedTime: string
     ) => {
       setStageCStatus("loading");
+      setActiveLayer("growth");
+
       try {
         const res = await fetch("/api/decide", {
           method: "POST",
@@ -105,9 +135,28 @@ export default function InspectorTracePage({
         const decision: DecisionResult = await res.json();
         setStageCData(decision);
         setStageCStatus("resolved");
+        setActiveLayer("idle");
+
+        if (decision.action === "act") {
+          const sentTime = new Date().toLocaleTimeString("en-US", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
+          setTimelineEvents([
+            { label: "Classified", timestamp: classifiedTime },
+            { label: "Notification sent", timestamp: sentTime },
+          ]);
+          const hasVariant = Boolean(decision.variant || decision.treatmentGroup);
+          setExperimentActive(hasVariant);
+        } else {
+          setTimelineEvents([]);
+          setExperimentActive(false);
+        }
       } catch (err) {
         console.error(err);
         setStageCStatus("error");
+        setActiveLayer("idle");
       }
     },
     [eventId]
@@ -115,8 +164,10 @@ export default function InspectorTracePage({
 
   // Stage B Execution
   const runStageB = useCallback(
-    async (failureType: string, confidence: string) => {
+    async (failureType: string, confidence: string, classifiedTime: string) => {
       setStageBStatus("loading");
+      setActiveLayer("trust");
+
       try {
         const res = await fetch("/api/verify", {
           method: "POST",
@@ -135,11 +186,13 @@ export default function InspectorTracePage({
           failureType,
           confidence,
           bData.verificationStatus,
-          bData.evidenceData
+          bData.evidenceData,
+          classifiedTime
         );
       } catch (err) {
         console.error(err);
         setStageBStatus("error");
+        setActiveLayer("idle");
       }
     },
     [eventId, runStageC]
@@ -155,6 +208,9 @@ export default function InspectorTracePage({
     setStageBData(null);
     setStageCData(null);
 
+    setActiveLayer("signal");
+    setTimelineEvents([]);
+
     try {
       const res = await fetch("/api/classify", {
         method: "POST",
@@ -164,6 +220,12 @@ export default function InspectorTracePage({
 
       if (!res.ok) throw new Error("Stage A classification failed");
       const aData: StageAData = await res.json();
+
+      const classifiedTime = new Date().toLocaleTimeString("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      });
 
       setStageAData(aData);
       setStageAStatus("resolved");
@@ -179,20 +241,22 @@ export default function InspectorTracePage({
         });
         setStageBStatus("resolved");
 
-        // Run Stage C directly with low confidence
+        // Run Stage C directly with low confidence (bypasses Trust layer)
         await runStageC(
           aData.failureType,
           "low",
           "unverifiable",
-          null
+          null,
+          classifiedTime
         );
       } else {
-        // Proceed to Stage B
-        await runStageB(aData.failureType, aData.confidence);
+        // Proceed to Stage B (Trust layer)
+        await runStageB(aData.failureType, aData.confidence, classifiedTime);
       }
     } catch (err) {
       console.error(err);
       setStageAStatus("error");
+      setActiveLayer("idle");
     }
   }, [eventId, runStageB, runStageC]);
 
@@ -250,11 +314,20 @@ export default function InspectorTracePage({
           </button>
         </div>
 
+        {/* Task 33: Persistent Horizontal Layer Indicator */}
+        <LayerIndicator
+          activeLayer={activeLayer}
+          experimentActive={experimentActive}
+        />
+
         <p className="type-body" style={{ color: "var(--blinkit-near-black)", marginBottom: "16px", opacity: 0.9 }}>
           Three steps: what went wrong, whether it's actually fixed, and what we do about it. The first step uses AI. The second is a deterministic check, not AI. The third combines both — and gets smarter over time as more cases are resolved.
         </p>
 
         <RawEventPanel event={event} />
+
+        {/* Task 33: Delivery Timeline (Renders when notification sent) */}
+        <DeliveryTimeline events={timelineEvents} />
 
         {/* Stage A */}
         <StageBlock
@@ -292,7 +365,12 @@ export default function InspectorTracePage({
           status={stageBStatus}
           onRetry={() => {
             if (stageAData) {
-              runStageB(stageAData.failureType, stageAData.confidence);
+              const classifiedTime = new Date().toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              });
+              runStageB(stageAData.failureType, stageAData.confidence, classifiedTime);
             }
           }}
         >
@@ -313,6 +391,14 @@ export default function InspectorTracePage({
                   </span>
                 </div>
               )}
+
+              {/* Task 33: Verification Record Details */}
+              <VerificationRecordDetail
+                data={stageBData.evidenceData}
+                sourceChecked={stageBData.sourceChecked}
+                verificationStatus={stageBData.verificationStatus}
+                failureType={stageAData?.failureType}
+              />
             </div>
           )}
         </StageBlock>
@@ -325,11 +411,17 @@ export default function InspectorTracePage({
           status={stageCStatus}
           onRetry={() => {
             if (stageAData && stageBData) {
+              const classifiedTime = new Date().toLocaleTimeString("en-US", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              });
               runStageC(
                 stageAData.failureType,
                 stageAData.confidence,
                 stageBData.verificationStatus,
-                stageBData.evidenceData
+                stageBData.evidenceData,
+                classifiedTime
               );
             }
           }}
@@ -349,6 +441,13 @@ export default function InspectorTracePage({
                   <strong>Selected Evidence:</strong> {stageCData.evidencePrimitive.factStatement}
                 </div>
               )}
+
+              {/* Task 33: Variant Assignment Chip */}
+              {stageCData.action === "act" && (
+                <VariantAssignmentChip
+                  variant={stageCData.variant || stageCData.treatmentGroup || "Treatment Variant"}
+                />
+              )}
             </div>
           )}
         </StageBlock>
@@ -357,6 +456,9 @@ export default function InspectorTracePage({
         {stageCStatus === "resolved" && stageCData && (
           <>
             <RenderedArtifactPreview eventId={eventId} decisionResult={stageCData} />
+
+            {/* Task 33: Customer Outcome Panel */}
+            <CustomerOutcomePanel outcome={outcomeRecord} />
 
             {stageCData.action === "act" && (
               <div className="growth-hypothesis-footer type-body">

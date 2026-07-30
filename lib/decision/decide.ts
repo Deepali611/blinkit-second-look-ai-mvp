@@ -8,6 +8,8 @@ export interface DecisionResult {
   ctaDestination?: string;
   ctaLabel?: string;
   notificationCopy?: string;
+  variant?: string;
+  treatmentGroup?: string;
 }
 
 export function makeDecision(
@@ -52,11 +54,21 @@ export function makeDecision(
       break;
   }
 
+  // Derive variant label for experiment tracking
+  const variant = failureType === "expiry_authenticity"
+    ? "Quality Proof"
+    : failureType === "missing_information"
+    ? "Social Proof & Reviews"
+    : failureType === "unresolved_support"
+    ? "Direct Support Resolution"
+    : "Return Policy Reassurance";
+
   return {
     action: "act",
     evidencePrimitive,
     ctaDestination,
     ctaLabel,
     notificationCopy,
+    variant,
   };
 }

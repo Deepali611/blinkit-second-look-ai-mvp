@@ -27,3 +27,8 @@ export function logOutcome(
 export function getAllOutcomes(): OutcomeRecord[] {
   return [...outcomesStore];
 }
+
+export function getOutcomeByEventId(eventId: string): OutcomeRecord | null {
+  const matching = outcomesStore.filter((r) => r.eventId === eventId);
+  return matching.length > 0 ? matching[matching.length - 1] : null;
+}
