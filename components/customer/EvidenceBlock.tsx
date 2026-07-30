@@ -1,5 +1,7 @@
-import React from "react";
-import { PackageCheck, Zap, Sparkles, Heart, Home } from "lucide-react";
+"use client";
+
+import React, { useState } from "react";
+import { ShieldCheck } from "lucide-react";
 import ComplianceFactCard from "./evidence/ComplianceFactCard";
 import ReviewCountCard from "./evidence/ReviewCountCard";
 import TicketResolutionCard from "./evidence/TicketResolutionCard";
@@ -9,106 +11,72 @@ import AcknowledgmentOnlyCard from "./evidence/AcknowledgmentOnlyCard";
 export interface EvidenceBlockProps {
   variant: string;
   factStatement: string;
-  category?: string;
 }
 
-export function PlatformBreadthIndicator({ currentCategory }: { currentCategory: string }) {
-  const categories = [
-    { name: "Groceries", icon: PackageCheck },
-    { name: "Electronics", icon: Zap },
-    { name: "Personal Care", icon: Sparkles },
-    { name: "Pet Supplies", icon: Heart },
-    { name: "Household", icon: Home },
-  ];
+export function GlanceableTrustBadge() {
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   return (
     <div
-      className="platform-breadth-indicator"
+      className="glanceable-trust-badge-wrapper"
       style={{
-        marginTop: "10px",
-        padding: "10px 12px",
-        backgroundColor: "var(--surface-muted, #F5F5F3)",
-        border: "1px solid var(--border-hairline, #E5E5E2)",
-        borderRadius: "10px",
+        position: "absolute",
+        top: "10px",
+        right: "12px",
+        zIndex: 10,
         display: "flex",
-        flexDirection: "column",
-        gap: "6px",
+        alignItems: "center",
       }}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
+      onClick={() => setShowTooltip(!showTooltip)}
     >
       <div
         style={{
+          width: "24px",
+          height: "24px",
+          borderRadius: "50%",
+          backgroundColor: "rgba(84, 178, 38, 0.15)",
           display: "flex",
           alignItems: "center",
-          gap: "8px",
-          overflowX: "auto",
-          paddingBottom: "2px",
+          justifyContent: "center",
+          color: "var(--blinkit-green, #54B226)",
+          cursor: "pointer",
+          boxShadow: "0 2px 6px rgba(84, 178, 38, 0.15)",
         }}
+        aria-label="Verified Check"
       >
-        {categories.map((cat) => {
-          const Icon = cat.icon;
-          const isCurrent =
-            cat.name.toLowerCase() === currentCategory.toLowerCase() ||
-            (currentCategory.toLowerCase().includes("cat_electronics") && cat.name === "Electronics") ||
-            (currentCategory.toLowerCase().includes("cat_personal") && cat.name === "Personal Care") ||
-            (currentCategory.toLowerCase().includes("cat_pet") && cat.name === "Pet Supplies");
-
-          return (
-            <div
-              key={cat.name}
-              title={cat.name}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "4px",
-                padding: "3px 7px",
-                borderRadius: "6px",
-                backgroundColor: isCurrent ? "rgba(84, 178, 38, 0.12)" : "transparent",
-                color: isCurrent ? "var(--blinkit-green, #54B226)" : "var(--text-muted, #666666)",
-                fontWeight: isCurrent ? 700 : 500,
-                fontSize: "11px",
-                whiteSpace: "nowrap",
-                flexShrink: 0,
-              }}
-            >
-              <Icon size={13} style={{ color: isCurrent ? "var(--blinkit-green, #54B226)" : "var(--text-muted, #666666)" }} />
-              <span style={{ opacity: isCurrent ? 1 : 0.75 }}>{cat.name}</span>
-            </div>
-          );
-        })}
+        <ShieldCheck size={15} fill="var(--blinkit-green, #54B226)" stroke="#FFFFFF" />
       </div>
-      <p
-        className="type-body-sm"
-        style={{
-          margin: 0,
-          fontSize: "11px",
-          color: "var(--text-muted, #666666)",
-          lineHeight: "15px",
-          opacity: 0.85,
-        }}
-      >
-        The same check runs on every order, in every category.
-      </p>
+
+      {showTooltip && (
+        <div
+          className="trust-badge-tooltip"
+          style={{
+            position: "absolute",
+            top: "28px",
+            right: 0,
+            backgroundColor: "var(--blinkit-near-black, #1F1F1F)",
+            color: "#FFFFFF",
+            fontSize: "11px",
+            fontWeight: 500,
+            padding: "5px 9px",
+            borderRadius: "6px",
+            whiteSpace: "nowrap",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+            zIndex: 20,
+            animation: "fadeIn 0.15s ease-out",
+            pointerEvents: "none",
+          }}
+        >
+          Checked the same way, every time.
+        </div>
+      )}
     </div>
   );
 }
 
-export function EvidenceBlock({ variant, factStatement, category }: EvidenceBlockProps) {
-  const getCategoryForVariant = () => {
-    if (category) return category;
-    switch (variant) {
-      case "missing_information":
-        return "Personal Care";
-      case "unresolved_support":
-        return "Pet Supplies";
-      case "expiry_authenticity":
-      case "high_value_hesitation":
-      default:
-        return "Electronics";
-    }
-  };
-
-  const currentCategory = getCategoryForVariant();
-
+export function EvidenceBlock({ variant, factStatement }: EvidenceBlockProps) {
   const renderCard = () => {
     switch (variant) {
       case "expiry_authenticity":
@@ -126,9 +94,9 @@ export function EvidenceBlock({ variant, factStatement, category }: EvidenceBloc
   };
 
   return (
-    <div className="evidence-block-wrapper" style={{ display: "flex", flexDirection: "column" }}>
+    <div className="evidence-block-wrapper" style={{ position: "relative" }}>
       {renderCard()}
-      <PlatformBreadthIndicator currentCategory={currentCategory} />
+      <GlanceableTrustBadge />
     </div>
   );
 }
