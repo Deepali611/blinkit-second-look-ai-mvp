@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
 import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { MetricTile } from "@/components/evaluator/MetricTile";
+import { ExperimentFindingsPanel } from "@/components/evaluator/ExperimentFindingsPanel";
 import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { MetricsResult } from "@/lib/metrics/compute";
@@ -49,7 +50,7 @@ export default function GrowthImpactMetricsPage() {
     <div className="portal-layout">
       <BlinkitHeader variant="evaluator" backHref="/" />
       <EnvironmentBadge />
-      <main className="portal-container">
+      <main className="portal-container" style={{ paddingBottom: "60px" }}>
         <h1 className="type-display page-header-title">
           Does This Grow Category Exploration?
         </h1>
@@ -98,6 +99,40 @@ export default function GrowthImpactMetricsPage() {
                   explanation="A higher number here is a sign the system is working safely, not a shortfall."
                 />
               </div>
+            </div>
+
+            {/* Task 34: Distinct Experimentation Layer Section ("What we're learning") */}
+            <div
+              className="experiment-findings-section"
+              style={{
+                marginTop: "48px",
+                paddingTop: "32px",
+                borderTop: "2px dashed var(--border-hairline, #E5E5E2)",
+              }}
+            >
+              <h2
+                className="type-h1 metrics-section-heading"
+                style={{
+                  fontSize: "22px",
+                  fontWeight: 800,
+                  marginBottom: "8px",
+                  color: "var(--blinkit-near-black)",
+                }}
+              >
+                What we're learning
+              </h2>
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "var(--text-muted)",
+                  marginBottom: "20px",
+                  lineHeight: "20px",
+                }}
+              >
+                Experimentation Layer performance breakdown per failure category and messaging variant.
+              </p>
+
+              <ExperimentFindingsPanel />
             </div>
           </div>
         ) : null}

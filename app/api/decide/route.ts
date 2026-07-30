@@ -50,7 +50,12 @@ export async function POST(request: NextRequest) {
       evidenceData
     );
 
-    const treatmentGroup = getTreatmentGroupForEvent(eventId, result.action);
+    const treatmentGroup = getTreatmentGroupForEvent(
+      eventId,
+      result.action,
+      failureType,
+      result.variant
+    );
 
     return NextResponse.json({ ...result, treatmentGroup }, { status: 200 });
   } catch (error) {
