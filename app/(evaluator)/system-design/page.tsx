@@ -59,6 +59,30 @@ export default function SystemDesignPage() {
             customerImpact="None yet, directly — this is future work. This prototype only demonstrates the schema and logging that would make it possible; it has not run on real outcome data and makes no live-learning claim."
             isAI={true}
           />
+
+          {/* Section 5: Rejected Alternative Direction */}
+          <div
+            className="rationale-section-card"
+            style={{
+              backgroundColor: "var(--surface-muted)",
+              border: "1px solid var(--border-hairline)",
+              borderRadius: "12px",
+              padding: "24px",
+            }}
+          >
+            <h2
+              className="type-h1 rationale-title"
+              style={{ fontSize: "20px", marginBottom: "12px", color: "var(--blinkit-near-black)" }}
+            >
+              An alternative direction we considered and rejected
+            </h2>
+            <p
+              className="type-body"
+              style={{ color: "var(--blinkit-near-black)", lineHeight: "24px", margin: 0, opacity: 0.9 }}
+            >
+              Before settling on this architecture, we developed an alternative Growth mechanism in real depth — one that targeted a broader customer population and a different point in the shopping journey. We rejected it, specifically, because it could not be traced back to our own validated research: building it responsibly would have required inferring customer behavior and life context that Parts 1–3 never measured or validated. Every component of the architecture on this page, by contrast, traces directly to a specific finding from our review-mining or interview research. We chose evidence-grounded scope over a theoretically larger opportunity.
+            </p>
+          </div>
         </div>
 
         {/* Closing Section: What's simulated vs. real */}
