@@ -20,6 +20,7 @@ import {
 import { ResolvedBadge } from "./ResolvedBadge";
 import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
 import { QuickTakeCard } from "./QuickTakeCard";
+import { EvidenceBlock } from "./EvidenceBlock";
 
 export interface BlinkitProductPageProps {
   emphasisVariant: "quality" | "reviews" | "support" | "policy" | string;
@@ -691,8 +692,14 @@ export function BlinkitProductPage({
           )}
         </div>
 
+        {/* Task 42: Native Expandable Evidence Policy Row */}
+        <EvidenceBlock
+          variant={failureType}
+          factStatement={factStatement || "Verified operational records show this issue has been checked and resolved for your account."}
+        />
+
         {/* Frequently Bought Together Row */}
-        <div style={{ borderTop: "1px solid var(--border-hairline)", paddingTop: "16px", marginTop: "20px" }}>
+        <div style={{ borderTop: "1px solid var(--border-hairline)", paddingTop: "16px", marginTop: "16px" }}>
           <h4 style={{ fontSize: "14px", fontWeight: 700, marginBottom: "10px", color: "var(--blinkit-near-black)" }}>
             Frequently bought together
           </h4>
