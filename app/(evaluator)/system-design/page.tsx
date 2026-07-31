@@ -19,7 +19,7 @@ export default function SystemDesignPage() {
 
         <div className="system-design-business-framing type-body" style={{ backgroundColor: "var(--surface-muted)", border: "1px solid var(--border-hairline)", borderRadius: "10px", padding: "16px 20px", marginBottom: "20px", lineHeight: "24px" }}>
           <p>
-            Blinkit's growth goal is category breadth, not single-category retention. The bet behind this MVP is that a customer's willingness to explore is fragile after a bad first experience — and that fixing that first experience, credibly, might restore not just that category, but their broader willingness to explore. {HYPOTHESIS_STATEMENT} Everything below explains how AI makes the test possible, and where AI genuinely does the work versus where it deliberately doesn't.
+            Blinkit's growth goal is category breadth, not single-category retention. Shopping mission interruption is the starting problem; trust erosion is its downstream consequence. The bet behind this MVP is that identifying the specific obstacle that interrupted a first-time category purchase, resolving it credibly with real evidence, and letting the customer finish that mission restores not just that purchase, but their broader willingness to explore. {HYPOTHESIS_STATEMENT} Everything below explains how AI makes the test possible, and where AI genuinely does the work versus where it deliberately doesn't.
           </p>
         </div>
 
@@ -81,6 +81,30 @@ export default function SystemDesignPage() {
               style={{ color: "var(--blinkit-near-black)", lineHeight: "24px", margin: 0, opacity: 0.9 }}
             >
               Before settling on this architecture, we developed an alternative Growth mechanism in real depth — one that targeted a broader customer population and a different point in the shopping journey. We rejected it, specifically, because it could not be traced back to our own validated research: building it responsibly would have required inferring customer behavior and life context that Parts 1–3 never measured or validated. Every component of the architecture on this page, by contrast, traces directly to a specific finding from our review-mining or interview research. We chose evidence-grounded scope over a theoretically larger opportunity.
+            </p>
+          </div>
+
+          {/* Section 6: Two-Phase Product Roadmap */}
+          <div
+            className="rationale-section-card"
+            style={{
+              backgroundColor: "var(--surface-muted)",
+              border: "1px solid var(--border-hairline)",
+              borderRadius: "12px",
+              padding: "24px",
+            }}
+          >
+            <h2
+              className="type-h1 rationale-title"
+              style={{ fontSize: "20px", marginBottom: "12px", color: "var(--blinkit-near-black)" }}
+            >
+              Two-Phase Product Roadmap
+            </h2>
+            <p
+              className="type-body"
+              style={{ color: "var(--blinkit-near-black)", lineHeight: "24px", margin: 0, opacity: 0.9 }}
+            >
+              Phase 1 (this MVP): recover shopping missions interrupted by evidenced, specific obstacles in first-time category purchases. Phase 2 (future direction, not built): reduce how often those interruptions occur in the first place, by surfacing relevant information earlier in the journey.
             </p>
           </div>
         </div>

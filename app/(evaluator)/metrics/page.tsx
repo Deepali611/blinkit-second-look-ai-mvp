@@ -55,7 +55,7 @@ export default function GrowthImpactMetricsPage() {
           Does This Grow Category Exploration?
         </h1>
         <p className="type-body metrics-page-intro" style={{ color: "var(--blinkit-near-black)", marginBottom: "20px", opacity: 0.9 }}>
-          Blinkit's growth goal is category breadth, not single-category recovery. Cross-Category Exploration Rate is the number that answers that question directly. The tiles below it check whether the underlying mechanism is working — they don't, by themselves, indicate business impact.
+          Blinkit's growth goal is category breadth, not single-category recovery. Cross-Category Exploration Rate tests whether helping a customer complete an interrupted shopping mission in one category increases their willingness to start missions in new categories. The tiles below check whether the underlying mechanism is working — they don't, by themselves, indicate business impact.
         </p>
 
         {isLoading ? (

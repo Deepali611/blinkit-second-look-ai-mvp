@@ -6,20 +6,20 @@ export interface AcknowledgmentBlockProps {
 }
 
 export function AcknowledgmentBlock({ failureType }: AcknowledgmentBlockProps) {
-  let headlineText = "About your recent order —";
+  let headlineText = "Here's what you need to continue your order —";
 
   switch (failureType) {
     case "expiry_authenticity":
-      headlineText = "We saw what happened with your order.";
+      headlineText = "Here's what you need to continue your purchase safely.";
       break;
     case "missing_information":
-      headlineText = "We know you were deciding without enough to go on.";
+      headlineText = "Here's the detail you needed to decide on this item.";
       break;
     case "unresolved_support":
-      headlineText = "About your support request —";
+      headlineText = "Your support request is resolved — here's how to move forward.";
       break;
     case "high_value_hesitation":
-      headlineText = "We get it — bigger purchases need more certainty.";
+      headlineText = "Here's the guarantee to give you full peace of mind on this order.";
       break;
   }
 

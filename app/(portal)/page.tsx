@@ -37,11 +37,14 @@ export default function EntryPortalPage() {
             </span>
           </div>
 
-          <h1 className="hero-title type-display" style={{ fontSize: "38px", fontWeight: 800, margin: "0 0 12px 0", letterSpacing: "-0.5px" }}>
+          <h1 className="hero-title type-display" style={{ fontSize: "38px", fontWeight: 800, margin: "0 0 4px 0", letterSpacing: "-0.5px" }}>
             Second Look
           </h1>
+          <p style={{ fontSize: "14px", fontWeight: 600, color: "var(--blinkit-green)", marginBottom: "16px", textTransform: "uppercase", letterSpacing: "0.5px" }}>
+            Recovering interrupted shopping missions
+          </p>
 
-          {/* 1. Single-line problem statement (12 words) */}
+          {/* 1. Single-line problem statement */}
           <p
             className="problem-statement-headline"
             style={{
@@ -53,7 +56,7 @@ export default function EntryPortalPage() {
               lineHeight: "28px",
             }}
           >
-            A bad first order in a new category usually ends the relationship. Second Look fixes that.
+            A customer hits an obstacle mid-shopping mission and abandons it. Second Look resolves the obstacle so they can finish.
           </p>
 
           {/* 3. One line connecting to the business goal */}
@@ -66,10 +69,10 @@ export default function EntryPortalPage() {
               marginBottom: "28px",
             }}
           >
-            Built to test whether resolving trust in one category increases exploration of others.
+            Built to test whether recovering an interrupted mission in one category increases willingness to start missions in others.
           </p>
 
-          {/* 2. Static Visual Preview Element Above the Fold (Visual Focal Point) */}
+          {/* 2. Static Visual Preview Element Above the Fold */}
           <div
             className="phone-preview-above-fold"
             style={{

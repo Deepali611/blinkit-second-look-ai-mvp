@@ -1,4 +1,4 @@
-export const HYPOTHESIS_STATEMENT = "A customer's belief about whether Blinkit resolves problems is a belief about Blinkit, not about one category — proving it once, credibly, may lower the perceived risk of trying anywhere else. This is a hypothesis this MVP is built to test, not a proven result.";
+export const HYPOTHESIS_STATEMENT = "A customer starts a purchase in a new category, hits a specific obstacle — a quality concern, missing information, an unresolved issue, or hesitation on a bigger purchase — and abandons the mission mid-way. Trust erosion is the consequence of that interruption, not the starting problem. This MVP identifies the specific obstacle, resolves it with real evidence, and lets the customer continue the purchase they'd already started.";
 
 export const ASSUMPTION_CAVEAT_SHORT = "This is a hypothesis, not a proven result.";
 
