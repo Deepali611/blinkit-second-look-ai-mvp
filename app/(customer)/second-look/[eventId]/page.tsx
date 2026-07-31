@@ -1,8 +1,4 @@
-import React from "react";
-import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { PhoneSession } from "@/components/customer/PhoneSession";
-import { AIReasoningStrip } from "@/components/evaluator/AIReasoningStrip";
-import { MeasureResultPanel } from "@/components/evaluator/MeasureResultPanel";
+import { redirect } from "next/navigation";
 
 export default async function SecondLookPage({
   params,
@@ -11,23 +7,5 @@ export default async function SecondLookPage({
 }) {
   const resolvedParams = await params;
   const eventId = resolvedParams.eventId;
-
-  return (
-    <div className="portal-layout" style={{ backgroundColor: "var(--evaluator-bg)", minHeight: "100vh" }}>
-      <BlinkitHeader variant="evaluator" backHref="/" />
-
-      <main className="portal-container" style={{ paddingBottom: "60px" }}>
-        {/* Customer Phone World Container */}
-        <div className="customer-phone-world-wrapper" style={{ margin: "20px 0 40px 0" }}>
-          <PhoneSession eventId={eventId} initialStage={2} />
-        </div>
-
-        {/* Task 28: Condensed AI Reasoning Strip */}
-        <AIReasoningStrip eventId={eventId} />
-
-        {/* Task 25: Measure the Result Panel */}
-        <MeasureResultPanel eventId={eventId} />
-      </main>
-    </div>
-  );
+  redirect(`/mock/product/prod_1?eventId=${eventId}`);
 }

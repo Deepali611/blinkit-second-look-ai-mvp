@@ -104,9 +104,6 @@ export default async function MockCategoryPage({
                 <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--blinkit-near-black)" }}>
                   What's changed since your last visit
                 </div>
-                <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>
-                  Verified supplier quality & replacement guarantees updated for this category.
-                </div>
               </div>
             </div>
             <ResolvedBadge label="Verified" />
