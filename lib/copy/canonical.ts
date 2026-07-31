@@ -21,9 +21,14 @@ export const STAGE_TAGS = {
 export const METRIC_NAMES = {
   crossCategoryExplorationRate: "Cross-Category Exploration Rate",
   sameCategoryReturnRate: "Same-Category Return Rate",
+  missionRecoveryRate: "Mission Recovery Rate",
+  notificationOpenRate: "Notification Open Rate",
+  recoveryCtaClickRate: "Recovery CTA Click Rate",
   classificationAccuracy: "How Often We Identified the Problem Correctly",
   suppressionRate: "Cases We Correctly Held Back On",
-  liftLabel: "Compared to doing nothing"
+  liftLabel: "Compared to doing nothing",
+  leadingSectionTitle: "Leading Indicators",
+  laggingSectionTitle: "Lagging Indicators",
 };
 
 export const HELD_BACK_EXPLANATION = "Correctly held back — the system chose not to act. This is a designed, successful outcome, not an error.";
