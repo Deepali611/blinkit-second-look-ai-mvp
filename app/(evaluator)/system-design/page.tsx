@@ -23,6 +23,106 @@ export default function SystemDesignPage() {
           </p>
         </div>
 
+        {/* Six-Step Causal Chain (Organizing Spine) */}
+        <div
+          className="causal-chain-container"
+          style={{
+            backgroundColor: "var(--surface-muted)",
+            border: "1px solid var(--border-hairline)",
+            borderRadius: "12px",
+            padding: "24px",
+            margin: "24px 0",
+          }}
+        >
+          <h2
+            className="type-h1"
+            style={{
+              fontSize: "20px",
+              fontWeight: 800,
+              marginBottom: "16px",
+              color: "var(--blinkit-near-black)",
+            }}
+          >
+            The Six-Step Mechanism Spine
+          </h2>
+
+          <div
+            className="causal-chain-steps"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+            }}
+          >
+            {[
+              "AI Review Mining (1,176 reviews, 189 signals)",
+              "Four recurring obstacle types surfaced repeatedly, confirmed independently in interviews",
+              "These obstacle types are category-agnostic — the same fear shows up regardless of which category it's first observed in",
+              "Mission Recovery resolves one obstacle type, in one category, with real evidence",
+              "Hypothesis: proof of resolution for an obstacle type carries forward into the next unfamiliar category where that same obstacle type could appear",
+              "Cross-Category Exploration Rate tests exactly this, with no further nudge or recommendation added",
+            ].map((stepText, idx) => (
+              <div
+                key={idx}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: "14px",
+                  backgroundColor: "#FFFFFF",
+                  border: "1px solid var(--border-hairline)",
+                  borderRadius: "8px",
+                  padding: "12px 16px",
+                  boxShadow: "0 1px 3px rgba(0,0,0,0.02)",
+                }}
+              >
+                <div
+                  style={{
+                    width: "26px",
+                    height: "26px",
+                    borderRadius: "50%",
+                    backgroundColor: "var(--blinkit-green)",
+                    color: "#FFFFFF",
+                    fontSize: "13px",
+                    fontWeight: 800,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    flexShrink: 0,
+                    marginTop: "1px",
+                  }}
+                >
+                  {idx + 1}
+                </div>
+                <p
+                  style={{
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    color: "var(--blinkit-near-black)",
+                    margin: 0,
+                    lineHeight: "20px",
+                  }}
+                >
+                  {stepText}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <p
+            style={{
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "var(--text-muted)",
+              marginTop: "16px",
+              marginBottom: 0,
+              lineHeight: "20px",
+              fontStyle: "italic",
+            }}
+          >
+            These four obstacle types were not invented during ideation. They emerged repeatedly during review mining and user interviews, and every recovery path in the MVP maps directly to one of them.
+          </p>
+        </div>
+
         <div className="system-design-sections-stack" style={{ marginTop: "24px", display: "flex", flexDirection: "column", gap: "24px" }}>
           {/* Section 1: Stage A */}
           <RationaleSection
