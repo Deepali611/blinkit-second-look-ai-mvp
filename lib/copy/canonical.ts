@@ -4,6 +4,8 @@ export const INVISIBLE_AI_FRAMING = "The customer never sees this reasoning happ
 
 export const DECISION_UNCERTAINTY_METRIC_SUBTITLE = "This tests whether removing reusable decision uncertainty — not persuasion — makes exploration more likely. We're measuring this, not assuming it.";
 
+export const PROACTIVE_REUSE_EXPLANATION = "This isn't just measured as a hypothesis — the product actively reuses what it learned. When a customer independently explores a new category carrying the same obstacle type previously resolved, the same kind of verified evidence appears proactively, before they hit the obstacle.";
+
 export const ASSUMPTION_CAVEAT_SHORT = "This is a hypothesis, not a proven result.";
 
 export const SCOPE_BANNER_FULL = "This is an evaluation prototype. Trigger events, verification data, and customer outcomes are simulated. Classification uses a live AI model call; verification and decision logic are deterministic code running against mock data.";

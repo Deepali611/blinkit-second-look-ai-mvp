@@ -5,6 +5,7 @@ import { RationaleSection } from "@/components/evaluator/RationaleSection";
 import {
   HYPOTHESIS_STATEMENT,
   INVISIBLE_AI_FRAMING,
+  PROACTIVE_REUSE_EXPLANATION,
   STAGE_TITLES,
   STAGE_TAGS,
 } from "@/lib/copy/canonical";
@@ -227,9 +228,15 @@ export default function SystemDesignPage() {
             </h2>
             <p
               className="type-body"
-              style={{ color: "var(--blinkit-near-black)", lineHeight: "24px", margin: 0, opacity: 0.9 }}
+              style={{ color: "var(--blinkit-near-black)", lineHeight: "24px", margin: "0 0 12px 0", opacity: 0.9 }}
             >
               Obstacles in quick commerce are not category-bound — a customer who hesitates on a high-value item in Electronics experiences the same fundamental doubt (will it be authentic and returnable?) as when considering Personal Care or Pet Supplies. By resolving obstacle-types (quality doubts, missing information, unresolved support, high-value hesitation) rather than making product recommendations, Second Look addresses the underlying cause of mission abandonment. Credibly resolving an obstacle in one category signals to the customer that Blinkit handles that obstacle-type across all categories.
+            </p>
+            <p
+              className="type-body"
+              style={{ color: "var(--blinkit-green)", lineHeight: "22px", margin: 0, fontWeight: 600 }}
+            >
+              {PROACTIVE_REUSE_EXPLANATION}
             </p>
           </div>
         </div>

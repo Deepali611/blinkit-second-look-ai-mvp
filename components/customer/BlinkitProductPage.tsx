@@ -344,8 +344,8 @@ export function BlinkitProductPage({
         </div>
       </div>
 
-      {/* Task 47: Session-Revisit Header Banner (Appears when customer with resolved case revisits page) */}
-      {hasResolvedCase && (
+      {/* Task 47 & 50: Header Banner (Session Revisit or Proactive New-Category Entry) */}
+      {(hasResolvedCase || isFirstCategoryVisit) && (
         <div
           className="session-revisit-header-banner"
           onClick={() => setRowExpanded(!rowExpanded)}
@@ -377,7 +377,7 @@ export function BlinkitProductPage({
                 flexShrink: 0,
               }}
             >
-              <RotateCcw size={14} />
+              {isFirstCategoryVisit ? <ShieldCheck size={14} /> : <RotateCcw size={14} />}
             </div>
             <span
               style={{
@@ -386,7 +386,7 @@ export function BlinkitProductPage({
                 color: "var(--blinkit-near-black)",
               }}
             >
-              What's changed since your last visit
+              {isFirstCategoryVisit ? "Verified before you ask" : "What's changed since your last visit"}
             </span>
           </div>
           <ChevronRight size={18} style={{ color: "var(--blinkit-green)", flexShrink: 0 }} />

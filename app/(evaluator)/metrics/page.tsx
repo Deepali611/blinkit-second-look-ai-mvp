@@ -8,7 +8,11 @@ import { ExperimentFindingsPanel } from "@/components/evaluator/ExperimentFindin
 import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { MetricsResult } from "@/lib/metrics/compute";
-import { METRIC_NAMES, DECISION_UNCERTAINTY_METRIC_SUBTITLE } from "@/lib/copy/canonical";
+import {
+  METRIC_NAMES,
+  DECISION_UNCERTAINTY_METRIC_SUBTITLE,
+  PROACTIVE_REUSE_EXPLANATION,
+} from "@/lib/copy/canonical";
 
 export default function GrowthImpactMetricsPage() {
   const [metrics, setMetrics] = useState<MetricsResult | null>(null);
@@ -128,11 +132,23 @@ export default function GrowthImpactMetricsPage() {
                   fontSize: "13px",
                   fontWeight: 500,
                   color: "var(--text-muted)",
-                  marginBottom: "16px",
+                  marginBottom: "8px",
                   lineHeight: "18px",
                 }}
               >
                 Tests whether resolving an obstacle-type — not a recommendation — changes exploration in categories never touched by this recovery. {DECISION_UNCERTAINTY_METRIC_SUBTITLE}
+              </p>
+
+              <p
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 600,
+                  color: "var(--blinkit-green)",
+                  marginBottom: "16px",
+                  lineHeight: "18px",
+                }}
+              >
+                {PROACTIVE_REUSE_EXPLANATION}
               </p>
 
               <div className="primary-metric-hero-wrapper" style={{ marginBottom: "20px" }}>

@@ -68,7 +68,7 @@ export default async function MockCategoryPage({
             </h1>
           </div>
 
-          {/* Task 47: Session-Revisit Header Banner */}
+          {/* Task 47 & 50: Session-Revisit or Proactive Header Banner */}
           <div
             className="session-revisit-header-banner"
             style={{
@@ -102,7 +102,7 @@ export default async function MockCategoryPage({
               </div>
               <div>
                 <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--blinkit-near-black)" }}>
-                  What's changed since your last visit
+                  {isFirstCategoryVisit ? "Verified before you ask" : "What's changed since your last visit"}
                 </div>
               </div>
             </div>
