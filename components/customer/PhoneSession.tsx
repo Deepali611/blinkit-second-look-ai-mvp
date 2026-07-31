@@ -240,10 +240,10 @@ export function PhoneSession({
                 <span>Search "earbuds", "serum", "dog food"...</span>
               </div>
 
-              {/* Task 37: Native Home-Screen Resolved-Case Strip (Primary Signal) */}
+              {/* Task 37 & 43: Native Home-Screen Resolved-Case Strip (Deep-links to Product Page) */}
               <div
                 className="home-resolved-case-strip"
-                onClick={() => setStage(2)}
+                onClick={() => setStage(3)}
                 role="button"
                 tabIndex={0}
                 style={{
@@ -312,7 +312,7 @@ export function PhoneSession({
               </div>
             </div>
 
-            {/* STAGE 1: Notification Overlay (Secondary / Optional Entry Point) */}
+            {/* STAGE 1: Notification Overlay (Secondary Entry Point — Deep-links to Product Page) */}
             <div
               className={`stage-view stage-1-view ${stage === 1 ? "active" : ""}`}
               style={{
@@ -333,7 +333,7 @@ export function PhoneSession({
               <PhoneNotificationMock
                 copyText={decision.notificationCopy || "About your recent order — a quick update that might help."}
                 timestamp="Just now"
-                onClick={() => setStage(2)}
+                onClick={() => setStage(3)}
               />
             </div>
 
@@ -444,7 +444,9 @@ export function PhoneSession({
                 emphasisVariant={getEmphasisVariant()}
                 failureType={failureType}
                 factStatement={decision.evidencePrimitive?.factStatement}
-                onBack={() => setStage(2)}
+                onBack={() => setStage(0)}
+                defaultExpanded={true}
+                showAcknowledgmentToast={true}
               />
             </div>
 

@@ -14,6 +14,7 @@ import {
 export interface EvidenceBlockProps {
   variant: string;
   factStatement: string;
+  defaultExpanded?: boolean;
 }
 
 export function GlanceableTrustBadge() {
@@ -83,8 +84,9 @@ export function GlanceableTrustBadge() {
 export function BlinkitExpandableEvidenceRow({
   variant,
   factStatement,
+  defaultExpanded = true,
 }: EvidenceBlockProps) {
-  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(defaultExpanded);
 
   const getRowMeta = () => {
     switch (variant) {

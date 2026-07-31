@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useLayoutEffect, useState } from "react";
+import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
 import {
   ChevronLeft,
   ShoppingBag,
@@ -16,6 +16,7 @@ import {
   Store,
   Tag,
   ThumbsUp,
+  X,
 } from "lucide-react";
 import { ResolvedBadge } from "./ResolvedBadge";
 import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
@@ -29,6 +30,8 @@ export interface BlinkitProductPageProps {
   onBack?: () => void;
   isFirstCategoryVisit?: boolean;
   categoryId?: string;
+  defaultExpanded?: boolean;
+  showAcknowledgmentToast?: boolean;
 }
 
 export function BlinkitProductPage({
@@ -38,6 +41,8 @@ export function BlinkitProductPage({
   onBack,
   isFirstCategoryVisit = false,
   categoryId,
+  defaultExpanded = true,
+  showAcknowledgmentToast = true,
 }: BlinkitProductPageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trustBadgeRef = useRef<HTMLDivElement>(null);
@@ -49,6 +54,31 @@ export function BlinkitProductPage({
   const [detailsExpanded, setDetailsExpanded] = useState<boolean>(true);
   const [cartQty, setCartQty] = useState<number>(0);
   const [selectedImgIdx, setSelectedImgIdx] = useState<number>(0);
+  const [showToast, setShowToast] = useState<boolean>(showAcknowledgmentToast && !isFirstCategoryVisit);
+
+  useEffect(() => {
+    if (showToast) {
+      const timer = setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [showToast]);
+
+  const getToastHeadline = () => {
+    switch (failureType) {
+      case "expiry_authenticity":
+        return "Here's what you need to continue your purchase safely.";
+      case "missing_information":
+        return "Here's the detail you needed to decide on this item.";
+      case "unresolved_support":
+        return "Your support request is resolved — here's how to move forward.";
+      case "high_value_hesitation":
+        return "Here's the guarantee to give you full peace of mind on this order.";
+      default:
+        return "Here's what you need to continue your order.";
+    }
+  };
 
   // High quality authentic product catalogue imagery & data
   const getProductData = () => {
@@ -309,6 +339,39 @@ export function BlinkitProductPage({
           )}
         </div>
       </div>
+
+      {/* Task 43: One-Time Acknowledgment Toast Banner */}
+      {showToast && (
+        <div
+          className="acknowledgment-toast-banner"
+          style={{
+            position: "relative",
+            zIndex: 25,
+            backgroundColor: "var(--blinkit-near-black, #1F1F1F)",
+            color: "#FFFFFF",
+            padding: "10px 14px",
+            fontSize: "12px",
+            fontWeight: 600,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.2)",
+            animation: "fadeIn 0.2s ease-out",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <ShieldCheck size={16} style={{ color: "var(--blinkit-green, #54B226)", flexShrink: 0 }} />
+            <span>{getToastHeadline()}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowToast(false)}
+            style={{ background: "none", border: "none", color: "rgba(255, 255, 255, 0.7)", cursor: "pointer", padding: 0 }}
+          >
+            <X size={14} />
+          </button>
+        </div>
+      )}
 
       {/* Section 2: Swipeable Carousel with Thumbnail Strip */}
       <div className="product-carousel-wrapper" style={{ backgroundColor: "#F8F8F6", padding: "12px 16px" }}>
