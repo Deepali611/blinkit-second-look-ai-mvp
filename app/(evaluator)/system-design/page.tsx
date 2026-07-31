@@ -107,6 +107,30 @@ export default function SystemDesignPage() {
               Phase 1 (this MVP): recover shopping missions interrupted by evidenced, specific obstacles in first-time category purchases. Phase 2 (future direction, not built): reduce how often those interruptions occur in the first place, by surfacing relevant information earlier in the journey.
             </p>
           </div>
+
+          {/* Section 7: Why we believe this generalizes across categories */}
+          <div
+            className="rationale-section-card"
+            style={{
+              backgroundColor: "var(--surface-muted)",
+              border: "1px solid var(--border-hairline)",
+              borderRadius: "12px",
+              padding: "24px",
+            }}
+          >
+            <h2
+              className="type-h1 rationale-title"
+              style={{ fontSize: "20px", marginBottom: "12px", color: "var(--blinkit-near-black)" }}
+            >
+              Why we believe this generalizes across categories
+            </h2>
+            <p
+              className="type-body"
+              style={{ color: "var(--blinkit-near-black)", lineHeight: "24px", margin: 0, opacity: 0.9 }}
+            >
+              Obstacles in quick commerce are not category-bound — a customer who hesitates on a high-value item in Electronics experiences the same fundamental doubt (will it be authentic and returnable?) as when considering Personal Care or Pet Supplies. By resolving obstacle-types (quality doubts, missing information, unresolved support, high-value hesitation) rather than making product recommendations, Second Look addresses the underlying cause of mission abandonment. Credibly resolving an obstacle in one category signals to the customer that Blinkit handles that obstacle-type across all categories.
+            </p>
+          </div>
         </div>
 
         {/* Closing Section: What's simulated vs. real */}

@@ -113,7 +113,7 @@ export default function GrowthImpactMetricsPage() {
                 style={{
                   fontSize: "20px",
                   fontWeight: 800,
-                  marginBottom: "16px",
+                  marginBottom: "12px",
                   color: "var(--blinkit-near-black)",
                   display: "flex",
                   alignItems: "center",
@@ -122,6 +122,18 @@ export default function GrowthImpactMetricsPage() {
               >
                 <span>📊</span> {METRIC_NAMES.laggingSectionTitle}
               </h2>
+
+              <p
+                style={{
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  color: "var(--text-muted)",
+                  marginBottom: "16px",
+                  lineHeight: "18px",
+                }}
+              >
+                Tests whether resolving an obstacle-type — not a recommendation — changes exploration in categories never touched by this recovery.
+              </p>
 
               <div className="primary-metric-hero-wrapper" style={{ marginBottom: "20px" }}>
                 <MetricTile
