@@ -34,23 +34,23 @@ export function makeDecision(
 
   const { ctaLabel, ctaDestination } = selectCTA(failureType, eventId);
 
-  let notificationCopy = "About your recent order — a quick update that might help.";
+  let notificationCopy = "Here's what's changed — decision details updated for your order.";
   switch (failureType) {
     case "expiry_authenticity":
       notificationCopy =
-        "About your order from 10 May — we noticed a quality issue and wanted to update you.";
+        "Here's what's changed — quality check details for your item are updated.";
       break;
     case "missing_information":
       notificationCopy =
-        "Following up on your recent order — more information is now available.";
+        "What you asked about, answered — customer reviews and details added.";
       break;
     case "unresolved_support":
       notificationCopy =
-        "About your support request — here's where things stand.";
+        "Here's what's changed — your support resolution is ready.";
       break;
     case "high_value_hesitation":
       notificationCopy =
-        "About your recent order — a quick update that might help.";
+        "What you asked about, answered — protection and replacement details.";
       break;
   }
 

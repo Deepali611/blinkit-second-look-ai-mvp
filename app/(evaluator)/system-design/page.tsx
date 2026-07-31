@@ -4,6 +4,7 @@ import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { RationaleSection } from "@/components/evaluator/RationaleSection";
 import {
   HYPOTHESIS_STATEMENT,
+  INVISIBLE_AI_FRAMING,
   STAGE_TITLES,
   STAGE_TAGS,
 } from "@/lib/copy/canonical";
@@ -19,7 +20,7 @@ export default function SystemDesignPage() {
 
         <div className="system-design-business-framing type-body" style={{ backgroundColor: "var(--surface-muted)", border: "1px solid var(--border-hairline)", borderRadius: "10px", padding: "16px 20px", marginBottom: "20px", lineHeight: "24px" }}>
           <p>
-            Blinkit's growth goal is category breadth, not single-category retention. Shopping mission interruption is the starting problem; trust erosion is its downstream consequence. The bet behind this MVP is that identifying the specific obstacle that interrupted a first-time category purchase, resolving it credibly with real evidence, and letting the customer finish that mission restores not just that purchase, but their broader willingness to explore. {HYPOTHESIS_STATEMENT} Everything below explains how AI makes the test possible, and where AI genuinely does the work versus where it deliberately doesn't.
+            Blinkit's growth goal is category breadth, not single-category retention. Shopping mission interruption is the starting problem; trust erosion is its downstream consequence. The bet behind this MVP is that identifying the specific obstacle that interrupted a first-time category purchase, resolving it credibly with real evidence, and letting the customer finish that mission restores not just that purchase, but their broader willingness to explore. {HYPOTHESIS_STATEMENT} {INVISIBLE_AI_FRAMING} Everything below explains how AI makes the test possible, and where AI genuinely does the work versus where it deliberately doesn't.
           </p>
         </div>
 

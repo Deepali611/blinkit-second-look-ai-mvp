@@ -3,6 +3,7 @@ import Link from "next/link";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
 import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { PortalCard } from "@/components/evaluator/PortalCard";
+import { INVISIBLE_AI_FRAMING } from "@/lib/copy/canonical";
 import {
   BarChart3,
   Smartphone,
@@ -66,10 +67,24 @@ export default function EntryPortalPage() {
               fontSize: "14px",
               fontWeight: 500,
               color: "var(--text-muted)",
-              marginBottom: "28px",
+              marginBottom: "8px",
             }}
           >
             Built to test whether recovering an interrupted mission in one category increases willingness to start missions in others.
+          </p>
+
+          <p
+            style={{
+              fontSize: "13px",
+              fontWeight: 500,
+              color: "var(--blinkit-green)",
+              maxWidth: "600px",
+              margin: "0 auto 24px auto",
+              lineHeight: "18px",
+              fontStyle: "italic",
+            }}
+          >
+            {INVISIBLE_AI_FRAMING}
           </p>
 
           {/* 2. Static Visual Preview Element Above the Fold */}

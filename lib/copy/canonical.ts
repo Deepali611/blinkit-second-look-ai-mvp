@@ -1,5 +1,9 @@
 export const HYPOTHESIS_STATEMENT = "A customer starts a purchase in a new category, hits a specific obstacle — a quality concern, missing information, an unresolved issue, or hesitation on a bigger purchase — and abandons the mission mid-way. Trust erosion is the consequence of that interruption, not the starting problem. This MVP identifies the specific obstacle, resolves it with real evidence, and lets the customer continue the purchase they'd already started.";
 
+export const INVISIBLE_AI_FRAMING = "The customer never sees this reasoning happen — they simply experience Blinkit remembering where they got stuck and having the answer ready.";
+
+export const DECISION_UNCERTAINTY_METRIC_SUBTITLE = "This tests whether removing reusable decision uncertainty — not persuasion — makes exploration more likely. We're measuring this, not assuming it.";
+
 export const ASSUMPTION_CAVEAT_SHORT = "This is a hypothesis, not a proven result.";
 
 export const SCOPE_BANNER_FULL = "This is an evaluation prototype. Trigger events, verification data, and customer outcomes are simulated. Classification uses a live AI model call; verification and decision logic are deterministic code running against mock data.";
