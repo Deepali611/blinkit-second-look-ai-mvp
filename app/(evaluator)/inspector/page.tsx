@@ -19,7 +19,7 @@ const FILTER_OPTIONS: FilterOption[] = [
   { label: "Cases we correctly held back on", value: "unclear" },
 ];
 
-export default function CustomerRecoveryCasesPage() {
+export default function MissionRecoveryCasesPage() {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<string>("");
   const [events, setEvents] = useState<EventListItem[]>([]);
@@ -44,7 +44,7 @@ export default function CustomerRecoveryCasesPage() {
       setEvents(data.events || []);
     } catch (err) {
       console.error("Failed to fetch events:", err);
-      setError("Failed to load customer recovery cases. Please try again.");
+      setError("Failed to load mission recovery cases. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +63,7 @@ export default function CustomerRecoveryCasesPage() {
       <BlinkitHeader variant="evaluator" backHref="/" />
       <EnvironmentBadge />
       <main className="portal-container">
-        <h1 className="type-display page-header-title">Customer Recovery Cases</h1>
+        <h1 className="type-display page-header-title">Mission Recovery Cases</h1>
         <p className="type-body" style={{ color: "var(--blinkit-near-black)", marginBottom: "16px", opacity: 0.9 }}>
           Each of these customers tried a new category and hit a real, specific problem. Select one to see how Blinkit responded — and why that response might matter beyond just this category.
         </p>

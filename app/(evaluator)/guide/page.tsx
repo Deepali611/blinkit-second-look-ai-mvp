@@ -60,13 +60,13 @@ export default function EvaluatorGuidePage() {
             title="See how Blinkit decided what to do"
             description="Here's the reasoning behind what you just saw. You'll see three steps — one uses AI, one is deliberately rules-based, and one is AI-assisted and improves over time."
             checklist={[
-              "Go to Customer Recovery Cases and open the same case type you just saw",
+              "Go to Mission Recovery Cases and open the same case type you just saw",
               "Confirm the reasoning in step 1 is specific to that event's actual text, not generic",
               `Confirm step 2 is clearly labeled ${STAGE_TAGS.stageB} and never claims to be AI`,
             ]}
           >
             <Link href="/inspector" className="guide-action-btn">
-              <span>Open Customer Recovery Cases →</span>
+              <span>Open Mission Recovery Cases →</span>
             </Link>
           </PhaseSection>
 

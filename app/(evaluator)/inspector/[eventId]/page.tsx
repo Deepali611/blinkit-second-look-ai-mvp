@@ -301,7 +301,7 @@ export default function InspectorTracePage({
       <main className="portal-container">
         <div className="inspector-title-row">
           <h1 className="type-display page-header-title">
-            How Blinkit Responded to This Case
+            Mission Recovery Timeline
           </h1>
           <button
             type="button"

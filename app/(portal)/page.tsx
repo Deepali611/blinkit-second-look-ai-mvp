@@ -152,7 +152,7 @@ export default function EntryPortalPage() {
           />
           <PortalCard
             href="/inspector"
-            title="Customer Recovery Cases"
+            title="Mission Recovery Cases"
             description="Explore every case, filtered by what went wrong."
             icon={<Activity size={24} />}
           />

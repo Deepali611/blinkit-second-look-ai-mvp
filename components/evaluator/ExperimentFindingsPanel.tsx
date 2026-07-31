@@ -54,7 +54,7 @@ export function ExperimentFindingsPanel() {
       >
         <Info size={20} style={{ color: "var(--blinkit-yellow, #F8CB45)", marginBottom: "8px" }} />
         <p style={{ margin: 0 }}>
-          No experiment data yet — run a few cases through the Recovery Cases trace and simulate outcomes to see results here.
+          No experiment data yet — run a few cases through the Mission Recovery Cases trace and simulate outcomes to see results here.
         </p>
       </div>
     );
