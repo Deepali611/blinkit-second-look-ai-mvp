@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { ResolvedBadge } from "./ResolvedBadge";
 import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
+import { QuickTakeCard } from "./QuickTakeCard";
 
 export interface BlinkitProductPageProps {
   emphasisVariant: "quality" | "reviews" | "support" | "policy" | string;
@@ -398,6 +399,11 @@ export function BlinkitProductPage({
 
       {/* Main Content Body */}
       <div style={{ padding: "16px", paddingBottom: cartQty > 0 ? "80px" : "30px" }}>
+        {/* Task 39: Quick Take Card for First-Time Category Visit */}
+        {isFirstCategoryVisit && (
+          <QuickTakeCard categoryId={categoryId || product.category || failureType} />
+        )}
+
         {/* Section 4: Title + Price Block with Discounts & Coupons */}
         <div className="title-price-block" style={{ marginBottom: "12px" }}>
           <h1 className="type-h1" style={{ fontSize: "18px", lineHeight: "24px", fontWeight: 700, color: "var(--blinkit-near-black)", margin: "0 0 4px 0" }}>
@@ -440,20 +446,6 @@ export function BlinkitProductPage({
             <span>⚡ 10% OFF on first order in this category | Use Code: FIRSTLOOK</span>
           </div>
         </div>
-
-        {/* Task 38: Verified First Proactive Category-Entry Trust Signal */}
-        {isFirstCategoryVisit && (
-          <div
-            className="proactive-category-trust-signal"
-            style={{
-              margin: "12px 0 6px 0",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <ResolvedBadge label={selectLeadEvidence(categoryId || failureType).badgeLabel} />
-          </div>
-        )}
 
         {/* Section 5: Trust Badge Row */}
         <div
