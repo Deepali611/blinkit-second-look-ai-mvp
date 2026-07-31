@@ -2,6 +2,8 @@ import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
 import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { MeasureResultPanel } from "@/components/evaluator/MeasureResultPanel";
+import { ResolvedBadge } from "@/components/customer/ResolvedBadge";
+import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
 import { Star, ShieldCheck, Zap, Clock, ThumbsUp, Sparkles, Heart } from "lucide-react";
 
 export default async function MockProductPage({
@@ -17,6 +19,13 @@ export default async function MockProductPage({
   const productId = resolvedParams.productId;
   const isReviewsAnchor = resolvedSearchParams.anchor === "reviews";
   const eventId = resolvedSearchParams.eventId || "evt_1";
+
+  // Check against seed customer historicalCategories (e.g. ["Groceries"])
+  const historicalCategories = ["Groceries", "Snacks", "Beverages"];
+  const isFirstCategoryVisit = !historicalCategories.some(
+    (cat) => productId.toLowerCase().includes(cat.toLowerCase())
+  );
+  const leadEvidence = selectLeadEvidence(productId);
 
   const getProductDetails = () => {
     if (productId.includes("2") || productId.includes("personal_care")) {
@@ -71,6 +80,13 @@ export default async function MockProductPage({
                 <Clock size={13} />
                 <span>Delivery in 10 mins</span>
               </div>
+
+              {/* Task 38: Verified First Proactive Category-Entry Trust Signal */}
+              {isFirstCategoryVisit && (
+                <div style={{ marginTop: "8px", marginBottom: "4px" }}>
+                  <ResolvedBadge label={leadEvidence.badgeLabel} />
+                </div>
+              )}
 
               <h1 className="type-display" style={{ fontSize: "24px", marginTop: "8px" }}>
                 {product.name}

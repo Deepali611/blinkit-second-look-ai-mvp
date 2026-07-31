@@ -18,12 +18,15 @@ import {
   ThumbsUp,
 } from "lucide-react";
 import { ResolvedBadge } from "./ResolvedBadge";
+import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
 
 export interface BlinkitProductPageProps {
   emphasisVariant: "quality" | "reviews" | "support" | "policy" | string;
   failureType?: string;
   factStatement?: string;
   onBack?: () => void;
+  isFirstCategoryVisit?: boolean;
+  categoryId?: string;
 }
 
 export function BlinkitProductPage({
@@ -31,6 +34,8 @@ export function BlinkitProductPage({
   failureType = "expiry_authenticity",
   factStatement,
   onBack,
+  isFirstCategoryVisit = false,
+  categoryId,
 }: BlinkitProductPageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trustBadgeRef = useRef<HTMLDivElement>(null);
@@ -435,6 +440,20 @@ export function BlinkitProductPage({
             <span>⚡ 10% OFF on first order in this category | Use Code: FIRSTLOOK</span>
           </div>
         </div>
+
+        {/* Task 38: Verified First Proactive Category-Entry Trust Signal */}
+        {isFirstCategoryVisit && (
+          <div
+            className="proactive-category-trust-signal"
+            style={{
+              margin: "12px 0 6px 0",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <ResolvedBadge label={selectLeadEvidence(categoryId || failureType).badgeLabel} />
+          </div>
+        )}
 
         {/* Section 5: Trust Badge Row */}
         <div

@@ -2,6 +2,8 @@ import React from "react";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
 import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { MeasureResultPanel } from "@/components/evaluator/MeasureResultPanel";
+import { ResolvedBadge } from "@/components/customer/ResolvedBadge";
+import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
 import { RotateCcw, Clock, Star, Filter } from "lucide-react";
 
 export default async function MockCategoryPage({
@@ -17,6 +19,13 @@ export default async function MockCategoryPage({
   const categoryId = resolvedParams.categoryId;
   const isReturnsFiltered = resolvedSearchParams.filter === "returns_eligible";
   const eventId = resolvedSearchParams.eventId || "evt_3";
+
+  // Check against seed customer historicalCategories (e.g. ["Groceries"])
+  const historicalCategories = ["Groceries", "Snacks", "Beverages"];
+  const isFirstCategoryVisit = !historicalCategories.some(
+    (cat) => categoryId.toLowerCase().includes(cat.toLowerCase())
+  );
+  const leadEvidence = selectLeadEvidence(categoryId);
 
   const getCategoryItems = () => {
     if (categoryId.includes("electronics")) {
@@ -58,6 +67,13 @@ export default async function MockCategoryPage({
               {categoryId.replace("cat_", "").replace("_", " ").toUpperCase()}
             </h1>
           </div>
+
+          {/* Task 38: Verified First Proactive Category-Entry Trust Signal */}
+          {isFirstCategoryVisit && (
+            <div style={{ marginTop: "10px", marginBottom: "6px" }}>
+              <ResolvedBadge label={leadEvidence.badgeLabel} />
+            </div>
+          )}
 
           <div className="mock-category-filter-bar">
             <div className="mock-filter-pill active">
