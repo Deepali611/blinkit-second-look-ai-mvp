@@ -68,6 +68,50 @@ export default async function MockCategoryPage({
             </h1>
           </div>
 
+          {/* Task 47: Session-Revisit Header Banner */}
+          <div
+            className="session-revisit-header-banner"
+            style={{
+              backgroundColor: "#F4F9F2",
+              border: "1px solid rgba(84, 178, 38, 0.4)",
+              borderRadius: "10px",
+              padding: "12px 14px",
+              marginTop: "12px",
+              marginBottom: "12px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              cursor: "pointer",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <div
+                style={{
+                  width: "24px",
+                  height: "24px",
+                  borderRadius: "50%",
+                  backgroundColor: "rgba(84, 178, 38, 0.15)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "var(--blinkit-green)",
+                  flexShrink: 0,
+                }}
+              >
+                <RotateCcw size={14} />
+              </div>
+              <div>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--blinkit-near-black)" }}>
+                  What's changed since your last visit
+                </div>
+                <div style={{ fontSize: "11px", color: "var(--text-muted)", marginTop: "2px" }}>
+                  Verified supplier quality & replacement guarantees updated for this category.
+                </div>
+              </div>
+            </div>
+            <ResolvedBadge label="Verified" />
+          </div>
+
           {/* Task 38: Verified First Proactive Category-Entry Trust Signal */}
           {isFirstCategoryVisit && (
             <div style={{ marginTop: "10px", marginBottom: "6px" }}>

@@ -3,6 +3,7 @@
 import React, { useRef, useLayoutEffect, useState, useEffect } from "react";
 import {
   ChevronLeft,
+  ChevronRight,
   ShoppingBag,
   Clock,
   Star,
@@ -32,6 +33,7 @@ export interface BlinkitProductPageProps {
   categoryId?: string;
   defaultExpanded?: boolean;
   showAcknowledgmentToast?: boolean;
+  hasResolvedCase?: boolean;
 }
 
 export function BlinkitProductPage({
@@ -43,6 +45,7 @@ export function BlinkitProductPage({
   categoryId,
   defaultExpanded = true,
   showAcknowledgmentToast = true,
+  hasResolvedCase = true,
 }: BlinkitProductPageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const trustBadgeRef = useRef<HTMLDivElement>(null);
@@ -52,6 +55,7 @@ export function BlinkitProductPage({
     emphasisVariant === "reviews"
   );
   const [detailsExpanded, setDetailsExpanded] = useState<boolean>(true);
+  const [rowExpanded, setRowExpanded] = useState<boolean>(defaultExpanded);
   const [cartQty, setCartQty] = useState<number>(0);
   const [selectedImgIdx, setSelectedImgIdx] = useState<number>(0);
   const [showToast, setShowToast] = useState<boolean>(showAcknowledgmentToast && !isFirstCategoryVisit);
@@ -339,6 +343,55 @@ export function BlinkitProductPage({
           )}
         </div>
       </div>
+
+      {/* Task 47: Session-Revisit Header Banner (Appears when customer with resolved case revisits page) */}
+      {hasResolvedCase && (
+        <div
+          className="session-revisit-header-banner"
+          onClick={() => setRowExpanded(!rowExpanded)}
+          role="button"
+          tabIndex={0}
+          style={{
+            backgroundColor: "#F4F9F2",
+            borderBottom: "1px solid rgba(84, 178, 38, 0.3)",
+            padding: "11px 16px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            cursor: "pointer",
+            userSelect: "none",
+            transition: "background-color 0.15s ease",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <div
+              style={{
+                width: "24px",
+                height: "24px",
+                borderRadius: "50%",
+                backgroundColor: "rgba(84, 178, 38, 0.15)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "var(--blinkit-green)",
+                flexShrink: 0,
+              }}
+            >
+              <RotateCcw size={14} />
+            </div>
+            <span
+              style={{
+                fontSize: "13px",
+                fontWeight: 700,
+                color: "var(--blinkit-near-black)",
+              }}
+            >
+              What's changed since your last visit
+            </span>
+          </div>
+          <ChevronRight size={18} style={{ color: "var(--blinkit-green)", flexShrink: 0 }} />
+        </div>
+      )}
 
       {/* Task 43: One-Time Acknowledgment Toast Banner */}
       {showToast && (

@@ -234,78 +234,35 @@ export function PhoneSession({
                 </div>
               </div>
 
-              {/* Decorative Search Bar */}
-              <div style={{ backgroundColor: "#FFF", border: "1px solid var(--border-hairline)", borderRadius: "10px", padding: "10px 14px", display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "12px" }}>
+              {/* Decorative Search Bar (Clickable to visit product page) */}
+              <div
+                onClick={() => setStage(3)}
+                role="button"
+                tabIndex={0}
+                style={{ backgroundColor: "#FFF", border: "1px solid var(--border-hairline)", borderRadius: "10px", padding: "10px 14px", display: "flex", alignItems: "center", gap: "8px", color: "var(--text-muted)", fontSize: "12px", cursor: "pointer" }}
+              >
                 <Search size={16} />
                 <span>Search "earbuds", "serum", "dog food"...</span>
               </div>
 
-              {/* Task 37 & 43: Native Home-Screen Resolved-Case Strip (Deep-links to Product Page) */}
-              <div
-                className="home-resolved-case-strip"
-                onClick={() => setStage(3)}
-                role="button"
-                tabIndex={0}
-                style={{
-                  backgroundColor: "#FFF",
-                  border: "1px solid rgba(84, 178, 38, 0.4)",
-                  borderRadius: "12px",
-                  padding: "12px 14px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "10px",
-                  cursor: "pointer",
-                  boxShadow: "0 2px 8px rgba(84, 178, 38, 0.08)",
-                  transition: "all 0.15s ease",
-                  position: "relative",
-                }}
-              >
-                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                  <div
-                    style={{
-                      width: "28px",
-                      height: "28px",
-                      borderRadius: "50%",
-                      backgroundColor: "rgba(84, 178, 38, 0.12)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexShrink: 0,
-                    }}
-                  >
-                    <ShieldCheck size={18} style={{ color: "var(--blinkit-green, #54B226)" }} />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: "11px", fontWeight: 800, color: "var(--blinkit-green, #54B226)", textTransform: "uppercase", letterSpacing: "0.5px" }}>
-                      Order Issue Resolved
-                    </div>
-                    <div style={{ fontSize: "12px", fontWeight: 600, color: "var(--blinkit-near-black, #1F1F1F)", marginTop: "1px", lineHeight: "16px" }}>
-                      {decision.notificationCopy || "About your recent order — a quick update that might help."}
-                    </div>
-                  </div>
-                </div>
-                <ChevronRight size={18} style={{ color: "var(--blinkit-green, #54B226)", flexShrink: 0 }} />
-              </div>
-
-              {/* Category Tiles */}
-              <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--blinkit-near-black)" }}>
-                Categories
+              {/* Category Tiles (Revisiting product/category page triggers session-revisit header) */}
+              <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--blinkit-near-black)", marginTop: "4px" }}>
+                Categories (revisit to see session-revisit header)
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-                <div style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                <div onClick={() => setStage(3)} style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
                   <PackageCheck size={20} style={{ color: "var(--blinkit-green)" }} />
                   <span style={{ fontSize: "12px", fontWeight: 700 }}>Groceries</span>
                 </div>
-                <div style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                <div onClick={() => setStage(3)} style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
                   <Zap size={20} style={{ color: "var(--blinkit-green)" }} />
                   <span style={{ fontSize: "12px", fontWeight: 700 }}>Electronics</span>
                 </div>
-                <div style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                <div onClick={() => setStage(3)} style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
                   <Sparkles size={20} style={{ color: "var(--blinkit-green)" }} />
                   <span style={{ fontSize: "12px", fontWeight: 700 }}>Personal Care</span>
                 </div>
-                <div style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                <div onClick={() => setStage(3)} style={{ backgroundColor: "#FFF", borderRadius: "10px", padding: "12px", display: "flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
                   <Heart size={20} style={{ color: "var(--blinkit-green)" }} />
                   <span style={{ fontSize: "12px", fontWeight: 700 }}>Pet Supplies</span>
                 </div>
