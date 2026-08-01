@@ -524,9 +524,12 @@ export function BlinkitProductPage({
           </div>
         </div>
 
-        {/* Single Adaptive Confidence Card — Positioned between price block and Add to Cart button */}
+        {/* Single Adaptive Confidence Card / Mission Recovery Module — Positioned between price block and Add to Cart button */}
         <ConfidenceCard
           failureType={failureType}
+          confidenceLevel={dwellTriggered ? "high" : "below_threshold"}
+          sellerName={product.seller}
+          onOpenReviews={() => setReviewsExpanded(true)}
           evidencePrimitive={
             factStatement
               ? { variant: failureType, factStatement }
