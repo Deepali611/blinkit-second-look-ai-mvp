@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { computeConfidence, ConfidenceLevel } from "@/lib/decision/confidenceGate";
+import { verifyEvidence } from "@/lib/verification/verifyEvidence";
 import seedData from "@/data/seed.json";
 
 export interface ReasonResponse {
@@ -47,10 +48,29 @@ export async function POST(request: NextRequest) {
     sellerConsistency
   );
 
+  // Stage 4 Verification Engine Check
+  const verificationCheck = aiOutput
+    ? verifyEvidence(productId, aiOutput)
+    : { verified: true, reason: "No AI output provided — bypassing message verification" };
+
   let displayRule = "no_intervention";
   let finalAction = "no_action";
   let showReassuranceMessage = false;
   let finalMessage: string | null = null;
+
+  // Hard Rule: If verification fails, suppress intervention entirely
+  if (!verificationCheck.verified && confidence !== "below_threshold") {
+    return NextResponse.json({
+      productId,
+      confidence: "unverified",
+      displayRule: "no_intervention",
+      finalAction: "no_action",
+      showReassuranceMessage: false,
+      finalMessage: null,
+      suppressReason: verificationCheck.reason,
+      evidenceMetrics: { reorderRate, returnRate, sellerConsistency },
+    });
+  }
 
   switch (confidence) {
     case "high":
@@ -90,6 +110,7 @@ export async function POST(request: NextRequest) {
     finalAction,
     showReassuranceMessage,
     finalMessage,
+    verificationResult: verificationCheck,
     evidenceMetrics: {
       reorderRate,
       returnRate,
