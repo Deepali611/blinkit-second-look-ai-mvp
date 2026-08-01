@@ -17,55 +17,160 @@
       "productId": "boat_airdopes_141",
       "name": "boAt Airdopes 141 TWS Earbuds",
       "categoryId": "cat_electronics",
-      "reorderRate": 0.88,
-      "returnRate": 0.015,
+      "reorderRate": 0.97,
+      "returnRate": 0.01,
       "sellerConsistencyScore": 0.98,
+      "sellerConsistency": {
+        "verifiedOrderCount": 450,
+        "qualityComplaintCount": 0,
+        "daysWithoutComplaint": 180
+      },
       "seller": "Appario Retail Pvt Ltd"
     },
     {
       "productId": "minimalist_niacinamide",
       "name": "Minimalist 10% Niacinamide Serum",
       "categoryId": "cat_personal_care",
-      "reorderRate": 0.92,
-      "returnRate": 0.01,
+      "reorderRate": 0.94,
+      "returnRate": 0.012,
       "sellerConsistencyScore": 0.99,
+      "sellerConsistency": {
+        "verifiedOrderCount": 320,
+        "qualityComplaintCount": 1,
+        "daysWithoutComplaint": 120
+      },
       "seller": "Be Minimalist Official"
     },
     {
       "productId": "pedigree_dog_food",
       "name": "Pedigree Adult Dry Dog Food (3kg)",
       "categoryId": "cat_pet_supplies",
-      "reorderRate": 0.85,
-      "returnRate": 0.02,
+      "reorderRate": 0.89,
+      "returnRate": 0.018,
       "sellerConsistencyScore": 0.95,
+      "sellerConsistency": {
+        "verifiedOrderCount": 210,
+        "qualityComplaintCount": 0,
+        "daysWithoutComplaint": 90
+      },
       "seller": "Mars Petcare India"
     },
     {
       "productId": "noise_colorfit_watch",
       "name": "Noise ColorFit Pulse Smartwatch",
       "categoryId": "cat_electronics",
-      "reorderRate": 0.79,
-      "returnRate": 0.04,
+      "reorderRate": 0.82,
+      "returnRate": 0.035,
       "sellerConsistencyScore": 0.94,
+      "sellerConsistency": {
+        "verifiedOrderCount": 180,
+        "qualityComplaintCount": 2,
+        "daysWithoutComplaint": 60
+      },
       "seller": "SuperComNet"
     },
     {
       "productId": "portronics_usbc_cable",
       "name": "Portronics USB-C Fast Cable",
       "categoryId": "cat_electronics",
-      "reorderRate": 0.50,
-      "returnRate": 0.12,
+      "reorderRate": 0.45,
+      "returnRate": 0.14,
       "sellerConsistencyScore": 0.70,
+      "sellerConsistency": {
+        "verifiedOrderCount": 12,
+        "qualityComplaintCount": 5,
+        "daysWithoutComplaint": 4
+      },
       "seller": "Portronics Digital"
+    },
+    {
+      "productId": "mamaearth_hair_oil",
+      "name": "Mamaearth Onion Hair Oil (250ml)",
+      "categoryId": "cat_personal_care",
+      "reorderRate": 0.86,
+      "returnRate": 0.016,
+      "sellerConsistencyScore": 0.96,
+      "sellerConsistency": {
+        "verifiedOrderCount": 195,
+        "qualityComplaintCount": 1,
+        "daysWithoutComplaint": 75
+      },
+      "seller": "Mamaearth Official"
     }
   ],
   "orders": [
-    { "orderId": "ord_1", "customerId": "cust_1", "categoryId": "cat_electronics", "productName": "boAt Airdopes 141 TWS Earbuds", "isFirstInCategory": true, "orderValue": 1899, "orderDate": "2026-06-01" },
-    { "orderId": "ord_2", "customerId": "cust_2", "categoryId": "cat_personal_care", "productName": "Minimalist 10% Niacinamide Serum", "isFirstInCategory": true, "orderValue": 649, "orderDate": "2026-06-03" },
-    { "orderId": "ord_3", "customerId": "cust_3", "categoryId": "cat_pet_supplies", "productName": "Pedigree Adult Dry Dog Food (3kg)", "isFirstInCategory": true, "orderValue": 1200, "orderDate": "2026-06-05" },
-    { "orderId": "ord_4", "customerId": "cust_4", "categoryId": "cat_electronics", "productName": "Noise ColorFit Pulse Smartwatch", "isFirstInCategory": true, "orderValue": 4499, "orderDate": "2026-06-07" },
-    { "orderId": "ord_5", "customerId": "cust_5", "categoryId": "cat_electronics", "productName": "Portronics USB-C Fast Cable", "isFirstInCategory": true, "orderValue": 299, "orderDate": "2026-06-09" },
-    { "orderId": "ord_6", "customerId": "cust_6", "categoryId": "cat_personal_care", "productName": "Mamaearth Onion Hair Oil (250ml)", "isFirstInCategory": true, "orderValue": 550, "orderDate": "2026-06-10" }
+    {
+      "orderId": "ord_1",
+      "customerId": "cust_1",
+      "categoryId": "cat_electronics",
+      "productName": "boAt Airdopes 141 TWS Earbuds",
+      "isFirstInCategory": true,
+      "orderValue": 1899,
+      "orderDate": "2026-06-01",
+      "reorderRate": 0.97,
+      "returnRate": 0.01,
+      "sellerConsistency": { "verifiedOrderCount": 450, "qualityComplaintCount": 0, "daysWithoutComplaint": 180 }
+    },
+    {
+      "orderId": "ord_2",
+      "customerId": "cust_2",
+      "categoryId": "cat_personal_care",
+      "productName": "Minimalist 10% Niacinamide Serum",
+      "isFirstInCategory": true,
+      "orderValue": 649,
+      "orderDate": "2026-06-03",
+      "reorderRate": 0.94,
+      "returnRate": 0.012,
+      "sellerConsistency": { "verifiedOrderCount": 320, "qualityComplaintCount": 1, "daysWithoutComplaint": 120 }
+    },
+    {
+      "orderId": "ord_3",
+      "customerId": "cust_3",
+      "categoryId": "cat_pet_supplies",
+      "productName": "Pedigree Adult Dry Dog Food (3kg)",
+      "isFirstInCategory": true,
+      "orderValue": 1200,
+      "orderDate": "2026-06-05",
+      "reorderRate": 0.89,
+      "returnRate": 0.018,
+      "sellerConsistency": { "verifiedOrderCount": 210, "qualityComplaintCount": 0, "daysWithoutComplaint": 90 }
+    },
+    {
+      "orderId": "ord_4",
+      "customerId": "cust_4",
+      "categoryId": "cat_electronics",
+      "productName": "Noise ColorFit Pulse Smartwatch",
+      "isFirstInCategory": true,
+      "orderValue": 4499,
+      "orderDate": "2026-06-07",
+      "reorderRate": 0.82,
+      "returnRate": 0.035,
+      "sellerConsistency": { "verifiedOrderCount": 180, "qualityComplaintCount": 2, "daysWithoutComplaint": 60 }
+    },
+    {
+      "orderId": "ord_5",
+      "customerId": "cust_5",
+      "categoryId": "cat_electronics",
+      "productName": "Portronics USB-C Fast Cable",
+      "isFirstInCategory": true,
+      "orderValue": 299,
+      "orderDate": "2026-06-09",
+      "reorderRate": 0.45,
+      "returnRate": 0.14,
+      "sellerConsistency": { "verifiedOrderCount": 12, "qualityComplaintCount": 5, "daysWithoutComplaint": 4 }
+    },
+    {
+      "orderId": "ord_6",
+      "customerId": "cust_6",
+      "categoryId": "cat_personal_care",
+      "productName": "Mamaearth Onion Hair Oil (250ml)",
+      "isFirstInCategory": true,
+      "orderValue": 550,
+      "orderDate": "2026-06-10",
+      "reorderRate": 0.86,
+      "returnRate": 0.016,
+      "sellerConsistency": { "verifiedOrderCount": 195, "qualityComplaintCount": 1, "daysWithoutComplaint": 75 }
+    }
   ],
   "failureEvents": [
     { "eventId": "evt_1", "orderId": "ord_1", "triggerType": "behavioral_dwell_time", "productName": "boAt Airdopes 141 TWS Earbuds", "rawText": "Dwell time on product reviews exceeded 15s without Add-to-Cart action.", "ratingValue": null, "groundTruthFailureType": "expiry_authenticity", "createdAt": "2026-06-04" },
@@ -76,11 +181,66 @@
     { "eventId": "evt_6", "orderId": "ord_6", "triggerType": "behavioral_dwell_time", "productName": "Mamaearth Onion Hair Oil (250ml)", "rawText": "Vendor audit pending; no verified reorder history.", "ratingValue": null, "groundTruthFailureType": "expiry_authenticity", "createdAt": "2026-06-12" }
   ],
   "verificationData": {
-    "evt_1": { "source": "vendor_compliance_table", "record": { "vendorId": "vnd_88", "status": "compliant_since_incident", "reorderRate": 0.88, "returnRate": 0.015, "sellerConsistencyScore": 0.98, "lastCheckedDate": "2026-06-15" } },
-    "evt_2": { "source": "vendor_compliance_table", "record": { "vendorId": "vnd_92", "status": "verified_authentic", "reorderRate": 0.92, "returnRate": 0.01, "sellerConsistencyScore": 0.99, "lastCheckedDate": "2026-06-16" } },
-    "evt_3": { "source": "vendor_compliance_table", "record": { "vendorId": "vnd_45", "status": "verified_authentic", "reorderRate": 0.85, "returnRate": 0.02, "sellerConsistencyScore": 0.95, "lastCheckedDate": "2026-06-14" } },
-    "evt_4": { "source": "vendor_compliance_table", "record": { "vendorId": "vnd_77", "status": "verified_authentic", "reorderRate": 0.79, "returnRate": 0.04, "sellerConsistencyScore": 0.94, "lastCheckedDate": "2026-06-18" } },
-    "evt_5": { "source": "vendor_compliance_table", "record": { "vendorId": "vnd_12", "status": "unverified", "reorderRate": 0.50, "returnRate": 0.12, "sellerConsistencyScore": 0.70, "lastCheckedDate": "2026-06-11" } },
+    "evt_1": {
+      "source": "vendor_compliance_table",
+      "record": {
+        "vendorId": "vnd_88",
+        "status": "compliant_since_incident",
+        "reorderRate": 0.97,
+        "returnRate": 0.01,
+        "sellerConsistencyScore": 0.98,
+        "sellerConsistency": { "verifiedOrderCount": 450, "qualityComplaintCount": 0, "daysWithoutComplaint": 180 },
+        "lastCheckedDate": "2026-06-15"
+      }
+    },
+    "evt_2": {
+      "source": "vendor_compliance_table",
+      "record": {
+        "vendorId": "vnd_92",
+        "status": "verified_authentic",
+        "reorderRate": 0.94,
+        "returnRate": 0.012,
+        "sellerConsistencyScore": 0.99,
+        "sellerConsistency": { "verifiedOrderCount": 320, "qualityComplaintCount": 1, "daysWithoutComplaint": 120 },
+        "lastCheckedDate": "2026-06-16"
+      }
+    },
+    "evt_3": {
+      "source": "vendor_compliance_table",
+      "record": {
+        "vendorId": "vnd_45",
+        "status": "verified_authentic",
+        "reorderRate": 0.89,
+        "returnRate": 0.018,
+        "sellerConsistencyScore": 0.95,
+        "sellerConsistency": { "verifiedOrderCount": 210, "qualityComplaintCount": 0, "daysWithoutComplaint": 90 },
+        "lastCheckedDate": "2026-06-14"
+      }
+    },
+    "evt_4": {
+      "source": "vendor_compliance_table",
+      "record": {
+        "vendorId": "vnd_77",
+        "status": "verified_authentic",
+        "reorderRate": 0.82,
+        "returnRate": 0.035,
+        "sellerConsistencyScore": 0.94,
+        "sellerConsistency": { "verifiedOrderCount": 180, "qualityComplaintCount": 2, "daysWithoutComplaint": 60 },
+        "lastCheckedDate": "2026-06-18"
+      }
+    },
+    "evt_5": {
+      "source": "vendor_compliance_table",
+      "record": {
+        "vendorId": "vnd_12",
+        "status": "unverified",
+        "reorderRate": 0.45,
+        "returnRate": 0.14,
+        "sellerConsistencyScore": 0.70,
+        "sellerConsistency": { "verifiedOrderCount": 12, "qualityComplaintCount": 5, "daysWithoutComplaint": 4 },
+        "lastCheckedDate": "2026-06-11"
+      }
+    },
     "evt_6": { "source": "vendor_compliance_table", "record": null }
   }
 }

@@ -1,5 +1,11 @@
 import seedData from "@/data/seed.json";
 
+export interface SellerConsistencyData {
+  verifiedOrderCount: number;
+  qualityComplaintCount: number;
+  daysWithoutComplaint: number;
+}
+
 export interface EventListItem {
   eventId: string;
   customerAlias: string;
@@ -22,6 +28,9 @@ export interface EventDetail {
   category: string;
   productName: string;
   orderValue: number;
+  reorderRate?: number;
+  returnRate?: number;
+  sellerConsistency?: SellerConsistencyData;
 }
 
 export function getAllEvents(filterByFailureType?: string): EventListItem[] {
@@ -56,7 +65,7 @@ export function getAllEvents(filterByFailureType?: string): EventListItem[] {
 }
 
 export function getEventById(eventId: string): EventDetail | null {
-  const { failureEvents, orders, customers, categories } = seedData;
+  const { failureEvents, orders, customers, categories, products } = seedData;
 
   const event = failureEvents.find((evt) => evt.eventId === eventId);
   if (!event) return null;
@@ -64,6 +73,7 @@ export function getEventById(eventId: string): EventDetail | null {
   const order = orders.find((o) => o.orderId === event.orderId);
   const customer = order ? customers.find((c) => c.customerId === order.customerId) : undefined;
   const category = order ? categories.find((cat) => cat.categoryId === order.categoryId) : undefined;
+  const product = products.find((p) => p.name === event.productName || p.productId === order?.productName);
 
   return {
     eventId: event.eventId,
@@ -77,5 +87,8 @@ export function getEventById(eventId: string): EventDetail | null {
     category: category ? category.name : "Unknown Category",
     productName: event.productName || (order ? order.productName : "Blinkit Item"),
     orderValue: order ? order.orderValue : 0,
+    reorderRate: product?.reorderRate ?? order?.reorderRate,
+    returnRate: product?.returnRate ?? order?.returnRate,
+    sellerConsistency: product?.sellerConsistency ?? order?.sellerConsistency,
   };
 }
