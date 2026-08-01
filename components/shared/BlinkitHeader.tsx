@@ -7,7 +7,7 @@ export interface BlinkitHeaderProps {
   backHref?: string;
 }
 
-export function BlinkitHeader({ backHref }: BlinkitHeaderProps) {
+export function BlinkitHeader({ backHref = "/evaluator" }: BlinkitHeaderProps) {
   return (
     <header className="blinkit-header">
       <div className="header-content">
@@ -18,12 +18,12 @@ export function BlinkitHeader({ backHref }: BlinkitHeaderProps) {
               <span>Back</span>
             </Link>
           )}
-          <Link href="/" className="logo-container">
+          <Link href="/evaluator" className="logo-container">
             <div className="blinkit-badge">
               <span className="logo-text">blinkit</span>
             </div>
             <span className="logo-divider">/</span>
-            <span className="portal-title">Second Look</span>
+            <span className="portal-title">Evaluator Mode</span>
           </Link>
         </div>
       </div>

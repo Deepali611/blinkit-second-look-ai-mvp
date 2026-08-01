@@ -1,163 +1,255 @@
-import React from "react";
-import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
-import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
-import { MeasureResultPanel } from "@/components/evaluator/MeasureResultPanel";
-import { ResolvedBadge } from "@/components/customer/ResolvedBadge";
-import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
-import { RotateCcw, Clock, Star, Filter } from "lucide-react";
+"use client";
 
-export default async function MockCategoryPage({
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ChevronLeft, Star, Clock, Filter, Plus } from "lucide-react";
+
+export default function MockCategoryPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ categoryId: string }>;
-  searchParams: Promise<{ filter?: string; eventId?: string }>;
 }) {
-  const resolvedParams = await params;
-  const resolvedSearchParams = await searchParams;
+  const router = useRouter();
+  const [selectedFilter, setSelectedFilter] = useState<string>("all");
 
-  const categoryId = resolvedParams.categoryId;
-  const isReturnsFiltered = resolvedSearchParams.filter === "returns_eligible";
-  const eventId = resolvedSearchParams.eventId || "evt_3";
+  const resolved = React.use(params);
+  const resolvedCategory = resolved?.categoryId || "electronics";
 
-  // Check against seed customer historicalCategories (e.g. ["Groceries"])
-  const historicalCategories = ["Groceries", "Snacks", "Beverages"];
-  const isFirstCategoryVisit = !historicalCategories.some(
-    (cat) => categoryId.toLowerCase().includes(cat.toLowerCase())
-  );
-  const leadEvidence = selectLeadEvidence(categoryId);
+  const getCategoryTitle = () => {
+    if (resolvedCategory.includes("personal_care")) return "Personal Care";
+    if (resolvedCategory.includes("pet_supplies")) return "Pet Supplies";
+    if (resolvedCategory.includes("groceries")) return "Groceries";
+    if (resolvedCategory.includes("household")) return "Household Essentials";
+    return "Electronics & Gadgets";
+  };
 
-  const getCategoryItems = () => {
-    if (categoryId.includes("electronics")) {
+  const getProducts = () => {
+    if (resolvedCategory.includes("personal_care")) {
       return [
-        { name: "boAt Airdopes 141 TWS Earbuds", price: "1,899", rating: "4.4 ★" },
-        { name: "Noise ColorFit Pulse Smartwatch", price: "4,499", rating: "4.3 ★" },
-        { name: "Portronics USB-C Fast Cable", price: "299", rating: "4.5 ★" },
-        { name: "JBL Go 3 Bluetooth Speaker", price: "2,999", rating: "4.6 ★" },
+        { id: "prod_2", name: "Minimalist 10% Niacinamide Serum", price: 649, mrp: 799, rating: 4.5, image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=500&auto=format&fit=crop&q=80" },
+        { id: "prod_6", name: "Mamaearth Onion Hair Oil (250ml)", price: 550, mrp: 599, rating: 4.3, image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=500&auto=format&fit=crop&q=80" },
+        { id: "prod_7", name: "Cetaphil Gentle Skin Cleanser (250ml)", price: 499, mrp: 550, rating: 4.7, image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=500&auto=format&fit=crop&q=80" },
+        { id: "prod_8", name: "Nivea Soft Light Moisturizer Cream", price: 299, mrp: 349, rating: 4.4, image: "https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?w=500&auto=format&fit=crop&q=80" }
       ];
     }
-    if (categoryId.includes("personal_care")) {
+    if (resolvedCategory.includes("pet_supplies")) {
       return [
-        { name: "Minimalist 10% Niacinamide Serum", price: "649", rating: "4.5 ★" },
-        { name: "Mamaearth Onion Hair Oil (250ml)", price: "550", rating: "4.3 ★" },
-        { name: "Cetaphil Gentle Skin Cleanser", price: "499", rating: "4.7 ★" },
-        { name: "Nivea Soft Light Moisturizer", price: "299", rating: "4.4 ★" },
+        { id: "prod_3", name: "Pedigree Adult Dry Dog Food (3kg)", price: 1200, mrp: 1350, rating: 4.6, image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?w=500&auto=format&fit=crop&q=80" },
+        { id: "prod_9", name: "Drools Chicken & Egg Adult Dog Food", price: 899, mrp: 999, rating: 4.5, image: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=500&auto=format&fit=crop&q=80" },
+        { id: "prod_10", name: "Whiskas Adult Cat Food Ocean Fish", price: 450, mrp: 499, rating: 4.7, image: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&auto=format&fit=crop&q=80" },
+        { id: "prod_11", name: "Me-O Creamy Cat Treats Salmon", price: 199, mrp: 220, rating: 4.4, image: "https://images.unsplash.com/photo-1533738363-b7f9aef128ce?w=500&auto=format&fit=crop&q=80" }
       ];
     }
     return [
-      { name: "Pedigree Adult Dry Dog Food (3kg)", price: "1,200", rating: "4.6 ★" },
-      { name: "Drools Chicken & Egg Dog Food", price: "899", rating: "4.5 ★" },
-      { name: "Whiskas Adult Cat Food Pack", price: "450", rating: "4.7 ★" },
-      { name: "Me-O Creamy Cat Treats", price: "199", rating: "4.4 ★" },
+      { id: "prod_1", name: "boAt Airdopes 141 TWS Earbuds", price: 1899, mrp: 4490, rating: 4.4, image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&auto=format&fit=crop&q=80" },
+      { id: "prod_4", name: "Noise ColorFit Pulse Smartwatch", price: 4499, mrp: 6999, rating: 4.3, image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=500&auto=format&fit=crop&q=80" },
+      { id: "prod_5", name: "Portronics USB-C Fast Charging Cable", price: 299, mrp: 499, rating: 4.5, image: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&auto=format&fit=crop&q=80" },
+      { id: "prod_12", name: "JBL Go 3 Portable Bluetooth Speaker", price: 2999, mrp: 3999, rating: 4.6, image: "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=500&auto=format&fit=crop&q=80" }
     ];
   };
 
-  const items = getCategoryItems();
+  const products = getProducts();
 
   return (
-    <div className="portal-layout" style={{ backgroundColor: "var(--evaluator-bg)", minHeight: "100vh" }}>
-      <BlinkitHeader variant="evaluator" backHref="/" />
-      <EnvironmentBadge />
-
-      <main className="portal-container" style={{ maxWidth: "840px", paddingBottom: "60px" }}>
-        <div className="mock-category-header" style={{ backgroundColor: "#FFF", borderRadius: "16px", padding: "20px", marginBottom: "20px" }}>
-          <div className="mock-category-title-row">
-            <span className="mock-badge type-body-sm">Blinkit Category Listing</span>
-            <h1 className="type-display" style={{ fontSize: "24px" }}>
-              {categoryId.replace("cat_", "").replace("_", " ").toUpperCase()}
-            </h1>
+    <div
+      className="mobile-customer-wrapper"
+      style={{
+        maxWidth: "480px",
+        margin: "0 auto",
+        backgroundColor: "#F8F8F6",
+        minHeight: "100vh",
+        position: "relative",
+        paddingBottom: "60px",
+        fontFamily: "system-ui, -apple-system, sans-serif",
+      }}
+    >
+      {/* Top Header */}
+      <header
+        style={{
+          backgroundColor: "#FFF",
+          padding: "12px 16px",
+          borderBottom: "1px solid var(--border-hairline)",
+          display: "flex",
+          alignItems: "center",
+          gap: "12px",
+          position: "sticky",
+          top: 0,
+          zIndex: 30,
+        }}
+      >
+        <button
+          type="button"
+          onClick={() => router.push("/")}
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 0 }}
+        >
+          <ChevronLeft size={22} style={{ color: "var(--blinkit-near-black)" }} />
+        </button>
+        <div>
+          <h1 style={{ fontSize: "16px", fontWeight: 800, margin: 0, color: "var(--blinkit-near-black)" }}>
+            {getCategoryTitle()}
+          </h1>
+          <div style={{ fontSize: "11px", color: "var(--blinkit-green)", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px" }}>
+            <Clock size={12} /> Delivery in 10 mins
           </div>
+        </div>
+      </header>
 
-          {/* Task 47 & 50: Session-Revisit or Proactive Header Banner */}
+      <main style={{ padding: "12px 16px" }}>
+        {/* Category Filter Chips */}
+        <div
+          style={{
+            display: "flex",
+            gap: "8px",
+            overflowX: "auto",
+            paddingBottom: "8px",
+            marginBottom: "12px",
+          }}
+        >
           <div
-            className="session-revisit-header-banner"
+            onClick={() => setSelectedFilter("all")}
             style={{
-              backgroundColor: "#F4F9F2",
-              border: "1px solid rgba(84, 178, 38, 0.4)",
-              borderRadius: "10px",
-              padding: "12px 14px",
-              marginTop: "12px",
-              marginBottom: "12px",
+              backgroundColor: selectedFilter === "all" ? "var(--blinkit-green)" : "#FFF",
+              color: selectedFilter === "all" ? "#FFF" : "var(--blinkit-near-black)",
+              border: selectedFilter === "all" ? "none" : "1px solid var(--border-hairline)",
+              padding: "6px 12px",
+              borderRadius: "16px",
+              fontSize: "12px",
+              fontWeight: 700,
+              cursor: "pointer",
+              whiteSpace: "nowrap",
               display: "flex",
               alignItems: "center",
-              justifyContent: "space-between",
-              cursor: "pointer",
+              gap: "4px",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <div
-                style={{
-                  width: "24px",
-                  height: "24px",
-                  borderRadius: "50%",
-                  backgroundColor: "rgba(84, 178, 38, 0.15)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "var(--blinkit-green)",
-                  flexShrink: 0,
-                }}
-              >
-                <RotateCcw size={14} />
-              </div>
-              <div>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: "var(--blinkit-near-black)" }}>
-                  {isFirstCategoryVisit ? "Verified before you ask" : "What's changed since your last visit"}
-                </div>
-              </div>
-            </div>
-            <ResolvedBadge label="Verified" />
+            <Filter size={12} />
+            <span>All Items</span>
           </div>
-
-          {/* Task 38: Verified First Proactive Category-Entry Trust Signal */}
-          {isFirstCategoryVisit && (
-            <div style={{ marginTop: "10px", marginBottom: "6px" }}>
-              <ResolvedBadge label={leadEvidence.badgeLabel} />
-            </div>
-          )}
-
-          <div className="mock-category-filter-bar">
-            <div className="mock-filter-pill active">
-              <Filter size={13} />
-              <span>All Products</span>
-            </div>
-            <div className="mock-filter-pill">
-              <span>Top Rated</span>
-            </div>
-            <div className="mock-filter-pill">
-              <span>Fastest Delivery</span>
-            </div>
-
-            {isReturnsFiltered && (
-              <div className="mock-filter-tag type-body-sm">
-                <RotateCcw size={14} />
-                <span>Filtered: 7-Day Replacement Guaranteed</span>
-              </div>
-            )}
+          <div
+            onClick={() => setSelectedFilter("top")}
+            style={{
+              backgroundColor: selectedFilter === "top" ? "var(--blinkit-green)" : "#FFF",
+              color: selectedFilter === "top" ? "#FFF" : "var(--blinkit-near-black)",
+              border: selectedFilter === "top" ? "none" : "1px solid var(--border-hairline)",
+              padding: "6px 12px",
+              borderRadius: "16px",
+              fontSize: "12px",
+              fontWeight: 700,
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Top Rated
+          </div>
+          <div
+            onClick={() => setSelectedFilter("verified")}
+            style={{
+              backgroundColor: selectedFilter === "verified" ? "var(--blinkit-green)" : "#FFF",
+              color: selectedFilter === "verified" ? "#FFF" : "var(--blinkit-near-black)",
+              border: selectedFilter === "verified" ? "none" : "1px solid var(--border-hairline)",
+              padding: "6px 12px",
+              borderRadius: "16px",
+              fontSize: "12px",
+              fontWeight: 700,
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Verified Quality
           </div>
         </div>
 
-        <div className="mock-category-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "16px", marginBottom: "32px" }}>
-          {items.map((item, idx) => (
-            <div key={idx} className="mock-category-card" style={{ backgroundColor: "var(--blinkit-white)", border: "1px solid var(--border-hairline)", borderRadius: "10px", padding: "12px" }}>
-              <div className="mock-card-img" style={{ width: "100%", height: "100px", backgroundColor: "var(--surface-muted)", borderRadius: "6px", position: "relative" }}>
-                <div className="mock-card-delivery-badge" style={{ position: "absolute", top: "6px", left: "6px", backgroundColor: "var(--bg-green-light)", color: "var(--blinkit-green)", fontSize: "10px", fontWeight: 700, padding: "2px 6px", borderRadius: "4px", display: "flex", alignItems: "center", gap: "3px" }}>
-                  <Clock size={10} /> 10m
+        {/* 2-Column Product Cards Mobile Grid */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "12px",
+          }}
+        >
+          {products.map((prod) => (
+            <div
+              key={prod.id}
+              onClick={() => router.push(`/mock/product/${prod.id}`)}
+              style={{
+                backgroundColor: "#FFF",
+                borderRadius: "12px",
+                padding: "10px",
+                border: "1px solid var(--border-hairline)",
+                cursor: "pointer",
+                boxShadow: "0 2px 6px rgba(0,0,0,0.03)",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <div>
+                <div
+                  style={{
+                    width: "100%",
+                    height: "120px",
+                    borderRadius: "8px",
+                    overflow: "hidden",
+                    backgroundColor: "#F8F8F6",
+                    marginBottom: "8px",
+                  }}
+                >
+                  <img
+                    src={prod.image}
+                    alt={prod.name}
+                    style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                  />
+                </div>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: "var(--blinkit-near-black)", lineHeight: "16px", height: "32px", overflow: "hidden" }}>
+                  {prod.name}
                 </div>
               </div>
-              <span className="type-body-sm mock-card-title" style={{ fontWeight: 600, marginTop: "8px", display: "block" }}>{item.name}</span>
-              <div className="mock-card-meta" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "6px" }}>
-                <span className="type-body-sm mock-card-rating" style={{ color: "var(--blinkit-near-black)", display: "flex", alignItems: "center", gap: "2px" }}>
-                  <Star size={12} fill="#F8CB45" stroke="#F8CB45" /> {item.rating}
-                </span>
-                <span className="type-body-sm mock-card-price" style={{ fontWeight: 700, color: "var(--blinkit-green)" }}>₹{item.price}</span>
+
+              <div style={{ marginTop: "8px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "4px", marginBottom: "6px" }}>
+                  <Star size={11} fill="#F8CB45" stroke="#F8CB45" />
+                  <span style={{ fontSize: "11px", fontWeight: 700, color: "var(--blinkit-near-black)" }}>
+                    {prod.rating}
+                  </span>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div>
+                    <span style={{ fontSize: "14px", fontWeight: 800, color: "var(--blinkit-near-black)" }}>
+                      ₹{prod.price}
+                    </span>
+                    <span style={{ fontSize: "10px", color: "var(--text-muted)", textDecoration: "line-through", marginLeft: "4px" }}>
+                      ₹{prod.mrp}
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push(`/mock/product/${prod.id}`);
+                    }}
+                    style={{
+                      backgroundColor: "var(--blinkit-green)",
+                      color: "#FFF",
+                      border: "none",
+                      borderRadius: "6px",
+                      padding: "4px 10px",
+                      fontSize: "11px",
+                      fontWeight: 800,
+                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "2px",
+                    }}
+                  >
+                    <Plus size={12} /> ADD
+                  </button>
+                </div>
               </div>
             </div>
           ))}
         </div>
-
-        {/* Task 25: Measure the Result Panel */}
-        <MeasureResultPanel eventId={eventId} productName={items[0]?.name} />
       </main>
     </div>
   );

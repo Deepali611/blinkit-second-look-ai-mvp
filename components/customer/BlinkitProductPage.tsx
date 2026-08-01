@@ -23,6 +23,7 @@ import { ResolvedBadge } from "./ResolvedBadge";
 import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
 import { QuickTakeCard } from "./QuickTakeCard";
 import { EvidenceBlock } from "./EvidenceBlock";
+import { AIInterventionCard } from "./AIInterventionCard";
 
 export interface BlinkitProductPageProps {
   emphasisVariant: "quality" | "reviews" | "support" | "policy" | string;
@@ -542,27 +543,16 @@ export function BlinkitProductPage({
               {product.discount}
             </span>
           </div>
-
-          {/* Decorative Offers/Coupons Row */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              backgroundColor: "#FFFBEB",
-              border: "1px dashed #F59E0B",
-              borderRadius: "8px",
-              padding: "8px 10px",
-              marginTop: "10px",
-              fontSize: "11px",
-              fontWeight: 700,
-              color: "#B45309",
-            }}
-          >
-            <Tag size={13} />
-            <span>⚡ 10% OFF on first order in this category | Use Code: FIRSTLOOK</span>
-          </div>
         </div>
+
+        {/* AI Intervention Card — Positioned between price block and Add to Cart button */}
+        {(hasResolvedCase || isFirstCategoryVisit) && (
+          <AIInterventionCard
+            failureType={failureType}
+            factStatement={factStatement}
+            isFirstCategoryVisit={isFirstCategoryVisit}
+          />
+        )}
 
         {/* Section 5: Trust Badge Row */}
         <div
