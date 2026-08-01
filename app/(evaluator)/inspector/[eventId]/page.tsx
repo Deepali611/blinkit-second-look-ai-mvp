@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, use } from "react";
+import Link from "next/link";
 import { BlinkitHeader } from "@/components/shared/BlinkitHeader";
 import { EnvironmentBadge } from "@/components/shared/EnvironmentBadge";
 import { RawEventPanel } from "@/components/evaluator/RawEventPanel";
@@ -18,7 +19,7 @@ import { LoadingState } from "@/components/shared/LoadingState";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { EventDetail } from "@/lib/db/events";
 import { DecisionResult } from "@/lib/decision/decide";
-import { RefreshCw, Sparkles } from "lucide-react";
+import { RefreshCw, Sparkles, GitBranch } from "lucide-react";
 import {
   STAGE_TITLES,
   STAGE_TAGS,
@@ -303,15 +304,36 @@ export default function InspectorTracePage({
           <h1 className="type-display page-header-title">
             Mission Recovery Timeline
           </h1>
-          <button
-            type="button"
-            className="secondary-rerun-link"
-            onClick={runPipeline}
-            disabled={stageAStatus === "loading"}
-          >
-            <RefreshCw size={12} className={stageAStatus === "loading" ? "loading-spinner" : ""} />
-            <span>See this decided again</span>
-          </button>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <Link
+              href={`/evaluator/decision-trace/${eventId}`}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                fontSize: "12px",
+                fontWeight: 700,
+                color: "var(--blinkit-green)",
+                backgroundColor: "#FFF",
+                padding: "6px 12px",
+                borderRadius: "8px",
+                border: "1px solid var(--border-hairline)",
+                textDecoration: "none",
+              }}
+            >
+              <GitBranch size={13} />
+              <span>Open Decision Trace Console</span>
+            </Link>
+            <button
+              type="button"
+              className="secondary-rerun-link"
+              onClick={runPipeline}
+              disabled={stageAStatus === "loading"}
+            >
+              <RefreshCw size={12} className={stageAStatus === "loading" ? "loading-spinner" : ""} />
+              <span>See this decided again</span>
+            </button>
+          </div>
         </div>
 
         {/* Task 33: Persistent Horizontal Layer Indicator */}

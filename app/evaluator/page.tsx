@@ -12,6 +12,7 @@ import {
   ArrowLeft,
   BookOpen,
   ShoppingBag,
+  GitBranch,
 } from "lucide-react";
 
 export default function EvaluatorModeHubPage() {
@@ -92,6 +93,12 @@ export default function EvaluatorModeHubPage() {
             title="Evaluator Guide"
             description="Phase-by-phase evaluation guide & testing instructions."
             icon={<BookOpen size={24} />}
+          />
+          <PortalCard
+            href="/evaluator/decision-trace/evt_1"
+            title="AI Decision Trace Console"
+            description="Full 10-section diagnostic panel for AI classification, verification, & variant explainability."
+            icon={<GitBranch size={24} />}
           />
           <PortalCard
             href="/second-look-demo"
