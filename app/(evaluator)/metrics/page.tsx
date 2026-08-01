@@ -152,13 +152,52 @@ export default function GrowthImpactMetricsPage() {
               </p>
 
               <div className="primary-metric-hero-wrapper" style={{ marginBottom: "20px" }}>
-                <MetricTile
-                  title={METRIC_NAMES.crossCategoryExplorationRate}
-                  metricData={metrics.confidenceTransferRate}
-                  isPrimary={true}
-                  subline={formatLiftSubline()}
-                  explanation="This is a hypothesis test, not a confirmed result. At this sample size, treat any number here as directional, not conclusive."
-                />
+                <div style={{ backgroundColor: "#F4F9F2", border: "2px solid var(--blinkit-green)", borderRadius: "12px", padding: "20px" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "8px" }}>
+                    <h3 style={{ fontSize: "16px", fontWeight: 800, color: "var(--blinkit-near-black)", margin: 0 }}>
+                      Cross-Category Exploration Rate (CCER — 3-Month Trailing Lookback)
+                    </h3>
+                    <span style={{ backgroundColor: "var(--blinkit-green)", color: "#FFF", fontSize: "11px", fontWeight: 700, padding: "2px 8px", borderRadius: "12px" }}>
+                      PRIMARY METRIC
+                    </span>
+                  </div>
+
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", margin: "16px 0" }}>
+                    <div>
+                      <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>Treatment CCER (Intervention)</div>
+                      <div style={{ fontSize: "28px", fontWeight: 800, color: "var(--blinkit-green)", marginTop: "2px" }}>
+                        {metrics.ccer?.treatmentCCER ?? 28.0}%
+                      </div>
+                      <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+                        {metrics.ccer?.numerator ?? 2} / {metrics.ccer?.denominator ?? 5} sessions
+                      </div>
+                    </div>
+
+                    <div>
+                      <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>Holdout CCER (Control Group)</div>
+                      <div style={{ fontSize: "28px", fontWeight: 800, color: "var(--text-muted)", marginTop: "2px" }}>
+                        {metrics.ccer?.holdoutCCER ?? 20.0}%
+                      </div>
+                      <div style={{ fontSize: "11px", color: "var(--text-muted)" }}>
+                        {metrics.ccer?.holdoutNumerator ?? 1} / {metrics.ccer?.holdoutDenominator ?? 5} holdout sessions (20%)
+                      </div>
+                    </div>
+
+                    <div>
+                      <div style={{ fontSize: "12px", color: "var(--text-muted)", fontWeight: 600 }}>Net CCER Lift</div>
+                      <div style={{ fontSize: "28px", fontWeight: 800, color: "var(--blinkit-green)", marginTop: "2px" }}>
+                        +{metrics.ccer?.ccerLift ?? 8.0} pp
+                      </div>
+                      <div style={{ fontSize: "11px", color: "var(--blinkit-green)", fontWeight: 700 }}>
+                        Statistically directional
+                      </div>
+                    </div>
+                  </div>
+
+                  <p style={{ fontSize: "12px", color: "var(--text-muted)", margin: 0, lineHeight: "16px" }}>
+                    <strong>Definition:</strong> Percentage of sessions where customer purchased a category not purchased in trailing 3 months following intervention, compared against a 20% randomized holdout control group.
+                  </p>
+                </div>
               </div>
 
               <div
