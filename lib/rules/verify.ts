@@ -35,7 +35,14 @@ export function verifyFailure(
     switch (failureType) {
       case "expiry_authenticity": {
         const sourceChecked = "vendor_compliance_table";
-        if (record && record.status === "compliant_since_incident") {
+        if (
+          record &&
+          (record.status === "compliant_since_incident" || record.status === "verified_authentic") &&
+          typeof record.reorderRate === "number" &&
+          record.reorderRate >= 0.75 &&
+          typeof record.returnRate === "number" &&
+          record.returnRate <= 0.05
+        ) {
           return {
             verificationStatus: "verified",
             evidenceData: record as Record<string, unknown>,

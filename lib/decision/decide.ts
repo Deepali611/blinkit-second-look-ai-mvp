@@ -5,6 +5,7 @@ export interface DecisionResult {
   action: "act" | "suppress";
   suppressReason?: string;
   evidencePrimitive?: EvidencePrimitive;
+  recommendedAction?: "highlight_seller" | "jump_to_reviews" | "emphasize_guarantee" | "focus_cta" | "no_action";
   ctaDestination?: string;
   ctaLabel?: string;
   notificationCopy?: string;
@@ -19,10 +20,12 @@ export function makeDecision(
   verificationStatus: string,
   evidenceData: Record<string, unknown> | null
 ): DecisionResult {
-  if (confidence === "low" || failureType === "unclear") {
+  // Gated by separate deterministic confidence layer
+  if (confidence === "low" || failureType === "unclear" || verificationStatus === "unverifiable") {
     return {
       action: "suppress",
       suppressReason: "low_confidence",
+      recommendedAction: "no_action",
     };
   }
 
@@ -33,6 +36,19 @@ export function makeDecision(
   );
 
   const { ctaLabel, ctaDestination } = selectCTA(failureType, eventId);
+
+  // Single AI Reasoning Action Selection from fixed action set
+  let recommendedAction: "highlight_seller" | "jump_to_reviews" | "emphasize_guarantee" | "focus_cta" | "no_action" = "highlight_seller";
+  
+  if (failureType === "expiry_authenticity") {
+    recommendedAction = "highlight_seller";
+  } else if (failureType === "missing_information") {
+    recommendedAction = "jump_to_reviews";
+  } else if (failureType === "high_value_hesitation") {
+    recommendedAction = "emphasize_guarantee";
+  } else if (failureType === "unresolved_support") {
+    recommendedAction = "focus_cta";
+  }
 
   let notificationCopy = "Here's what's changed — decision details updated for your order.";
   switch (failureType) {
@@ -54,7 +70,6 @@ export function makeDecision(
       break;
   }
 
-  // Derive variant label for experiment tracking
   const variant = failureType === "expiry_authenticity"
     ? "Quality Proof"
     : failureType === "missing_information"
@@ -66,6 +81,7 @@ export function makeDecision(
   return {
     action: "act",
     evidencePrimitive,
+    recommendedAction,
     ctaDestination,
     ctaLabel,
     notificationCopy,

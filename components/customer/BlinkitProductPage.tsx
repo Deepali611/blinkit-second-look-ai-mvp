@@ -58,6 +58,16 @@ export function BlinkitProductPage({
   const [detailsExpanded, setDetailsExpanded] = useState<boolean>(true);
   const [rowExpanded, setRowExpanded] = useState<boolean>(defaultExpanded);
   const [cartQty, setCartQty] = useState<number>(0);
+  const [dwellTriggered, setDwellTriggered] = useState<boolean>(hasResolvedCase || isFirstCategoryVisit);
+
+  useEffect(() => {
+    if (!dwellTriggered) {
+      const timer = setTimeout(() => {
+        setDwellTriggered(true);
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [dwellTriggered]);
   const [selectedImgIdx, setSelectedImgIdx] = useState<number>(0);
   const [showToast, setShowToast] = useState<boolean>(showAcknowledgmentToast && !isFirstCategoryVisit);
 
@@ -511,7 +521,7 @@ export function BlinkitProductPage({
                   high_value_hesitation: { variant: "high_value_hesitation", factStatement: "Items in this category are eligible for 7-day returns." },
                 }[failureType] || { variant: failureType, factStatement: "Operational records verified for your account." }
           }
-          action={hasResolvedCase || isFirstCategoryVisit ? "act" : "suppress"}
+          action={dwellTriggered ? "act" : "suppress"}
         />
 
         {/* Section 5: Trust Badge Row */}

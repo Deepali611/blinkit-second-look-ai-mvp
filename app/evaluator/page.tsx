@@ -78,8 +78,8 @@ export default function EvaluatorModeHubPage() {
           />
           <PortalCard
             href="/inspector"
-            title="Mission Recovery Cases"
-            description="Explore every case filtered by failure type (quality, reviews, support, hesitation)."
+            title="Customer Case Explorer"
+            description="Explore every customer case filtered by obstacle type and behavioral trigger."
             icon={<Activity size={24} />}
           />
           <PortalCard
