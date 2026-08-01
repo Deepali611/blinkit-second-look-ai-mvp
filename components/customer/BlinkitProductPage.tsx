@@ -86,6 +86,33 @@ export function BlinkitProductPage({
   }, []);
   const [selectedImgIdx, setSelectedImgIdx] = useState<number>(0);
   const [showToast, setShowToast] = useState<boolean>(showAcknowledgmentToast && !isFirstCategoryVisit);
+  const [loggedOutcomeMsg, setLoggedOutcomeMsg] = useState<string | null>(null);
+
+  const handleSimulateOutcome = async (outcome: "added_to_cart" | "exited_without_purchase") => {
+    try {
+      const res = await fetch("/api/log-outcome", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          productId: failureType || "boat_airdopes_141",
+          obstacleDetected: dwellTriggered,
+          obstacleType: "quality_authenticity",
+          selectedEvidence: "reorder_rate",
+          confidenceLevel: dwellTriggered ? "high" : "below_threshold",
+          verificationPassed: true,
+          actionShown: dwellTriggered ? "highlight_seller" : "no_action",
+          finalOutcome: outcome,
+        }),
+      });
+
+      if (res.ok) {
+        setLoggedOutcomeMsg(`Session outcome logged: ${outcome === "added_to_cart" ? "Added to Cart 🛒" : "Exited ❌"}`);
+        setTimeout(() => setLoggedOutcomeMsg(null), 3500);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   useEffect(() => {
     if (showToast) {
@@ -542,6 +569,34 @@ export function BlinkitProductPage({
           }
           action={dwellTriggered ? "act" : "suppress"}
         />
+
+        {/* Evaluator-Only Outcome Simulation Ribbon (Stage 6 Logging) */}
+        <div style={{ backgroundColor: "#F9FAFB", border: "1px dashed #D1D5DB", borderRadius: "8px", padding: "8px 12px", margin: "10px 0", fontSize: "11px" }}>
+          <div style={{ fontWeight: 700, color: "var(--text-muted)", marginBottom: "6px" }}>
+            🧪 Evaluator Test: Simulate Session Outcome (Stage 6 Logging)
+          </div>
+          <div style={{ display: "flex", gap: "8px" }}>
+            <button
+              type="button"
+              onClick={() => handleSimulateOutcome("added_to_cart")}
+              style={{ backgroundColor: "var(--blinkit-green)", color: "#FFF", border: "none", borderRadius: "4px", padding: "4px 8px", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+            >
+              Simulate Cart Add 🛒
+            </button>
+            <button
+              type="button"
+              onClick={() => handleSimulateOutcome("exited_without_purchase")}
+              style={{ backgroundColor: "#EF4444", color: "#FFF", border: "none", borderRadius: "4px", padding: "4px 8px", fontSize: "11px", fontWeight: 700, cursor: "pointer" }}
+            >
+              Simulate Exit ❌
+            </button>
+          </div>
+          {loggedOutcomeMsg && (
+            <div style={{ marginTop: "6px", color: "var(--blinkit-green)", fontWeight: 700 }}>
+              {loggedOutcomeMsg}
+            </div>
+          )}
+        </div>
 
         {/* Section 5: Trust Badge Row */}
         <div
