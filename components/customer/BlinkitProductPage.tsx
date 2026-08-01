@@ -23,7 +23,7 @@ import { ResolvedBadge } from "./ResolvedBadge";
 import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
 import { QuickTakeCard } from "./QuickTakeCard";
 import { EvidenceBlock } from "./EvidenceBlock";
-import { AIInterventionCard } from "./AIInterventionCard";
+import { ConfidenceCard } from "./ConfidenceCard";
 
 export interface BlinkitProductPageProps {
   emphasisVariant: "quality" | "reviews" | "support" | "policy" | string;
@@ -345,54 +345,7 @@ export function BlinkitProductPage({
         </div>
       </div>
 
-      {/* Task 47 & 50: Header Banner (Session Revisit or Proactive New-Category Entry) */}
-      {(hasResolvedCase || isFirstCategoryVisit) && (
-        <div
-          className="session-revisit-header-banner"
-          onClick={() => setRowExpanded(!rowExpanded)}
-          role="button"
-          tabIndex={0}
-          style={{
-            backgroundColor: "#F4F9F2",
-            borderBottom: "1px solid rgba(84, 178, 38, 0.3)",
-            padding: "11px 16px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            cursor: "pointer",
-            userSelect: "none",
-            transition: "background-color 0.15s ease",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <div
-              style={{
-                width: "24px",
-                height: "24px",
-                borderRadius: "50%",
-                backgroundColor: "rgba(84, 178, 38, 0.15)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                color: "var(--blinkit-green)",
-                flexShrink: 0,
-              }}
-            >
-              {isFirstCategoryVisit ? <ShieldCheck size={14} /> : <RotateCcw size={14} />}
-            </div>
-            <span
-              style={{
-                fontSize: "13px",
-                fontWeight: 700,
-                color: "var(--blinkit-near-black)",
-              }}
-            >
-              {isFirstCategoryVisit ? "Verified before you ask" : "What's changed since your last visit"}
-            </span>
-          </div>
-          <ChevronRight size={18} style={{ color: "var(--blinkit-green)", flexShrink: 0 }} />
-        </div>
-      )}
+
 
       {/* Task 43: One-Time Acknowledgment Toast Banner */}
       {showToast && (
@@ -545,14 +498,21 @@ export function BlinkitProductPage({
           </div>
         </div>
 
-        {/* AI Intervention Card — Positioned between price block and Add to Cart button */}
-        {(hasResolvedCase || isFirstCategoryVisit) && (
-          <AIInterventionCard
-            failureType={failureType}
-            factStatement={factStatement}
-            isFirstCategoryVisit={isFirstCategoryVisit}
-          />
-        )}
+        {/* Single Adaptive Confidence Card — Positioned between price block and Add to Cart button */}
+        <ConfidenceCard
+          failureType={failureType}
+          evidencePrimitive={
+            factStatement
+              ? { variant: failureType, factStatement }
+              : {
+                  expiry_authenticity: { variant: "expiry_authenticity", factStatement: "This vendor has passed quality verification on every order since June 15." },
+                  missing_information: { variant: "missing_information", factStatement: "Over 12 verified buyers in this category have reviewed this since your order." },
+                  unresolved_support: { variant: "unresolved_support", factStatement: "Your request was resolved on June 14 with a replacement reshipped." },
+                  high_value_hesitation: { variant: "high_value_hesitation", factStatement: "Items in this category are eligible for 7-day returns." },
+                }[failureType] || { variant: failureType, factStatement: "Operational records verified for your account." }
+          }
+          action={hasResolvedCase || isFirstCategoryVisit ? "act" : "suppress"}
+        />
 
         {/* Section 5: Trust Badge Row */}
         <div
