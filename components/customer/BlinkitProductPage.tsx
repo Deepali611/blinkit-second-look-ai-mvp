@@ -24,6 +24,7 @@ import { selectLeadEvidence } from "@/lib/decision/verifiedFirst";
 import { QuickTakeCard } from "./QuickTakeCard";
 import { EvidenceBlock } from "./EvidenceBlock";
 import { ConfidenceCard } from "./ConfidenceCard";
+import { detectHesitation } from "@/lib/detection/detectHesitation";
 
 export interface BlinkitProductPageProps {
   emphasisVariant: "quality" | "reviews" | "support" | "policy" | string;
@@ -58,16 +59,31 @@ export function BlinkitProductPage({
   const [detailsExpanded, setDetailsExpanded] = useState<boolean>(true);
   const [rowExpanded, setRowExpanded] = useState<boolean>(defaultExpanded);
   const [cartQty, setCartQty] = useState<number>(0);
+
+  // SIMULATED BEHAVIORAL SIGNAL: Prototype session timer simulating didOpenReviews=true, reviewsDwellTimeSeconds>15, didAddToCart=false
+  const [reviewsDwellTime, setReviewsDwellTime] = useState<number>(0);
   const [dwellTriggered, setDwellTriggered] = useState<boolean>(hasResolvedCase || isFirstCategoryVisit);
 
   useEffect(() => {
-    if (!dwellTriggered) {
-      const timer = setTimeout(() => {
-        setDwellTriggered(true);
-      }, 1500);
-      return () => clearTimeout(timer);
+    // Stage 1 Deterministic Detection Check (lib/detection/detectHesitation.ts)
+    const result = detectHesitation({
+      didOpenReviews: reviewsExpanded || true,
+      reviewsDwellTimeSeconds: reviewsDwellTime,
+      didAddToCart: cartQty > 0,
+    });
+
+    if (result.obstacleDetected && !dwellTriggered) {
+      setDwellTriggered(true);
     }
-  }, [dwellTriggered]);
+  }, [reviewsExpanded, reviewsDwellTime, cartQty, dwellTriggered]);
+
+  useEffect(() => {
+    // Simulated dwell timer increment for demonstration (reaches > 15s condition quickly)
+    const interval = setInterval(() => {
+      setReviewsDwellTime((prev) => prev + 6);
+    }, 500);
+    return () => clearInterval(interval);
+  }, []);
   const [selectedImgIdx, setSelectedImgIdx] = useState<number>(0);
   const [showToast, setShowToast] = useState<boolean>(showAcknowledgmentToast && !isFirstCategoryVisit);
 
